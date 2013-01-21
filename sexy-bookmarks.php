@@ -1,22 +1,21 @@
 <?php
 /*
-Plugin Name: Shareaholic | email, bookmark, share buttons
-Plugin URI: http://www.shareaholic.com/tools/wordpress/
+Plugin Name: Shareaholic* | share buttons, analytics, related content
+Plugin URI: https://shareaholic.com/publishers/
 Description: Shareaholic adds a (X)HTML compliant list of social bookmarking icons to each of your posts. See <a href="admin.php?page=sexy-bookmarks.php">configuration panel</a> for more settings.
-Version: 6.0.0.3
+Version: 6.1.1.0
 Author: Shareaholic
-Author URI: http://www.shareaholic.com
-Credits & Thanks: http://www.shareaholic.com/tools/wordpress/credits
+Author URI: https://shareaholic.com
+Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 */
 
-define('SHRSB_vNum','6.0.0.3');
+define('SHRSB_vNum','6.1.1.0');
 
 /*
 *   @desc Create Text Domain For Translations
 */
 
 load_plugin_textdomain('shrsb', false, basename(dirname(__FILE__)) . '/languages/');
-
 
 /*
 *   @note Make sure to include files first as there may be dependencies
@@ -166,7 +165,7 @@ function shrsb_SpritegenNotice() {
              echo '
               <div id="update_sb" style="border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;background:#feb1b1;border:1px solid #fe9090;color:#820101;font-size:10px;font-weight:bold;height:auto;margin:35px 15px 0 0;overflow:hidden;padding:4px 10px 6px;">
                 <div style="background:url('.SHRSB_UPLOADPATH.'custom-fugue-sprite.png) no-repeat 0 -525px;margin:2px 10px 0 0;float:left;line-height:18px;padding-left:22px;">
-                  '.sprintf(__('NOTICE: Your spritegen directory isn\'t writable - Please %sCHMOD%s your spritegen directory to ensure that Shareaholic remains working like a charm...', 'shrsb'), '<a href="http://www.shareaholic.com/tools/wordpress/usage-installation#chmodinfo" target = "_blank" style="color:#ca0c01">', '</a>').'
+                  '.sprintf(__('NOTICE: Your spritegen directory isn\'t writable - Please %sCHMOD%s your spritegen directory to ensure that Shareaholic remains working like a charm...', 'shrsb'), '<a href="https://shareaholic.com/tools/wordpress/usage-installation#chmodinfo" target = "_blank" style="color:#ca0c01">', '</a>').'
                 </div>
               </div>';
     }
@@ -243,7 +242,7 @@ function showUpdateNotice() {
 function _add_meta_box_options() {
 	
     if( shrsb_get_current_user_role() ==  "Administrator" || shrsb_get_current_user_role() ==  "Editor") {
-        //"Hide options on each post
+        // Hide options on each post
         add_meta_box( 'hide_options_meta', __( 'Shareaholic', 'shrsb' ), '_hide_options_meta_box_content', 'page', 'advanced', 'high' );
         add_meta_box( 'hide_options_meta', __( 'Shareaholic', 'shrsb' ), '_hide_options_meta_box_content', 'post', 'advanced', 'high' );
     }
@@ -263,10 +262,10 @@ function _hide_options_meta_box_content() {
 		$hide_ogtags = '';
     
     //"Hide SexyBookmarks" option on each post
-	echo '<p><label for="hide_sexy"><input name="hide_sexy" id="hide_sexy" value="1"' . $hide_sexy . ' type="checkbox"> ' . __( 'Disable SexyBookmarks Buttons on this page.', 'shrsb' ) . '</label></p>';
+	echo '<p><label for="hide_sexy"><input name="hide_sexy" id="hide_sexy" value="1"' . $hide_sexy . ' type="checkbox"> ' . __( 'Disable SexyBookmarks Share Buttons on this page.', 'shrsb' ) . '</label></p>';
     
     //For Hiding the OG tags for specific posts
-    echo '<p><label for="hide_ogtags"><input name="hide_ogtags" id="hide_ogtags" value="1"' . $hide_ogtags . ' type="checkbox"> ' . __( 'Disable Open Graph Tags on this page.', 'shrsb' ) . '(<a href="http://www.shareaholic.com/tools/wordpress/faq/#open_graph_image" target="_blank">?</a>)</label></p>';
+    echo '<p><label for="hide_ogtags"><input name="hide_ogtags" id="hide_ogtags" value="1"' . $hide_ogtags . ' type="checkbox"> ' . __( 'Disable Open Graph Tags on this page.', 'shrsb' ) . '(<a href="https://shareaholic.com/tools/wordpress/faq/#open_graph_image" target="_blank">?</a>)</label></p>';
 }
 
 function _hide_options_meta_box_save( $post_id ) {
@@ -318,8 +317,6 @@ function php_version_uncompatible() {
       </div>';
   }
 }
-
-
 
 function shrsb_account_page() {
     global $shrsb_plugopts;
@@ -373,7 +370,6 @@ function shrsb_first_page(){
 }
 
 function shrsb_check_activation(){
-  
   $activated = get_option('SHR_activate');
   if($activated == 0 || $activated === false){
     if($_POST['activate'] == 1){
@@ -498,38 +494,70 @@ function shrsb_first_image() {
 /*
 *   @desc For adding Open Graph tags to each post (http://ogp.me/)
 */
+
 function shrsb_add_ogtags_head() {
-	global $post,$shrsb_plugopts;
-    
-	// check to see if ogtags are enabled or not
-	if (!isset($shrsb_plugopts['ogtags']) || empty($shrsb_plugopts['ogtags'])) {
-        echo "\n\n".'<!-- Shareaholic Notice: OgTags disabled for all posts -->'."\n\n";
-	}else{
+  
+  echo "\n<!-- Shareaholic Content Tags -->\n\n";
+  
+	global $post, $shrsb_plugopts;
+
+  $blog_name = get_bloginfo();
+  if (!empty($blog_name)) {
+    echo "<meta property='shareaholic:site_name' content='" . $blog_name . "' />\n";
+  }
+
+  if (is_home()) {
+
+    if (isset($shrsb_plugopts['shrsb_fallback_img']) && $shrsb_plugopts['shrsb_fallback_img'] != '') {
+      echo "<meta property='shareaholic:image' content='" . $shrsb_plugopts['shrsb_fallback_img'] . "' />\n";
+    } else {
+      echo "\t<!-- Shareaholic Notice: There is no featured image set -->\n";
+    }
+  } else {
+
+    if ((function_exists('has_post_thumbnail')) && (has_post_thumbnail())) {
+      $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
+      echo "<meta property='shareaholic:image' content='" . esc_attr($thumbnail_src[0]) . "' />\n";
+    } elseif (is_singular()) {
+      $first_image = shrsb_first_image();
+      if ($first_image !== false) {
+        echo "<meta property='shareaholic:image' content='" . $first_image . "' />\n";
+      }
+    } else {
+      echo "\t" . '<!-- Shareaholic Notice: There is neither a featured nor gallery image set -->' . "\n";
+    }
+  }
+  echo "\n<!-- / Shareaholic Content Tags -->\n\n";
+
+  // check to see if ogtags are enabled or not
+  if (!isset($shrsb_plugopts['ogtags']) || empty($shrsb_plugopts['ogtags'])) {
+    echo "\n\n" . '<!-- Shareaholic - Facebook Open Graph Tags -->' . "\n\n";
+  } else {
         //Check whther OG Tags enabled for this post
         if(($ogtags_meta = get_post_meta($post->ID, 'Hide OgTags',true)) == 1)  {
-            echo "\n\n".'<!-- Shareaholic Notice: OgTags disabled for this post -->'."\n\n";
+            echo "\n\n".'<!-- Shareaholic Notice: Open Graph Tags disabled for this post -->'."\n\n";
            return;
         }
         
-        echo "\n\n".'<!-- Start SHR Open Graph Tags -->'."\n\n";
+        echo "\n\n".'<!-- Shareaholic - Open Graph Tags -->'."\n\n";
 
 		if (is_home()) {
 			if (isset($shrsb_plugopts['shrsb_fallback_img']) && $shrsb_plugopts['shrsb_fallback_img'] != '') {
-				echo "\t<meta property='og:image' content='".$shrsb_plugopts['shrsb_fallback_img']."' />\n";
+				echo "<meta property='og:image' content='".$shrsb_plugopts['shrsb_fallback_img']."' />\n";
 			}else{
 				echo "\t<!-- Shareaholic Notice: There is no featured image set -->\n"; 
 			}
 		} else {
 			if ((function_exists('has_post_thumbnail')) && (has_post_thumbnail())) {
 				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'medium' );
-				echo "\t<meta property='og:image' content='".esc_attr($thumbnail_src[0])."' />\n";
+				echo "<meta property='og:image' content='".esc_attr($thumbnail_src[0])."' />\n";
 			}elseif (( shrsb_first_image() !== false ) && (is_singular())) {
-				echo "\t<meta property='og:image' content='".shrsb_first_image()."' />\n";
+				echo "<meta property='og:image' content='".shrsb_first_image()."' />\n";
 			}else{
                 echo "\t".'<!-- Shareaholic Notice: There is neither a featured nor gallery image set -->'."\n";
 			}
 		}
-		echo "\n<!-- END SHR Open Graph Tags -->\n\n";
+		echo "\n<!-- / Shareaholic - Open Graph Tags -->\n\n";
     }
 } // end function
 

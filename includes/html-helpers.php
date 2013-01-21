@@ -85,9 +85,7 @@ function bookmark_list_item($name, $opts=array()) {
     																		'ctype='
     																		));
   }
-  else if($name == 'shr-comfeed') {// Otherwise, use default baseUrl format
-      $url=$shrsb_bookmarks_data[$name]['baseUrl'];
-  }
+
   else {
 	 $url = shrsb_correct_protocol($shrsb_plugopts['shrbase']).'/api/share/?'.implode('&amp;',array(	
 																			'title=TITLE',

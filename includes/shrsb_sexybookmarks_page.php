@@ -15,6 +15,7 @@ function shrsb_sb_set_options($action = NULL){
     *   @desc Most Popular Services List
     *   @note To change the most popular list also change the "Most Popular" link click handler in shareaholic-admin.js
     */
+    
     $shrsb_most_popular = array (
 			'shr-facebook',
 			'shr-twitter',
@@ -148,7 +149,6 @@ add_option('SHRSB_DefaultSprite',true);
 
 // If plugin is upgrading
 if(SHRSB_UPGRADING == TRUE) {
-    
 
     //Remove the Disabled Services
     if(isset ($shrsb_plugopts) && isset($shrsb_plugopts['service'])){
@@ -156,14 +156,48 @@ if(SHRSB_UPGRADING == TRUE) {
 
        if(!empty($services)){
            // Removing blocked services from sb services list
-           $disable_services = array( '4', '12', '68', '77', '159', '185', '186', '195', '207', '237', '257' );
+           $disable_services = array( '4', '12', '68', '77', '159', '185', '186', '195', '207', '237', '257', '264', '190', '10', '287', '188', '100', '277' );
            $services = array_diff($services, $disable_services);
            $shrsb_plugopts['service'] = implode(',', $services );
        }
-    }    
+    }
+    
+    if(isset ($shrsb_plugopts) && isset($shrsb_plugopts['bookmark'])){
+      // Removing blocked services from bookmarks list
+      
+      $shrsb_plugopts['bookmark'] = array_diff($shrsb_plugopts['bookmark'], array( 'shr-twittley', 'shr-comfeed', 'shr-ning', 'shr-strands', 'shr-sphinn', 'shr-tipd', 'shr-faqpal', 'shr-technorati', 'shr-yahoobuzz' ));
+    }
+    
     if(isset ($shrsb_plugopts) && isset($shrsb_plugopts['reloption']) && $shrsb_plugopts['reloption'] === "" ){
         $shrsb_plugopts['reloption'] = '1';
     }
+    
+    // Some databases got corrupted. This will set things in place.
+    if($shrsb_plugopts['shrbase'] != 'http://www.shareaholic.com'){
+        $shrsb_plugopts['shrbase'] = 'http://www.shareaholic.com';
+    }
+
+    // Reset depreciated url shorteners
+    if($shrsb_plugopts['shorty'] == 'slly' || $shrsb_plugopts['shorty'] == 'cligs' || $shrsb_plugopts['shorty'] == 'snip' || $shrsb_plugopts['shorty'] == 'tinyarrow' || $shrsb_plugopts['shorty'] == 'b2l' || $shrsb_plugopts['shorty'] == 'trim' || $shrsb_plugopts['shorty'] == 'e7t' || $shrsb_plugopts['shorty'] == 'googl')  {
+        $shrsb_plugopts['shorty'] = 'google';
+
+        //reset depreciated settings
+        $shrsb_plugopts['shortyapi']['snip']['user'] = '';
+        $shrsb_plugopts['shortyapi']['snip']['key'] = '';
+        $shrsb_plugopts['shortyapi']['trim']['chk'] = '';
+        $shrsb_plugopts['shortyapi']['trim']['user'] = '';
+        $shrsb_plugopts['shortyapi']['trim']['pass'] = '';
+        $shrsb_plugopts['shortyapi']['tinyarrow']['chk'] = '';
+        $shrsb_plugopts['shortyapi']['tinyarrow']['user'] = '';
+        $shrsb_plugopts['shortyapi']['cligs']['chk'] = '';
+        $shrsb_plugopts['shortyapi']['cligs']['key'] = '';
+    }
+
+    if($shrsb_plugopts['shorty'] == 'tiny') {
+        $shrsb_plugopts['shorty'] = 'tinyurl';
+    }
+    
+    update_option('SexyBookmarks', $shrsb_plugopts);
 }
 
 /*
@@ -197,10 +231,5 @@ if(isset($_POST['save_changes_sb']) ){
 
 $shrsb_plugopts['apikey'] = get_option('SHRSB_apikey');
 $shrsb_custom_sprite = get_option('SHRSB_CustomSprite');
-
-// Some databases got corrupted. This will set things in place.
-if($shrsb_plugopts['shrbase'] != 'http://www.shareaholic.com'){
-    $shrsb_plugopts['shrbase'] = 'http://www.shareaholic.com';
-}
 
 ?>

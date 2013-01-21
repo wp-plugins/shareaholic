@@ -1,7 +1,7 @@
 <?php
 
 class SHR_PUB_PRO {
-    protected $authenicate_url = "http://www.shareaholic.com/api/auth/apikey/";
+    protected $authenicate_url = "https://shareaholic.com/api/auth/apikey/";
     protected $install_url;
     protected $apikey;
     protected $default_apikey = '8afa39428933be41f8afdb8ea21a495c';

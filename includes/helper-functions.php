@@ -78,12 +78,12 @@ function shrsb_dump_settings(){
     $data = array(
 		"siteurl"               => 	get_option('siteurl'),
 		"version_database"      => 	get_option('SHRSBvNum'),
-        "version_plugin"        => 	SHRSB_vNum,
+    "version_plugin"        => 	SHRSB_vNum,
 		"apikey"                => 	get_option('SHRSB_apikey'),
 		"custom_sprite"         => 	get_option('SHRSB_CustomSprite'),
-		"default_spritegen" 	=> 	get_option('SHRSB_DefaultSprite'),
+		"default_spritegen" 	  => 	get_option('SHRSB_DefaultSprite'),
 		"sb_plugopts"           =>	get_option('SexyBookmarks'),
-        "tb_plugopts"           =>  get_option('ShareaholicTopbar')
+    "tb_plugopts"           =>  get_option('ShareaholicTopbar')
 	);
     
     if($shrsb_debug['dump_type'])

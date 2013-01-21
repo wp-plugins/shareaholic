@@ -1,4 +1,4 @@
 <?php
     //Source of plugin
-    header("Location: http://www.shareaholic.com"); 
+    header("Location: https://shareaholic.com"); 
 ?>

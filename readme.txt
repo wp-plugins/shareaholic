@@ -2,8 +2,8 @@
 Contributors: shareaholic
 Tags: SexyBookmarks, SexyBookmark, Facebook, Twitter, LinkedIn, URL Shortener, Bitly, TinyURL, Supr, Goo.gl, Google +1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Google Gmail, Google Notebook, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, Bebo, Mister Wong, Evernote, Twine, Diigo, add this, addtoany, share this, share and follow, share and enjoy, sharing is sexy, sharing is caring, Mail, Yahoo, Reddit, Techmeme, Hacker News, Tweet Button, Twitter Button, Fark, Buffer, MySpace, Orkut, Plurk, Identi.ca, Hyves, Netlog, HubSpot,  WeHeartIt, Yandex, PrintFriendly, Print, ReadItLater, Yammer, Pinterest, Google Translate, Pinboard, Shareaholic, Shareholic, Bookmarks, Social, Email Button, Social Share, Bookmark Button, Share Button, Social Bookmarking, Bookmarks Menu, Bookmarking, Share, Share Count, Sharebar, Social Media, SEO, Analytics, Stats, Sharing, Saving, Posting, Facebook Like, Facebook Recommend, Facebook Send, WPMU, nrelate, outbrain, linkwithin, Related Content, Related Posts, Thumbnails, Recommendations
 Requires at least: 2.7
-Tested up to: 3.4
-Stable tag: 6.0.0.3
+Tested up to: 3.5
+Stable tag: 6.1.1.0
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -13,13 +13,13 @@ Shareaholic has proven time and time again to be an extremely useful and success
 Our sole aim was to stray away from the "in the box" thinking behind most social bookmarking plugins, and add a little flair that would entice your readers, rather than deterring them with microscopic icons that get lost in pages heavy laden with content.
 
 = Recent Updates =
-* Recommendations - Drive pageviews and increase time on site with this related content widget
+* Recommendations & Related Content - Increase reader engagement and pageviews by highlighting related content from across your site
 * Social Analytics - Actionable and easy to understand
 * Classic Bookmarks - Classic Bookmarks offer a clean-cut and professional look for your blog
 * Full support for Facebook Like Button, Facebook Send, Google Plus, Pinterest
 * Share Counters for Twitter, Facebook, LinkedIn, etc
 * Official support for Google's URL shortener (goo.gl) and Google Analytics
-* Utilizes the [Share API](http://www.shareaholic.com/api/)
+* Utilizes the [Share API](https://shareaholic.com/api/)
 * Localized in 15+ languages
 
 = Recently Added Services =
@@ -40,7 +40,7 @@ Shareaholic is used and trusted by hundreds of thousands of publishers and touch
 Note: The analytics portion of Shareaholic may use trusted 3rd party services like Google Analytics and AppNexus to enhance its data. 
 
 
-[Support](http://getsatisfaction.com/shareaholic/products/shareaholic_shareaholic_for_wordpress_sexybookmarks) | [Privacy](http://www.shareaholic.com/privacy/) | [Terms](http://www.shareaholic.com/terms/) | [API](http://www.shareaholic.com/api/) | [Social Analytics](http://www.shareaholic.com/publishers/analytics/)
+[Support](http://support.shareaholic.com/) | [Privacy](https://shareaholic.com/privacy/) | [Terms](https://shareaholic.com/terms/) | [API](https://shareaholic.com/api/) | [Social Analytics](https://shareaholic.com/publishers/analytics/)
 
 == Other Notes ==
 
@@ -50,7 +50,7 @@ The plugin wouldn't be half of what it is today if it weren't for people like yo
 
 Listed here are credits and special thanks to some of you who have helped us out a great deal:
 
- [Complete credits on Shareaholic.com](http://www.shareaholic.com/tools/wordpress/credits)
+ [Complete credits on Shareaholic.com](https://shareaholic.com/tools/wordpress/credits)
 
 = Translations =
 * Credit goes to [Maitre Mo](http://maitremo.fr) for translating to French
@@ -80,9 +80,9 @@ Listed here are credits and special thanks to some of you who have helped us out
 
 == Screenshots ==
 
-1. SexyBookmarks - A quick preview of the final outcome (excess hidden)
-2. SexyBookmarks - Another preview of the final outcome with excess networks displayed upon hover
-3. Classic Bookmarks - Classic Bookmarks offer a clean-cut and professional look for your blog
+1. Sexy Share Buttons - A quick preview of the final outcome (excess hidden)
+2. Sexy Share Buttons - Another preview of the final outcome with excess networks displayed upon hover
+3. Classic Share Buttons - Classic Bookmarks offer a clean-cut and professional look for your blog
 4. Recommendations - Drive pageviews and increase time on site with this related content widget
 5. Top Bar - Drive more shares to your content with this additional call-to-action
 6. An 100% integrated and customizable approach - It all comes together nicely in one place!
@@ -117,13 +117,27 @@ You can still configure the other options available when inserting manually and 
 
 == Frequently Asked Questions ==
 = Where can I find a detailed FAQ? =
-Please see here: [Frequently Asked Questions](http://www.shareaholic.com/tools/wordpress/faq)
+Please see here: [Frequently Asked Questions](https://shareaholic.com/tools/wordpress/faq)
 
 = Where can I get detailed Usage & Installation instructions? =
-Please see here: [Usage & Installation Instructions](http://www.shareaholic.com/tools/wordpress/usage-installation)
+Please see here: [Usage & Installation Instructions](https://shareaholic.com/tools/wordpress/usage-installation)
 
 
 == Changelog ==
+
+= 6.1.1.0 =
+* JavaScript is now hosted on Amazon's CDN to make everything blazing fast!
+* Removed Strands, FAQPal, Tipd, Sphinn, Twittley (services have shut down)
+* Removed Technorati, Ning (can no longer share to these services)
+
+= 6.1.0.0 =
+* Fixed syntax error caught by latest jQuery
+* Fixed encoding errors
+* Support for Shareaholic Content Tags - shareaholic:image and shareaholic:site_name
+* Update links to new analytics
+* Admin panel code optimizations
+* Load time optimization by reducing # of Twitter API calls
+* Deprecated "comment feed" service
 
 = 6.0.0.3 =
 * Updated screenshots
@@ -209,8 +223,8 @@ Please see here: [Usage & Installation Instructions](http://www.shareaholic.com/
 * Fixed jQuery IE bug (will be much more stable in IE)
 * Custom sprite generation certified compatible with WordPress Multisite
 * Shareaholic's proprietary data attributes are now HTML5-compliant.
-* FAQ moved to http://www.shareaholic.com/tools/wordpress/faq
-* Usage & Installation guide moved to http://www.shareaholic.com/tools/wordpress/usage-installation
+* FAQ moved to https://shareaholic.com/tools/wordpress/faq
+* Usage & Installation guide moved to https://shareaholic.com/tools/wordpress/usage-installation
 * Added browser extension promo
 * Added Support for Open Graph Tags (for Facebook and Google +1 sharing) - Featured Image or First Gallery Image in post will be selected for Open Graph Tag
 * Added links to live support in admin panel
