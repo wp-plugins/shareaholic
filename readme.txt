@@ -1,9 +1,9 @@
-=== Shareaholic* | email, bookmark, share buttons ===
+=== Shareaholic | email, bookmark, share buttons ===
 Contributors: shareaholic
 Tags: SexyBookmarks, SexyBookmark, Facebook, Twitter, LinkedIn, URL Shortener, Bitly, TinyURL, Supr, Goo.gl, Google +1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Google Gmail, Google Notebook, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, Bebo, Mister Wong, Evernote, Twine, Diigo, add this, addtoany, share this, share and follow, share and enjoy, sharing is sexy, sharing is caring, Mail, Yahoo, Reddit, Techmeme, Hacker News, Tweet Button, Twitter Button, Fark, Buffer, MySpace, Orkut, Plurk, Identi.ca, Hyves, Netlog, HubSpot,  WeHeartIt, Yandex, PrintFriendly, Print, ReadItLater, Yammer, Pinterest, Google Translate, Pinboard, Shareaholic, Shareholic, Bookmarks, Social, Email Button, Social Share, Bookmark Button, Share Button, Social Bookmarking, Bookmarks Menu, Bookmarking, Share, Share Count, Sharebar, Social Media, SEO, Analytics, Stats, Sharing, Saving, Posting, Facebook Like, Facebook Recommend, Facebook Send, WPMU, nrelate, outbrain, linkwithin, Related Content, Related Posts, Thumbnails, Recommendations
 Requires at least: 2.7
-Tested up to: 3.5
-Stable tag: 6.1.2.0
+Tested up to: 3.5.1
+Stable tag: 6.1.3.0
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -124,6 +124,13 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 
 == Changelog ==
+
+= 6.1.3.0 =
+* Fixed Bitly not picking up custom credentials
+* Fixed links to Help Center docs
+* Fixed Twitter template not getting picked up by Like Button Sets, Classic Bookmarks
+* Deprecated Squidoo, Posterous (can no longer share to these services)
+* Deprecated Awe.sm, Su.pr
 
 = 6.1.2.0 =
 * Fix for Facebook Like button error (Facebook now requires non-encoded URL's to be passed)

@@ -123,29 +123,13 @@ jQuery(document).ready(function() {
 
     jQuery('#shorty').change(function() {
       jQuery('#shortyapimdiv-bitly').fadeOut('fast');
-      jQuery('#shortyapimdiv-awesm').fadeOut('fast');
-      jQuery('#shortyapimdiv-supr').fadeOut('fast');
       jQuery('#shortyapimdiv-jmp').fadeOut('fast');
       if (this.value == 'bitly') {
         jQuery('#shortyapimdiv-bitly').fadeIn('fast');
-      } else if (this.value == 'awesm') {
-        jQuery('#shortyapimdiv-awesm').fadeIn('fast');
-      } else if (this.value == 'supr') {
-        jQuery('#shortyapimdiv-supr').fadeIn('fast');
       } else if (this.value == 'jmp') {
         jQuery('#shortyapimdiv-jmp').fadeIn('fast');
       }
     });
-
-
-    jQuery('#shortyapichk-supr').click(function() {
-      if (this.checked) {
-        jQuery('#shortyapidiv-supr').fadeIn('fast');
-      } else {
-        jQuery('#shortyapidiv-supr').fadeOut('fast');
-      }
-    });
-
 
     jQuery('#likeButtonSetTop-yes').click(function() {
       if (this.checked) {

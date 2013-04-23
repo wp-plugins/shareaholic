@@ -188,8 +188,8 @@ function shrsb_get_publisher_config($post_id) {
     'designer_toolTips' => $r['designer_toolTips'],
     'tip_bg_color' => $r['tip_bg_color'],  // tooltip background color
     'tip_text_color' => $r['tip_text_color'], // tooltip text color
-	'dontShowShareCount' => $r['showShareCount'] == "0",
-	'shrlink'	=> $r['shrlink'],
+	  'dontShowShareCount' => $r['showShareCount'] == "0",
+	  'shrlink'	=> $r['shrlink'],
   );
 
   shrsb_log("get_publisher_config completed");
@@ -206,12 +206,10 @@ function shrsb_get_shortener_settings(){
     if (isset( $shorty ) ){
         switch( $shorty ) {
             case 'bitly':
-            case 'awesm':
             case 'jmp':
-            case 'supr':
                 $user = $shortyapi[$shorty]['user'];
                 $api = $shortyapi[$shorty]['key'];
-                $shortener_key  =  $user ? ($user.'%7C'.$api) : '';
+                $shortener_key  =  $user ? ($user.'%7c'.$api) : '';
                 break;
             default:
         }
@@ -475,16 +473,22 @@ function get_shr_like_buttonset($pos = 'Bottom', $return_type = NULL, $settings 
         if($return_type) $usage = "Automatic";
         
         if(in_the_loop()){
-            $href = urlencode(get_permalink($post->ID));
+            $href = get_permalink($post->ID);
             $title = urlencode($post->post_title);
         }else{
-            $href = urlencode('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']);
-            $title = urlencode(get_bloginfo('name') . wp_title('-', false));
+            $href = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+            $title = urlencode(wp_title("",false));
         }
         
+        if(is_single()){
+            $href = get_permalink($post->ID);
+            $title = urlencode($post->post_title);
+        }        
+
         if(empty($title)) {
-            $title = urlencode(get_bloginfo('name') . wp_title('-', false));
+            $title = get_bloginfo('name') . wp_title('-', false);
         }
+        
         $output = "";
         $float = "none";
 
@@ -1018,46 +1022,46 @@ function shrsb_publicScripts() {
     $spritegen = $default_spritegen ? 'spritegen_default' : 'spritegen';
     $spritegen_basepath = $default_spritegen ? SHRSB_PLUGPATH : SHRSB_UPLOADPATH;
     
+     // Always Enqueue global settings as it can be used by all Apps        
+    $shr_global_params["src"] = shrsb_correct_protocol($spritegen_basepath.$spritegen);
+    $shr_global_params["perfoption"] = $shrsb_plugopts['perfoption'];
+    $shr_global_params["twitter_template"] = $shrsb_plugopts['tweetconfig'];
+    $shr_global_params["locale"] = $shrsb_plugopts['locale'];
+    $shr_global_params["shortener"] = $shrsb_plugopts['shorty'];
+    $shr_global_params["shortener_key"] = shrsb_get_shortener_settings();
+    $shr_global_params["pubGaSocial"] = $shrsb_analytics['pubGaSocial'];
+    $shr_global_params["pubGaKey"] = $shrsb_analytics['pubGaKey'];
+
+    $js = 'var SHRSB_Globals = '.json_encode($shr_global_params);
+    echo '<script type="text/javascript">/* <![CDATA[ */ ' . $js . '; /* ]]> */</script>';
+    
     // Beta script
     if ($shrsb_plugopts['shareaholic-javascript'] == '1' && !is_admin()){// && !get_post_meta($post->ID, 'Hide SexyBookmarks')) {
         $infooter = ($shrsb_plugopts['scriptInFooter'] == '1')?true:false;
-        $localize_to = 'shareaholic-publishers-js';
         
-        // Enqueue the sb script only if sexybookmarks share buttons is enabled
+        // Enqueue SexyBookmarks JavaScript only if enabled
         if(isset($shrsb_plugopts['sexybookmark']) && $shrsb_plugopts['sexybookmark'] == '1'){
-            wp_enqueue_script('shareaholic-publishers-js', (empty($shrsb_debug['sb_script'])) ? shrsb_correct_protocol('http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-publishers-sb.min.js') : $shrsb_debug['sb_script'], null, SHRSB_vNum, $infooter);
+            wp_enqueue_script('shareaholic-sb-js', (empty($shrsb_debug['sb_script'])) ? shrsb_correct_protocol('http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-publishers-sb.min.js') : $shrsb_debug['sb_script'], null, SHRSB_vNum, $infooter);
+            $localize_to = 'shareaholic-sb-js';
         }
         
-        // Enqueue the tb script only if the Top Bar is enabled
+        // Enqueue Tob Bar JavaScript only if enabled
         if(isset($shrsb_tb_plugopts) && isset($shrsb_tb_plugopts['topbar']) && $shrsb_tb_plugopts['topbar'] == '1'){
-            wp_enqueue_script('shareaholic-share-buttons-js',(empty($shrsb_debug['tb_script'])) ? shrsb_correct_protocol('http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-share-buttons.min.js'): $shrsb_debug['tb_script'], null, SHRSB_vNum, $infooter);    
-            $localize_to = 'shareaholic-share-buttons-js';
+            wp_enqueue_script('shareaholic-topbar-js',(empty($shrsb_debug['tb_script'])) ? shrsb_correct_protocol('http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-share-buttons.min.js'): $shrsb_debug['tb_script'], null, SHRSB_vNum, $infooter);    
+            $localize_to = 'shareaholic-topbar-js';
         }
         
-        // Enqueue the recommendations script only if the recommendations is enabled
+        // Enqueue Recommendations JavaScript only if enabled
         if(isset($shrsb_recommendations) && isset($shrsb_recommendations['recommendations']) && $shrsb_recommendations['recommendations'] == '1'){
             wp_enqueue_script('shareaholic-recommendations-js',(empty($shrsb_debug['rd_script'])) ? shrsb_correct_protocol("http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-publishers-rd.min.js"): $shrsb_debug['rd_script'], null, SHRSB_vNum, $infooter);    
             $localize_to = 'shareaholic-recommendations-js';
         }
         
-        // Enqueue the classicbookmarks script only if the recommendations is enabled
+        // Enqueue Classic Bookmarks JavaScript only if enabled
         if(isset($shrsb_cb) && isset($shrsb_cb['cb']) && $shrsb_cb['cb'] == '1'){
-            wp_enqueue_script('shareaholic-cb-js',(empty($shrsb_debug['cb_script'])) ? shrsb_correct_protocol("http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-publishers-cb.min.js"): $shrsb_debug['cb_script'], null, SHRSB_vNum, $infooter);    
+            wp_enqueue_script('shareaholic-cb-js',(empty($shrsb_debug['cb_script'])) ? shrsb_correct_protocol("http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-publishers-cb.min.js"): $shrsb_debug['cb_script'], null, SHRSB_vNum, $infooter);
             $localize_to = 'shareaholic-cb-js';
-        }
-        
-        // Always Enqueue the global settings as it can be used by other formfactors
-        wp_localize_script($localize_to, 'SHRSB_Globals', array(
-            'src' => shrsb_correct_protocol($spritegen_basepath.$spritegen)
-            , 'perfoption'=> $shrsb_plugopts['perfoption']
-            , 'twitter_template' => $shrsb_plugopts['tweetconfig']
-            , 'locale' => $shrsb_plugopts['locale']
-            , 'shortener' => $shrsb_plugopts['shorty']
-            , 'shortener_key' => shrsb_get_shortener_settings()
-            , 'pubGaSocial' => $shrsb_analytics['pubGaSocial']
-            , 'pubGaKey' => $shrsb_analytics['pubGaKey']
-        ));
-                
+        }       
     } else {
     // If any javascript dependent options are selected, load the scripts
     if (($shrsb_plugopts['expand'] || $shrsb_plugopts['autocenter'] || $shrsb_plugopts['targetopt']=='_blank') && $post && (($hide_sexy = get_post_meta($post->ID, 'Hide SexyBookmarks', true)) != 1 )) {
@@ -1077,7 +1081,7 @@ function shrsb_publicScripts() {
   // Perf tracking for old mode only.For New mode tracking is moved to javascript
   if ( ($shrsb_plugopts['perfoption'] == '1' || $shrsb_plugopts['perfoption'] == '') && (!is_admin() && $shrsb_plugopts['shareaholic-javascript'] !== '1' )) {
       wp_enqueue_script('shareaholic-perf', SHRSB_PLUGPATH.'js/shareaholic-perf.min.js', null, SHRSB_vNum, false);
-      wp_enqueue_script("shr_dough_recipe", shrsb_correct_protocol("http://dtym7iokkjlif.cloudfront.net/dough/1.0/recipe.js"), null, null);
+      wp_enqueue_script("shr_dough_recipe", shrsb_correct_protocol("http://dtym7iokkjlif.cloudfront.net/dough/1.0/shareaholic-analytics.js"), null, null);
   }
 }
 
@@ -1111,29 +1115,10 @@ function shrsb_tb_write_js_params() {
             $shrsb_tb_js_params["topBarBorderColor"] = $shrsb_tb_plugopts["tb_border_color"];
             $shrsb_tb_js_params["showAddv"] = $shrsb_tb_plugopts["addv"];
             $shrsb_tb_js_params["apiKey"] = "e3c665c2eb6785741cea4515633f1d86b";
-            $shrsb_tb_js_params["twitter_template"] = $shrsb_plugopts['tweetconfig'];
             if ( ( is_home() || is_front_page() ) && have_posts() )
               $shrsb_tb_js_params["isIndexPage"] = "indexPage"; 
             $js = 'var SHRTB_Settings = '.json_encode($shrsb_tb_js_params);
         //}
-  
-        echo '<script type="text/javascript">';
-        echo $js;
-        echo ';</script>';
-  }
-}
-
-/*
- * @desc Populate javascript settings in the footer for recommendations
- */
-function shrsb_rd_write_js_params() {
-    global $shrsb_plugopts, $shrsb_rd_js_params,$shrsb_recommendations;
-    
-    
-    if ($shrsb_plugopts['shareaholic-javascript'] == '1' && $shrsb_recommendations['recommendations'] == '1') {
-
-        $js = 'var SHRRD_Settings = '.json_encode($shrsb_rd_js_params);
-
   
         echo '<script type="text/javascript">';
         echo $js;
@@ -1151,14 +1136,29 @@ function shrsb_cb_write_js_params() {
     if ($shrsb_plugopts['shareaholic-javascript'] == '1' && $shrsb_cb['cb'] == '1') {
 
         $js = 'var SHRCB_Settings = '.json_encode($shrsb_cb_js_params);
-
-  
+        
         echo '<script type="text/javascript">';
         echo $js;
         echo ';</script>';
   }
 }
 
+/*
+ * @desc Populate javascript settings in the footer for recommendations
+ */
+function shrsb_rd_write_js_params() {
+    global $shrsb_plugopts, $shrsb_rd_js_params,$shrsb_recommendations;
+    
+    
+    if ($shrsb_plugopts['shareaholic-javascript'] == '1' && $shrsb_recommendations['recommendations'] == '1') {
+
+        $js = 'var SHRRD_Settings = '.json_encode($shrsb_rd_js_params);
+
+        echo '<script type="text/javascript">';
+        echo $js;
+        echo ';</script>';
+  }
+}
 
 // Add the scripts and Global setting on the page
 add_action('wp_print_scripts', 'shrsb_publicScripts');

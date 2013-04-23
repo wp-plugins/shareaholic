@@ -156,7 +156,7 @@ if(SHRSB_UPGRADING == TRUE) {
 
        if(!empty($services)){
            // Removing blocked services from sb services list
-           $disable_services = array( '4', '12', '68', '77', '159', '185', '186', '195', '207', '237', '257', '264', '190', '10', '287', '188', '100', '277' );
+           $disable_services = array( '4', '12', '68', '77', '159', '185', '186', '195', '207', '237', '257', '264', '190', '10', '287', '188', '100', '277', '48', '210' );
            $services = array_diff($services, $disable_services);
            $shrsb_plugopts['service'] = implode(',', $services );
        }
@@ -165,7 +165,7 @@ if(SHRSB_UPGRADING == TRUE) {
     if(isset ($shrsb_plugopts) && isset($shrsb_plugopts['bookmark'])){
       // Removing blocked services from bookmarks list
       
-      $shrsb_plugopts['bookmark'] = array_diff($shrsb_plugopts['bookmark'], array( 'shr-twittley', 'shr-comfeed', 'shr-ning', 'shr-strands', 'shr-sphinn', 'shr-tipd', 'shr-faqpal', 'shr-technorati', 'shr-yahoobuzz' ));
+      $shrsb_plugopts['bookmark'] = array_diff($shrsb_plugopts['bookmark'], array( 'shr-twittley', 'shr-comfeed', 'shr-ning', 'shr-strands', 'shr-sphinn', 'shr-tipd', 'shr-faqpal', 'shr-technorati', 'shr-yahoobuzz', 'shr-posterous', 'shr-squidoo' ));
     }
     
     if(isset ($shrsb_plugopts) && isset($shrsb_plugopts['reloption']) && $shrsb_plugopts['reloption'] === "" ){
@@ -178,8 +178,8 @@ if(SHRSB_UPGRADING == TRUE) {
     }
 
     // Reset depreciated url shorteners
-    if($shrsb_plugopts['shorty'] == 'slly' || $shrsb_plugopts['shorty'] == 'cligs' || $shrsb_plugopts['shorty'] == 'snip' || $shrsb_plugopts['shorty'] == 'tinyarrow' || $shrsb_plugopts['shorty'] == 'b2l' || $shrsb_plugopts['shorty'] == 'trim' || $shrsb_plugopts['shorty'] == 'e7t' || $shrsb_plugopts['shorty'] == 'googl')  {
-        $shrsb_plugopts['shorty'] = 'google';
+    if($shrsb_plugopts['shorty'] == 'slly' || $shrsb_plugopts['shorty'] == 'cligs' || $shrsb_plugopts['shorty'] == 'snip' || $shrsb_plugopts['shorty'] == 'tinyarrow' || $shrsb_plugopts['shorty'] == 'b2l' || $shrsb_plugopts['shorty'] == 'trim' || $shrsb_plugopts['shorty'] == 'e7t' || $shrsb_plugopts['shorty'] == 'awesm' || $shrsb_plugopts['shorty'] == 'supr' || $shrsb_plugopts['shorty'] == 'googl')  {
+        $shrsb_plugopts['shorty'] = 'shrlc';
 
         //reset depreciated settings
         $shrsb_plugopts['shortyapi']['snip']['user'] = '';
@@ -191,6 +191,11 @@ if(SHRSB_UPGRADING == TRUE) {
         $shrsb_plugopts['shortyapi']['tinyarrow']['user'] = '';
         $shrsb_plugopts['shortyapi']['cligs']['chk'] = '';
         $shrsb_plugopts['shortyapi']['cligs']['key'] = '';
+        $shrsb_plugopts['shortyapi']['supr']['chk'] = '';
+        $shrsb_plugopts['shortyapi']['supr']['user'] = '';
+        $shrsb_plugopts['shortyapi']['supr']['key'] = '';
+        $shrsb_plugopts['shortyapi']['awesm']['user'] = '';
+        $shrsb_plugopts['shortyapi']['awesm']['key'] = '';
     }
 
     if($shrsb_plugopts['shorty'] == 'tiny') {

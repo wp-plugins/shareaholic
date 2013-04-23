@@ -187,11 +187,6 @@ $shrsb_bookmarks_data=array(
 		'check'=>sprintf($checkthis_text,'TechMeme'),
 		'share'=>__('Tip this to ', 'shrsb').'TechMeme'
 	),
-	'shr-posterous'=>array(
-		'id'=>210,
-		'check'=>sprintf($checkthis_text,'Posterous'),
-		'share'=>__('Post this to ', 'shrsb').'Posterous'
-	),
 	'shr-globalgrind'=>array(
 		'id'=>89,
 		'check'=>sprintf($checkthis_text,'Global Grind'),
@@ -256,11 +251,6 @@ $shrsb_bookmarks_data=array(
 		'id'=>61,
 		'check'=>sprintf($checkthis_text,'SlashDot'),
 		'share'=>__('Submit this to ', 'shrsb').'SlashDot'
-	),
-	'shr-squidoo'=>array(
-		'id'=>46,
-		'check'=>sprintf($checkthis_text,'Squidoo'),
-		'share'=>__('Add to a lense on ', 'shrsb').'Squidoo'
 	),
 	'shr-evernote'=>array(
 		'id'=>191,

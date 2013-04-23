@@ -1,15 +1,15 @@
 <?php
 /*
-Plugin Name: Shareaholic* | share buttons, analytics, related content
+Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Shareaholic adds a (X)HTML compliant list of social bookmarking icons to each of your posts. See <a href="admin.php?page=sexy-bookmarks.php">configuration panel</a> for more settings.
-Version: 6.1.2.0
+Version: 6.1.3.0
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 */
 
-define('SHRSB_vNum','6.1.2.0');
+define('SHRSB_vNum','6.1.3.0');
 
 /*
 *   @desc Create Text Domain For Translations

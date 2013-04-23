@@ -224,13 +224,8 @@ function shrsb_sb_settings_page() {
 
           $shrsb_plugopts['shortyapi']['bitly']['user'] = trim(htmlspecialchars($_POST['shortyapiuser-bitly'], ENT_QUOTES));
           $shrsb_plugopts['shortyapi']['bitly']['key'] = trim(htmlspecialchars($_POST['shortyapikey-bitly'], ENT_QUOTES));
-          $shrsb_plugopts['shortyapi']['awesm']['user'] = trim(htmlspecialchars($_POST['shortyapiuser-awesm'], ENT_QUOTES));
-          $shrsb_plugopts['shortyapi']['awesm']['key'] = trim(htmlspecialchars($_POST['shortyapikey-awesm'], ENT_QUOTES));
           $shrsb_plugopts['shortyapi']['jmp']['user'] = trim(htmlspecialchars($_POST['shortyapiuser-jmp'], ENT_QUOTES));
           $shrsb_plugopts['shortyapi']['jmp']['key'] = trim(htmlspecialchars($_POST['shortyapikey-jmp'], ENT_QUOTES));
-          $shrsb_plugopts['shortyapi']['supr']['chk'] = htmlspecialchars($_POST['shortyapichk-supr'][0], ENT_QUOTES);
-          $shrsb_plugopts['shortyapi']['supr']['user'] = trim(htmlspecialchars($_POST['shortyapiuser-supr'], ENT_QUOTES));
-          $shrsb_plugopts['shortyapi']['supr']['key'] = trim(htmlspecialchars($_POST['shortyapikey-supr'], ENT_QUOTES));
 
           /* Short URLs End */
 
@@ -632,11 +627,10 @@ function shrsb_sb_settings_page() {
 								print shrsb_select_option_group('shorty', 
                                         array(
                                             'none'      =>__("Don't use a shortener", 'shrsb'),
-                                            'awesm'     =>  'awe.sm',
+                                            'shrlc'     =>  'shr.lc',
 											                      'bitly'     =>  'bit.ly',
                                             'jmp'       =>  'j.mp',
                                             'google'    =>  'Google (goo.gl)',
-                                            'supr'      =>  'StumbleUpon (su.pr)',
                                             'tinyurl'   =>  'tinyurl',
                                             'tflp'      =>  'Twitter Friendly Links WP Plugin',
                                             'yourls'    =>  'YOURLS WP Plugin'
@@ -655,16 +649,7 @@ function shrsb_sb_settings_page() {
 							</div>
 						</div>
                         
-                        <div id="shortyapimdiv-awesm"<?php if($shrsb_plugopts['shorty'] != "awesm") { ?> class="hidden"<?php } ?>>
-							<div id="shortyapidiv-awesm">
-								<label for="shortyapiuser-awesm"><?php _e('Tool:', 'shrsb'); ?></label>
-								<input type="text" id="shortyapiuser-awesm" name="shortyapiuser-awesm" value="<?php echo $shrsb_plugopts['shortyapi']['awesm']['user']; ?>" />
-								<label for="shortyapikey-awesm"><?php _e('API Key:', 'shrsb'); ?></label>
-								<input type="text" id="shortyapikey-awesm" name="shortyapikey-awesm" value="<?php echo $shrsb_plugopts['shortyapi']['awesm']['key']; ?>" />
-							</div>
-						</div>
-
-                        <div id="shortyapimdiv-jmp"<?php if($shrsb_plugopts['shorty'] != "jmp") { ?> class="hidden"<?php } ?>>
+            <div id="shortyapimdiv-jmp"<?php if($shrsb_plugopts['shorty'] != "jmp") { ?> class="hidden"<?php } ?>>
 							<div id="shortyapidiv-jmp">
 								<label for="shortyapiuser-jmp"><?php _e('User ID:', 'shrsb'); ?></label>
 								<input type="text" id="shortyapiuser-jmp" name="shortyapiuser-jmp" value="<?php echo $shrsb_plugopts['shortyapi']['jmp']['user']; ?>" />
@@ -673,21 +658,7 @@ function shrsb_sb_settings_page() {
 							</div>
 						</div>
 
-						<div id="shortyapimdiv-supr" <?php if($shrsb_plugopts['shorty'] != 'supr') { ?>class="hidden"<?php } ?>>
-							<span class="shrsb_option" id="shortyapidivchk-supr">
-								<input <?php echo (($shrsb_plugopts['shortyapi']['supr']['chk'] == "1")? 'checked="true"' : ""); ?> name="shortyapichk-supr[]" id="shortyapichk-supr" type="checkbox" value="1" /> <?php _e('Track Generated Links?', 'shrsb'); ?>
-                                <input type="hidden" name="shortyapichk-supr[]" type="checkbox" value="0"/>
-							</span>
-							<div class="clearbig"></div>
-							<div id="shortyapidiv-supr" <?php if(!isset($shrsb_plugopts['shortyapi']['supr']['chk'])) { ?>class="hidden"<?php } ?>>
-								<label for="shortyapiuser-supr"><?php _e('User ID:', 'shrsb'); ?></label>
-								<input type="text" id="shortyapiuser-supr" name="shortyapiuser-supr" value="<?php echo $shrsb_plugopts['shortyapi']['supr']['user']; ?>" />
-								<label for="shortyapikey-supr"><?php _e('API Key:', 'shrsb'); ?></label>
-								<input type="text" id="shortyapikey-supr" name="shortyapikey-supr" value="<?php echo $shrsb_plugopts['shortyapi']['supr']['key']; ?>" />
-							</div>
-						</div>
 						<div class="clearbig"></div>
-
 					</div>
 				</div>
 			</li>
@@ -969,7 +940,7 @@ function exclude_from_minify_list() {
             if($url == 'jquery.shareaholic-share-buttons.min.js') {
                 $tbfound = true;
             }
-            if($url == 'recipe.js') {
+            if($url == 'shareaholic-analytics.js') {
                 $shr_dough_recipe = true;
             }
         }
@@ -980,7 +951,7 @@ function exclude_from_minify_list() {
             array_push($minify_opts["js_exclude"],'jquery.shareaholic-share-buttons.min.js');
         }
         if(!$shr_dough_recipe) {
-            array_push($minify_opts["js_exclude"],'recipe.js');
+            array_push($minify_opts["js_exclude"],'shareaholic-analytics.js');
         }
         update_option("wp_minify", $minify_opts);
     }
