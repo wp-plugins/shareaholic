@@ -205,7 +205,11 @@ function shrsb_sb_settings_page() {
                 'tip_text_color' , 'preventminify', 'shrlink', 'perfoption','spritegen_path', 'apikey','ogtags' , 'promo'
             )as $field) {
                 if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
-                    $shrsb_plugopts[$field] = $_POST[$field];
+					$fieldval = $_POST[$field];
+					if($field == 'sexybookmark' && $fieldval != $shrsb_plugopts[$field]) {
+						shrsb_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_sexy', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+					}
+		            $shrsb_plugopts[$field] = $fieldval;
                 } else {
                     $shrsb_plugopts[$field] = NULL;
                 }

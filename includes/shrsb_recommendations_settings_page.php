@@ -56,7 +56,11 @@ function shrsb_recommendations_settings_page() {
         'recommendations', 'num', 'pageorpost','style'
     )as $field) {
         if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
-            $shrsb_recommendations[$field] = $_POST[$field];
+			    $fieldval = $_POST[$field];
+			    if($field == 'recommendations' && $fieldval != $shrsb_recommendations[$field]) {
+				shrsb_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_rec', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+			    }
+            $shrsb_recommendations[$field] = $fieldval;
         } else {
             $shrsb_recommendations[$field] = NULL;
         }

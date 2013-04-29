@@ -56,7 +56,11 @@ function shrsb_cb_settings_page() {
         'cb', 'size', 'pageorpost'
     )as $field) {
         if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
-            $shrsb_cb[$field] = $_POST[$field];
+			$fieldval = $_POST[$field];
+			if($field == 'cb' && $fieldval != $shrsb_cb[$field]) {
+				shrsb_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_classic', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+			}
+            $shrsb_cb[$field] = $fieldval;
         } else {
             $shrsb_cb[$field] = NULL;
         }
