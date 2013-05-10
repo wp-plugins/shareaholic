@@ -35,7 +35,7 @@ function shrsb_sb_set_options($action = NULL){
     );
     			               
     $shrsb_sb_plugopts_default = array(
-			'sexybookmark' => '0',
+			'sexybookmark' => '1',
 			'firstrun' => '1',  
 			'position' => 'below', // below, above, or manual
 			'reloption' => 'nofollow', // 'nofollow', or ''
@@ -67,7 +67,7 @@ function shrsb_sb_set_options($action = NULL){
 			'bgimg-yes' => 'yes', // 'yes' or blank
 			'mobile-hide' => '', // 'yes' or blank
 			'bgimg' => 'caring', // default bg image
-			'shorty' => 'google', // default shortener
+			'shorty' => 'shrlc', // default shortener
 			'pageorpost' => 'postpageindexcategory',
 			'bookmark' => $shrsb_most_popular ,//array_keys($shrsb_bookmarks_data),
 			'feed' => '0', // 1 or 0
@@ -81,7 +81,7 @@ function shrsb_sb_set_options($action = NULL){
       'shareaholic-javascript' => '1',
       'shrbase' => 'http://www.shareaholic.com',
       'apikey' => '8afa39428933be41f8afdb8ea21a495c',
-      'service' => '',
+      'service' => '5,7,309,88,304',
       'designer_toolTips' => '1',
       'tip_bg_color' => '#000000',  // tooltip background color
       'tip_text_color' => '#ffffff', // tooltip text color
@@ -104,7 +104,7 @@ function shrsb_sb_set_options($action = NULL){
         if($database_Settings){//got the settings in the database
             
             // Check only when upgrading
-            if(SHRSB_UPGRADING) {
+            if(SHRSB_UPGRADING == TRUE) {
                 $need_to_update = false;
         
                 if(!isset($database_Settings['sexybookmark']) ){

@@ -2,8 +2,8 @@
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
-Description: Shareaholic adds a (X)HTML compliant list of social bookmarking icons to each of your posts. See <a href="admin.php?page=sexy-bookmarks.php">configuration panel</a> for more settings.
-Version: 6.1.3.1
+Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=sexy-bookmarks.php">configuration panel</a> for more settings.
+Version: 6.1.3.2
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
@@ -11,18 +11,10 @@ Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 
 
 /*
-*   @desc Report Plugin Installation
-*/
-
-if(false == get_option('SHRSBvNum') || get_option('SHRSBvNum') == '') {
-   shrsb_sendTrackingEvent('Install_Fresh');
-}
-
-/*
 *   @desc Define Plugin version
 */
 
-define('SHRSB_vNum','6.1.3.1');
+define('SHRSB_vNum','6.1.3.2');
 
 
 /*
@@ -30,6 +22,28 @@ define('SHRSB_vNum','6.1.3.1');
 */
 
 load_plugin_textdomain('shrsb', false, basename(dirname(__FILE__)) . '/languages/');
+
+
+/*
+*   @desc Set "upgrade" state
+*/
+
+//Get the current Version from the database
+$shrsb_version = get_option('SHRSBvNum');
+
+// if the version number is set and is not the latest, then call the upgrade function
+if(false !== $shrsb_version &&  $shrsb_version !== SHRSB_vNum ) {
+   update_option('SHRSB_DefaultSprite',true);
+   add_action('admin_notices', 'shrsb_Upgrade', 12);
+   
+   // shr_sendTrackingEvent('Upgrade', array('prev_plugin_ver' => get_option('SHRSBvNum')) );
+   
+   // Added global variable to track the updating state
+   define('SHRSB_UPGRADING', TRUE);
+} else {
+   define('SHRSB_UPGRADING', FALSE);
+}
+
 
 /*
 *   @note Make sure to include files first as there may be dependencies
@@ -150,7 +164,7 @@ function shr_getTrackingData() {
 }  
 
 //send a tracking event with the default analytics values and extras passed as a key-value array
-function shrsb_sendTrackingEvent($event_name = 'Default', $extra_params) {
+function shr_sendTrackingEvent($event_name = 'Default', $extra_params = NULL) {
 	global $tracking_metadata;
 	$event_data = isset($tracking_metadata) ? $tracking_metadata : shr_getTrackingData();
 	if (isset($extra_params)) {
@@ -162,20 +176,10 @@ function shrsb_sendTrackingEvent($event_name = 'Default', $extra_params) {
 	$response = wp_remote_post($trackingURL, array('body' => $trackingParams) );
 }
 
-//Get the current Version from the database
-$shrsb_version = get_option('SHRSBvNum');
-
-// if the version number is set and is not the latest, then call the upgrade function
-if(false !== $shrsb_version &&  $shrsb_version !== SHRSB_vNum ) {
-   update_option('SHRSB_DefaultSprite',true);
-   add_action('admin_notices', 'shrsb_Upgrade', 12);
-   
-   // shrsb_sendTrackingEvent('Upgrade', array('prev_plugin_ver' => get_option('SHRSBvNum')) );
-   
-   // Added global variable to track the updating state
-   define('SHRSB_UPGRADING', TRUE);
-} else {
-   define('SHRSB_UPGRADING', FALSE);
+// kicks off Recommendations
+function shr_recommendationsStatus() {
+	$recommendationsStatusURL = "https://www.shareaholic.com/v2/recommendations/status?url=".home_url();
+	$response = wp_remote_post($recommendationsStatusURL);
 }
 
 $default_spritegen = get_option('SHRSB_DefaultSprite');
@@ -231,11 +235,16 @@ function shrsb_Activate() {
     delete_option('SHRSB_CustomSprite');
     delete_option('ShareaholicRecommendations');
     delete_option('ShareaholicClassicBookmarks');
+    
+    // Report fresh plugin Installation
+    shr_sendTrackingEvent('Install_Fresh');
   }
   if(!file_exists(SHRSB_UPLOADDIR.'spritegen/shr-custom-sprite.png') || !file_exists(SHRSB_UPLOADDIR.'spritegen/shr-custom-sprite.css')) {
     delete_option('SHRSB_CustomSprite');
   }
-  shrsb_sendTrackingEvent('Activate');
+  shr_sendTrackingEvent('Activate');
+  shr_recommendationsStatus();
+  
 }
 register_activation_hook( __FILE__, 'shrsb_Activate' );
 
@@ -244,13 +253,27 @@ function shrsb_deActivate() {
   if(false !== get_option('SHRSBvNum') || get_option('SHRSBvNum') != '') {
     update_option('SHRSBvNum', SHRSB_vNum);
   }
-  shrsb_sendTrackingEvent('Deactivate');
+  shr_sendTrackingEvent('Deactivate');
 }
 register_deactivation_hook( __FILE__, 'shrsb_deActivate' );
 
 //adding uninstall_hook
 function shrsb_uninstall() {
-	 shrsb_sendTrackingEvent('Uninstall');
+	 shr_sendTrackingEvent('Uninstall');
+	 
+	 //clean up local db
+	 delete_option('SexyBookmarks');
+   delete_option('ShareaholicTopbar');
+   delete_option('ShareaholicAnalytics');
+   delete_option('SexyCustomSprite');
+   delete_option('SEXY_SPONSORS');
+   delete_option('SHRSB_CustomSprite');
+   delete_option('ShareaholicRecommendations');
+   delete_option('ShareaholicClassicBookmarks');
+   delete_option('SHRSB_DefaultSprite');
+   delete_option('shr_reportupgrade');
+   delete_option('SHRSBvNum');
+   delete_option('SHRSB_apikey');
 }
 register_uninstall_hook( __FILE__, 'shrsb_uninstall');
 	
@@ -428,8 +451,8 @@ function shrsb_first_page(){
 
 function shrsb_check_activation(){
   $activated = get_option('SHR_activate');
-  if($activated == 0 || $activated === false){
-    if($_POST['activate'] == 1){
+  if($activated == 0 || $activated === false){ 
+    if(isset($_POST['activate']) && $_POST['activate'] == 1){
       update_option("SHR_activate",1);
       return true;
     }

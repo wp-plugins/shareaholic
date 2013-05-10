@@ -57,7 +57,7 @@ function shrsb_analytics_settings_page() {
         if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
 			$fieldval = $_POST[$field];
 			if($field == 'pubGaSocial' && $fieldval != $shrsb_analytics[$field]) {
-				shrsb_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_analytics', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+				shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_analytics', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
 			}
             $shrsb_analytics[$field] = $fieldval;
         } else {

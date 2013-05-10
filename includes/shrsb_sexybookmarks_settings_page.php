@@ -207,7 +207,7 @@ function shrsb_sb_settings_page() {
                 if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
 					$fieldval = $_POST[$field];
 					if($field == 'sexybookmark' && $fieldval != $shrsb_plugopts[$field]) {
-						shrsb_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_sexy', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+						shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_sexy', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
 					}
 		            $shrsb_plugopts[$field] = $fieldval;
                 } else {
@@ -386,7 +386,7 @@ function shrsb_sb_settings_page() {
                                         <td><span class="tab" style="display:block; font-size: 11px; color: #666666;"><?php _e('Shareaholic Social Analytics', 'shrsb'); ?></span></td>
                                         <td><div class="icon-ok"></div></td>
                                         <td><div class="icon-remove"></div></td>
-                                        <td><a target="_blank" href="https://shareaholic.com/publishers/analytics/<?= $parse['host']?>/">Preview</a></td>
+                                        <td><a target="_blank" href="https://shareaholic.com/publishers/analytics/<?php echo $parse['host']?>/">Preview</a></td>
                                     </tr>
                                     
                                     <tr>
@@ -597,7 +597,7 @@ function shrsb_sb_settings_page() {
                             </tbody></table>
 							<br />
 							<span style="display:block;"><span style="color:orange;">* <?php _e('switch on "new" mode above to enable these exclusive features', 'shrsb'); ?></span></span>
-                            <span style="display:block;"><span style="color:#08C;"># <?= sprintf( __('Click %shere%s to enable 3rd party services to use this feature', 'shrsb'), '<a href="#3rdpartyservices">', '</a>'); ?></span></span>	
+                            <span style="display:block;"><span style="color:#08C;"># <?php echo sprintf( __('Click %shere%s to enable 3rd party services to use this feature', 'shrsb'), '<a href="#3rdpartyservices">', '</a>'); ?></span></span>	
                         </div>
 					</div>
 				</div>
@@ -887,7 +887,7 @@ function isRadioEnabled(name){
 
 function is3rdPartyDependent() {
     
-     var shrsb_analytics = <?= json_encode($shrsb_analytics) ?> ;
+     var shrsb_analytics = <?php echo json_encode($shrsb_analytics) ?> ;
     
     return (shrsb_analytics.pubGaSocial == '1') ||  isRadioEnabled('showShareCount') ;
 }

@@ -1040,25 +1040,25 @@ function shrsb_publicScripts() {
         $infooter = ($shrsb_plugopts['scriptInFooter'] == '1')?true:false;
         
         // Enqueue SexyBookmarks JavaScript only if enabled
-        if(isset($shrsb_plugopts['sexybookmark']) && $shrsb_plugopts['sexybookmark'] == '1'){
+        if(isset($shrsb_plugopts['sexybookmark']) && $shrsb_plugopts['sexybookmark'] == '1' && shrsb_check_activation() == true){
             wp_enqueue_script('shareaholic-sb-js', (empty($shrsb_debug['sb_script'])) ? shrsb_correct_protocol('http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-publishers-sb.min.js') : $shrsb_debug['sb_script'], null, SHRSB_vNum, $infooter);
             $localize_to = 'shareaholic-sb-js';
         }
         
         // Enqueue Tob Bar JavaScript only if enabled
-        if(isset($shrsb_tb_plugopts) && isset($shrsb_tb_plugopts['topbar']) && $shrsb_tb_plugopts['topbar'] == '1'){
+        if(isset($shrsb_tb_plugopts) && isset($shrsb_tb_plugopts['topbar']) && $shrsb_tb_plugopts['topbar'] == '1' && shrsb_check_activation() == true){
             wp_enqueue_script('shareaholic-topbar-js',(empty($shrsb_debug['tb_script'])) ? shrsb_correct_protocol('http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-share-buttons.min.js'): $shrsb_debug['tb_script'], null, SHRSB_vNum, $infooter);    
             $localize_to = 'shareaholic-topbar-js';
         }
         
         // Enqueue Recommendations JavaScript only if enabled
-        if(isset($shrsb_recommendations) && isset($shrsb_recommendations['recommendations']) && $shrsb_recommendations['recommendations'] == '1'){
+        if(isset($shrsb_recommendations) && isset($shrsb_recommendations['recommendations']) && $shrsb_recommendations['recommendations'] == '1' && shrsb_check_activation() == true){
             wp_enqueue_script('shareaholic-recommendations-js',(empty($shrsb_debug['rd_script'])) ? shrsb_correct_protocol("http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-publishers-rd.min.js"): $shrsb_debug['rd_script'], null, SHRSB_vNum, $infooter);    
             $localize_to = 'shareaholic-recommendations-js';
         }
         
         // Enqueue Classic Bookmarks JavaScript only if enabled
-        if(isset($shrsb_cb) && isset($shrsb_cb['cb']) && $shrsb_cb['cb'] == '1'){
+        if(isset($shrsb_cb) && isset($shrsb_cb['cb']) && $shrsb_cb['cb'] == '1' && shrsb_check_activation() == true){
             wp_enqueue_script('shareaholic-cb-js',(empty($shrsb_debug['cb_script'])) ? shrsb_correct_protocol("http://dtym7iokkjlif.cloudfront.net/media/js/jquery.shareaholic-publishers-cb.min.js"): $shrsb_debug['cb_script'], null, SHRSB_vNum, $infooter);
             $localize_to = 'shareaholic-cb-js';
         }       

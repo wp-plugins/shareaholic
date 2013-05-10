@@ -14,7 +14,7 @@ function shrsb_recommendations_set_options( $action = NULL ) {
     $option_name = 'ShareaholicRecommendations';
     
     $shrsb_recommendations_default = array(
-        'recommendations'  => '0'
+        'recommendations'  => '1'
         , 'num' => '3'
         , 'pageorpost' => 'postpageindexcategory'
         , 'style' => 'image'
@@ -34,7 +34,7 @@ function shrsb_recommendations_set_options( $action = NULL ) {
     if( $database_Settings ) {//got the settings in the database
 
         // Check only when upgrading
-        if( SHRSB_UPGRADING ) {
+        if( SHRSB_UPGRADING == TRUE) {
             $need_to_update = false;
 
             //Check whether all the settings are present or not

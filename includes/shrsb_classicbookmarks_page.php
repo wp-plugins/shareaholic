@@ -33,7 +33,7 @@ function shrsb_cb_set_options( $action = NULL ) {
     if( $database_Settings ) {//got the settings in the database
 
         // Check only when upgrading
-        if( SHRSB_UPGRADING ) {
+        if( SHRSB_UPGRADING == TRUE) {
             $need_to_update = false;
 
             //Check whether all the settings are present or not
