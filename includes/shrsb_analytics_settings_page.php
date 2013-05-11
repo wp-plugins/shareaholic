@@ -46,6 +46,8 @@ function shrsb_analytics_settings_page() {
 	// processing form submission
 	$status_message = "";
 	$error_message = "";
+	$setting_changed = false;
+	
 	if(isset($_POST['save_changes_sa'])) {
 
     // Set success message
@@ -57,7 +59,7 @@ function shrsb_analytics_settings_page() {
         if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
 			$fieldval = $_POST[$field];
 			if($field == 'pubGaSocial' && $fieldval != $shrsb_analytics[$field]) {
-				shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_analytics', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+			  $setting_changed = true;
 			}
             $shrsb_analytics[$field] = $fieldval;
         } else {
@@ -66,7 +68,10 @@ function shrsb_analytics_settings_page() {
     }
 
     update_option('ShareaholicAnalytics',$shrsb_analytics);
-          
+    
+    if ($setting_changed == true){
+      shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_analytics', 'enabled' => ($shrsb_analytics['pubGaSocial'] == '1' ? 'true' : 'false')));
+    }      
       
   }//Closed Save
 

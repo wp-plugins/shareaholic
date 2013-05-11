@@ -3,7 +3,7 @@
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=sexy-bookmarks.php">configuration panel</a> for more settings.
-Version: 6.1.3.2
+Version: 6.1.3.3
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
@@ -14,7 +14,7 @@ Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 *   @desc Define Plugin version
 */
 
-define('SHRSB_vNum','6.1.3.2');
+define('SHRSB_vNum','6.1.3.3');
 
 
 /*
@@ -36,7 +36,8 @@ if(false !== $shrsb_version &&  $shrsb_version !== SHRSB_vNum ) {
    update_option('SHRSB_DefaultSprite',true);
    add_action('admin_notices', 'shrsb_Upgrade', 12);
    
-   // shr_sendTrackingEvent('Upgrade', array('prev_plugin_ver' => get_option('SHRSBvNum')) );
+   shr_sendTrackingEvent('Upgrade', array('prev_plugin_ver' => get_option('SHRSBvNum')) );
+   shr_recommendationsStatus();
    
    // Added global variable to track the updating state
    define('SHRSB_UPGRADING', TRUE);
@@ -143,22 +144,30 @@ require_once 'includes/shrsb_analytics_page.php';  // Analytics global Settings
 require_once 'includes/shrsb_recommendations_page.php';  // Recommendations global Settings
 require_once 'includes/shrsb_classicbookmarks_page.php';  // Classic Bookmarks global Settings
 
+//Update version (note: location of this update is important)
+update_option('SHRSBvNum', SHRSB_vNum);
+
+
 //populate default analytics values to pass with major events - (un)install, upgrade, (de)activate, etc
 //TD: GET THE USER ID IF AVAILABLE
 
 function shr_getTrackingData() {
-	global $tracking_metadata, $shrsb_plugopts, $shrsb_cb, $shrsb_tb_plugopts, $shrsb_recommendations;
-	
+  	
+	$sbtmp = get_option('SexyBookmarks');
+	$cbtmp = get_option('ShareaholicClassicBookmarks');
+	$rdtmp = get_option('ShareaholicRecommendations');
+	$tbtmp = get_option('ShareaholicTopbar');
+  	
 	$tracking_metadata = array(
-		'plugin_ver' => SHRSB_vNum,
-		'apikey' => isset($shrsb_plugopts['apikey']) ? $shrsb_plugopts['apikey'] : '',
-		'domain' => home_url(),
-		'theme' => get_option('template'),
-		'wp_ver' => get_bloginfo('version'),
-		'f_sexy' => (isset($shrsb_plugopts['sexybookmark']) && $shrsb_plugopts['sexybookmark'] == '1') ? 'true' : 'false',
-		'f_topbar' => (isset($shrsb_tb_plugopts['topbar']) && $shrsb_tb_plugopts['topbar'] == '1') ? 'true' : 'false',
-		'f_classic' => (isset($shrsb_cb['cb']) && $shrsb_cb['cb'] == '1') ? 'true' : 'false',
-		'f_rec' => (isset($shrsb_recommendations['recommendations']) && $shrsb_recommendations['recommendations'] == '1') ? 'true' : 'false'
+		'plugin_ver'  => SHRSB_vNum,
+		'apikey'      => isset($shrsb_plugopts['apikey']) ? $shrsb_plugopts['apikey'] : '',
+		'domain'      => home_url(),
+		'theme'       => get_option('template'),
+		'wp_ver'      => get_bloginfo('version'),
+		'f_sexy'      => ($sbtmp['sexybookmark'] == '1') ? 'true' : 'false',
+		'f_topbar'    => ($tbtmp['topbar'] == '1') ? 'true' : 'false',
+		'f_classic'   => ($cbtmp['cb'] == '1') ? 'true' : 'false',
+		'f_rec'       => ($rdtmp['recommendations'] == '1') ? 'true' : 'false'
 	);
 	return $tracking_metadata;
 }  
@@ -173,6 +182,7 @@ function shr_sendTrackingEvent($event_name = 'Default', $extra_params = NULL) {
 	$trackingURL = "http://www.shareaholic.com/api/events";
 	$trackingParams = array('name' => "WordPress:".$event_name, 'data' => json_encode($event_data) );	
 	// Send Ping
+	// var_dump($trackingParams);
 	$response = wp_remote_post($trackingURL, array('body' => $trackingParams) );
 }
 
@@ -282,12 +292,12 @@ function showUpdateNotice() {
 
   if(!shrsb_check_activation()){
       // Don't show the connect notice on the shareaholic settings page.
-      if ( (false !== strpos( $_SERVER['QUERY_STRING'], 'page=sexy-bookmark' )) || (false !== strpos( $_SERVER['QUERY_STRING'], 'page=shareaholic_analytics' )) || (false !== strpos( $_SERVER['QUERY_STRING'], 'page=shareaholic_topbar' )) || (false !== strpos( $_SERVER['QUERY_STRING'], 'page=shareaholic_recommendations' )) || (false !== strpos( $_SERVER['QUERY_STRING'], 'page=shareaholic_classicbookmarks' )))
+      if ( (false !== strpos( $_SERVER['QUERY_STRING'], 'page=sexy-bookmark' )) || (false !== strpos( $_SERVER['QUERY_STRING'], 'page=shareaholic_sexybookmarks' )) ||  (false !== strpos( $_SERVER['QUERY_STRING'], 'page=shareaholic_analytics' )) || (false !== strpos( $_SERVER['QUERY_STRING'], 'page=shareaholic_topbar' )) || (false !== strpos( $_SERVER['QUERY_STRING'], 'page=shareaholic_recommendations' )) || (false !== strpos( $_SERVER['QUERY_STRING'], 'page=shareaholic_classicbookmarks' )))
           return;
       echo '
-      <div id="activate_shr" style="border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;background:#6aafcf;border:1px solid #2A8CBA;color:white;font-size:14px;font-weight:bold;height:auto;margin:30px 15px 15px 0px;overflow:hidden;padding:4px 10px 6px;line-height:30px;text-shadow: 0px 1px 1px 
+      <div id="activate_shr" onclick="location.href=\'admin.php?page=sexy-bookmarks.php\';" style="cursor: pointer;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;background:#6aafcf;border:1px solid #2A8CBA;color:white;font-size:14px;font-weight:bold;height:auto;margin:30px 15px 15px 0px;overflow:hidden;padding:4px 10px 6px;line-height:30px;text-shadow: 0px 1px 1px 
 				rgba(0, 0, 0, 0.4);">
-          '.sprintf(__('NOTICE: Shareaholic Plugin is almost ready – %sPlease visit the Plugin Options Page to activate%s', 'shrsb'), '<a href="admin.php?page=sexy-bookmarks.php" style="
+          '.sprintf(__('ACTION REQUIRED: Shareaholic for WordPress is almost ready – %sVisit the Plugin Options Page to activate Shareaholic now &rarr;%s', 'shrsb'), '<a href="admin.php?page=sexy-bookmarks.php" style="
 					-moz-box-shadow:inset 0px 1px 0px 0px #fce2c1;
 					-webkit-box-shadow:inset 0px 1px 0px 0px #fce2c1;
 					box-shadow:inset 0px 1px 0px 0px #fce2c1;
@@ -499,18 +509,19 @@ add_action('admin_menu', 'shrsb_menu_link');
 function shrsb_menu_link() {
 	if (function_exists('add_menu_page')) {
 
-    $shrsb_landing_page = add_menu_page( __( 'Shareaholic for Publishers', 'shrsb' ), __( 'Shareaholic', 'shrsb' ), 'administrator', basename(__FILE__), 'shrsb_landing', SHRSB_PLUGPATH.'images/shareaholic_16x16.png');
-    $shrsb_landing_page = add_submenu_page( basename(__FILE__), __( 'Dashboard' ), __( 'Dashboard', 'shrsb' ), 'administrator', basename(__FILE__), 'shrsb_landing' );
+    $shrsb_landing_page = add_menu_page( __( 'Shareaholic for Publishers', 'shrsb' ), __( 'Shareaholic', 'shrsb' ), 'edit_posts', basename(__FILE__), 'shrsb_landing', SHRSB_PLUGPATH.'images/shareaholic_16x16.png');
+    $shrsb_landing_page = add_submenu_page( basename(__FILE__), __( 'Dashboard' ), __( 'Dashboard', 'shrsb' ), 'edit_posts', basename(__FILE__), 'shrsb_landing' );
 		$shrsb_sexybookmarks_page = add_submenu_page( basename(__FILE__), __( 'SexyBookmarks' ), __( 'SexyBookmarks', 'shrsb' ), 'administrator', 'shareaholic_sexybookmarks.php', 'shrsb_sexybookmarks_settings' );
 
     /*
     $shrsb_account_page = add_submenu_page( basename(__FILE__), __( 'My Account' ), __( 'My Account', 'shrsb' ),
     'administrator', 'shareaholic_account.php', 'shrsb_account_page' );
     */
-
-    $shrsb_topbar_page = add_submenu_page( basename(__FILE__), __( 'Top Bar' ), __( 'Top Bar', 'shrsb' ), 'administrator', 'shareaholic_topbar.php', 'shrsb_topbar_settings' );
+    
     $shrsb_cb_page = add_submenu_page( basename(__FILE__), __( 'ClassicBookmarks' ), __( 'ClassicBookmarks', 'shrsb' ), 'administrator', 'shareaholic_classicbookmarks.php', 'shrsb_cb_settings' );
-    $shrsb_recommendations_page = add_submenu_page( basename(__FILE__), __( 'Recommendations' ), __( 'Recommendations', 'shrsb' ), 'administrator', 'shareaholic_recommendations.php', 'shrsb_recommendations_settings' );
+    $shrsb_topbar_page = add_submenu_page( basename(__FILE__), __( 'Top Bar' ), __( 'Top Bar', 'shrsb' ), 'administrator', 'shareaholic_topbar.php', 'shrsb_topbar_settings' );
+    
+    $shrsb_recommendations_page = add_submenu_page( basename(__FILE__), __( 'Related Content' ), __( 'Related Content', 'shrsb' ), 'administrator', 'shareaholic_recommendations.php', 'shrsb_recommendations_settings' );
     $shrsb_analytics_page = add_submenu_page( basename(__FILE__), __( 'Social Analytics' ), __( 'Social Analytics', 'shrsb' ), 'edit_posts', 'shareaholic_analytics.php', 'shrsb_analytics_settings' );
 
 

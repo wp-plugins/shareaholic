@@ -8,7 +8,7 @@ function shrsb_cb_settings_page() {
 	global $shrsb_cb;
   
     // Add all the global varaible declarations for the $shrsb_cb_plugopts
-	echo '<div class="wrap""><div class="icon32" id="icon-options-general"><br></div><h2>'.__('ClassicBookmarks Settings', 'shrsb').'</h2></div>';
+	echo '<div class="wrap""><div class="icon32" id="icon-options-general"><br></div><h2>'.__('Share Buttons: ClassicBookmarks Settings', 'shrsb').'</h2></div>';
     //Defaults - set if not present
     if (!isset($_POST['reset_all_options_cb'])){$_POST['reset_all_options_cb'] = '1';}
     if (!isset($_POST['shrsbresetallwarn-choice'])){$_POST['shrsbresetallwarn-choice'] = 'no';}
@@ -47,6 +47,8 @@ function shrsb_cb_settings_page() {
 	// processing form submission
 	$status_message = "";
 	$error_message = "";
+	$setting_changed = false;
+	
 	if(isset($_POST['save_changes_cb'])) {
 
     // Set success message
@@ -58,7 +60,7 @@ function shrsb_cb_settings_page() {
         if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
 			$fieldval = $_POST[$field];
 			if($field == 'cb' && $fieldval != $shrsb_cb[$field]) {
-				shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_classic', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+			  $setting_changed = true;
 			}
             $shrsb_cb[$field] = $fieldval;
         } else {
@@ -67,7 +69,10 @@ function shrsb_cb_settings_page() {
     }
 
     update_option('ShareaholicClassicBookmarks',$shrsb_cb);
-          
+    
+    if ($setting_changed == true){
+      shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_classic', 'enabled' => ($shrsb_cb['cb'] == '1' ? 'true' : 'false')));
+    }
       
   }//Closed Save
 

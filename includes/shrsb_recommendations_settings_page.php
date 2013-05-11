@@ -8,7 +8,7 @@ function shrsb_recommendations_settings_page() {
 	global $shrsb_recommendations;
   
     // Add all the global varaible declarations for the $shrsb_recommendations_plugopts
-	echo '<div class="wrap""><div class="icon32" id="icon-options-general"><br></div><h2>'.__('Recommendations Settings', 'shrsb').'</h2></div>';
+	echo '<div class="wrap""><div class="icon32" id="icon-options-general"><br></div><h2>'.__('Recommendations: Related Content Settings', 'shrsb').'</h2></div>';
     //Defaults - set if not present
     if (!isset($_POST['reset_all_options_recommendations'])){$_POST['reset_all_options_recommendations'] = '1';}
     if (!isset($_POST['shrsbresetallwarn-choice'])){$_POST['shrsbresetallwarn-choice'] = 'no';}
@@ -47,6 +47,8 @@ function shrsb_recommendations_settings_page() {
 	// processing form submission
 	$status_message = "";
 	$error_message = "";
+	$setting_changed = false;
+	
 	if(isset($_POST['save_changes_rd'])) {
 
     // Set success message
@@ -58,7 +60,7 @@ function shrsb_recommendations_settings_page() {
         if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
 			    $fieldval = $_POST[$field];
 			    if($field == 'recommendations' && $fieldval != $shrsb_recommendations[$field]) {
-				shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_rec', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+			      $setting_changed = true;
 			    }
             $shrsb_recommendations[$field] = $fieldval;
         } else {
@@ -70,7 +72,10 @@ function shrsb_recommendations_settings_page() {
 			$shrsb_recommendations['num']=5;
 
     update_option('ShareaholicRecommendations',$shrsb_recommendations);
-          
+    
+    if ($setting_changed == true){
+      shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_rec', 'enabled' => ($shrsb_recommendations['recommendations'] == '1' ? 'true' : 'false')));
+    }
       
   }//Closed Save
 

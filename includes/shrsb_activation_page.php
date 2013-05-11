@@ -23,7 +23,7 @@
 		
 		<input type="hidden" name="activate" value="1" />    
         <div class="shrsbsubmit" style="margin: 38px 8px 10px!important;">
-          <input type="submit" id="activate" value="<?php _e('Enable Shareaholic »', 'shrsb'); ?>" />
+          <input type="submit" id="activate" value="<?php _e('Click here to enable Shareaholic now »', 'shrsb'); ?>" />
         </div>
     </form>
     
@@ -31,9 +31,7 @@
 	
 	<div style="display:block; font-size: 11px; color: #777777; width: 960px;">
 			
-		<?php echo sprintf(__('<p>By enabling Shareaholic, you are accepting our %sTerms of Service%s. At times, to function our plugin sends data to trusted 3rd party services like Facebook, Twitter, Google Analytics, Quantcast, AppNexus and DataXu.  Your privacy is critically important to us. Please see our %sPrivacy Promise%s for more information.</p>', 'shrsb'), '<a href="https://shareaholic.com/terms/" target="_new">', '</a>', '<a href="https://shareaholic.com/privacy/" target="_new">', '</a>'); ?>
-		
-		<?php _e("<p>Shareaholic is trusted by over 200 thousand publishers and touches almost 300 million people each month.  Designed and built with all the love in the world in Cambridge, Massachusetts.</p>"); ?>
+		<?php echo sprintf(__('<p>By enabling Shareaholic, you are accepting our %sTerms of Service%s and %sPrivacy Policy%s. Shareaholic is trusted by over 200,000 websites like yours and touches almost 300 million people each month.  Designed and built with all the love in the world in Boston, Massachusetts.</p>', 'shrsb'), '<a href="https://shareaholic.com/terms/" target="_new">', '</a>', '<a href="https://shareaholic.com/privacy/" target="_new">', '</a>'); ?>
 		
 	</div>
 

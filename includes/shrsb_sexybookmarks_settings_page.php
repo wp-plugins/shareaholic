@@ -5,7 +5,7 @@ function shrsb_sb_settings_page() {
 	global $shrsb_plugopts, $shrsb_bookmarks_data, $wpdb, $shrsb_custom_sprite,$shrsb_analytics;
     // Add all the global varaible declarations for the $shrsb_plugopts default options e.g.,
 
-	echo '<div class="wrap""><div class="icon32" id="icon-options-general"><br></div><h2>SexyBookmarks Settings</h2></div>';
+	echo '<div class="wrap""><div class="icon32" id="icon-options-general"><br></div><h2>Share Buttons: SexyBookmarks Settings</h2></div>';
 
     //Defaults - set if not present
     if (!isset($_POST['reset_all_options_sb'])){$_POST['reset_all_options_sb'] = '1';}
@@ -93,6 +93,8 @@ function shrsb_sb_settings_page() {
 	// processing form submission
 	$status_message = "";
 	$error_message = "";
+	$setting_changed = false;
+	
 	if(isset($_POST['save_changes_sb'])) {
 
     if(isset($_POST['bookmark']['shr-fleck'])) {
@@ -131,7 +133,6 @@ function shrsb_sb_settings_page() {
             shrsb_refresh_cache();
             _shrsb_copy_file(SHRSB_UPLOADDIR.'index.html', SHRSB_PLUGDIR.'spritegen_default/index.html');
             _shrsb_copy_file(SHRSB_UPLOADDIR.'spritegen/index.html', SHRSB_PLUGDIR.'spritegen_default/index.html');
-
           }
 
 		if (!$error_message) {
@@ -191,7 +192,7 @@ function shrsb_sb_settings_page() {
         foreach (array(
             
                 'sexybookmark',
-            
+         
                 'position', 'reloption', 'targetopt', 'bookmark',
                 'shorty', 'pageorpost', 'tweetconfig', 'bgimg-yes', 'mobile-hide', 'bgimg',
                 'feed', 'expand', 'doNotIncludeJQuery', 'autocenter', 'custom-mods',
@@ -205,9 +206,11 @@ function shrsb_sb_settings_page() {
                 'tip_text_color' , 'preventminify', 'shrlink', 'perfoption','spritegen_path', 'apikey','ogtags' , 'promo'
             )as $field) {
                 if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
+					
 					$fieldval = $_POST[$field];
-					if($field == 'sexybookmark' && $fieldval != $shrsb_plugopts[$field]) {
-						shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_sexy', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+					
+					if ($field == 'sexybookmark' && $fieldval != $shrsb_plugopts[$field]) {
+					  $setting_changed = true;
 					}
 		            $shrsb_plugopts[$field] = $fieldval;
                 } else {
@@ -237,8 +240,14 @@ function shrsb_sb_settings_page() {
           if($shrsb_plugopts['preventminify'] == '1') {
                 exclude_from_minify_list();
           }
+          
           $shrsb_plugopts['firstrun'] = '0';
           update_option('SexyBookmarks', $shrsb_plugopts);
+          
+          if ($setting_changed == true){
+            shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_sexy', 'enabled' => ($shrsb_plugopts['sexybookmark'] == '1' ? 'true' : 'false')));
+          }
+          
           $shrsb_plugopts['tweetconfig'] = urldecode($shrsb_plugopts['tweetconfig']);
 
           update_option('SHRSB_CustomSprite', $shrsb_custom_sprite);
@@ -322,7 +331,7 @@ function shrsb_sb_settings_page() {
                                     ></td>
                                     <td><span class=""><?php _e('Load Time Optimized', 'shrsb'); ?></span></td>
                                     <td><?php
-                                        echo $resave_required ? "To Fix: Simply re-save your SB settings." : "";
+                                        echo $resave_required ? "To Do: click the \"Save Changes\" button at the bottom of this page." : "";
                                         ?>
                                     </td>
                                 </tr>

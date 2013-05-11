@@ -1,9 +1,9 @@
-=== Shareaholic | share buttons, related content ===
+=== Shareaholic | share buttons & related content ===
 Contributors: shareaholic
-Tags: SexyBookmarks, SexyBookmark, Facebook, Twitter, LinkedIn, URL Shortener, Bitly, TinyURL, Supr, Goo.gl, Google +1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Google Gmail, Google Notebook, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, Bebo, Mister Wong, Evernote, Twine, Diigo, add this, addtoany, share this, share and follow, share and enjoy, sharing is sexy, sharing is caring, Mail, Yahoo, Reddit, Techmeme, Hacker News, Tweet Button, Twitter Button, Fark, Buffer, MySpace, Orkut, Plurk, Identi.ca, Hyves, Netlog, HubSpot,  WeHeartIt, Yandex, PrintFriendly, Print, ReadItLater, Yammer, Pinterest, Google Translate, Pinboard, Shareaholic, Shareholic, Bookmarks, Social, Email Button, Social Share, Bookmark Button, Share Button, Social Bookmarking, Bookmarks Menu, Bookmarking, Share, Share Count, Sharebar, Social Media, SEO, Analytics, Stats, Sharing, Saving, Posting, Facebook Like, Facebook Recommend, Facebook Send, WPMU, yaarp, nrelate, outbrain, linkwithin, Related Content, Related Posts, Thumbnails, Recommendations
+Tags: SexyBookmarks, SexyBookmark, Shareaholic, Shareholic, Facebook, Twitter, LinkedIn, URL Shortener, Bitly, TinyURL, Supr, Goo.gl, Google +1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Google Gmail, Google Notebook, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, Mister Wong, Evernote, Twine, Diigo, add this, addtoany, share this, share and follow, share and enjoy, sharing is sexy, sharing is caring, Mail, Yahoo, Reddit, Techmeme, Hacker News, Tweet Button, Twitter Button, Fark, Buffer, MySpace, Orkut, Plurk, Identi.ca, Hyves, Netlog, HubSpot, WeHeartIt, PrintFriendly, Print, ReadItLater, Yammer, Pinterest, Google Translate, Pinboard, Bookmarks, Social, Email Button, Social Share, Bookmark Button, Share Button, Social Bookmarking, Bookmarks Menu, Bookmarking, Share, Share Count, Sharebar, Social Media, SEO, Analytics, Stats, Sharing, Saving, Posting, Facebook Like, Facebook Recommend, Facebook Send, WPMU, yaarp, yarpp, nrelate, outbrain, linkwithin, Related Content, Related Posts, Thumbnails, Recommendations
 Requires at least: 2.7
 Tested up to: 3.5.1
-Stable tag: 6.1.3.2
+Stable tag: 6.1.3.3
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -13,6 +13,7 @@ Shareaholic has proven time and time again to be an extremely useful and success
 Our sole aim was to stray away from the "in the box" thinking behind most social bookmarking plugins, and add a little flair that would entice your readers, rather than deterring them with microscopic icons that get lost in pages heavy laden with content.
 
 = Recent Updates =
+
 * Recommendations & Related Content - Increase reader engagement and pageviews by highlighting related content from across your site
 * Social Analytics - Actionable and easy to understand
 * Classic Bookmarks - Classic Bookmarks offer a clean-cut and professional look for your blog
@@ -22,10 +23,9 @@ Our sole aim was to stray away from the "in the box" thinking behind most social
 * Utilizes the [Share API](https://shareaholic.com/api/)
 * Localized in 15+ languages
 
-= Recently Added Services =
-* Pinterest
-* Google Plus
-* Shareaholic Email This
+= Recommendations / Related Content =
+
+Increase pageviews and engagement by highlighting relevant content from across your site to your readers who would not otherwise encounter them. Shareaholic is not just yet another related content plugin. It involves a simple installation that's easy to update and tweak. You'll be using well-engineered and optimized code that won't slow or block your pages from loading. You can choose between several themes to match your site's design and customize every pixel if you'd like. Optimized for mobile devices like the iPhone, iPod touch, iPad, Android mobile phones, and more!
 
 = Social Analytics =
 
@@ -35,7 +35,7 @@ Shareaholic reports all of your important actionable social media metrics includ
 
 We use industry best practices to make our code as fast and unobtrusive as possible, meaning - for example - that the performance impact is comparable to adding Google Analytics to your site. Because all of the processing and collection runs on our servers and not yours, it doesn't cause any additional load on your hosting account. In addition, our JavaScript is hosted on Amazon's CDN to make fetching it as blazing fast and reliable as possible. In fact, it's one of the fastest proven analytics system, hosted or not hosted, that you can use.
 
-Shareaholic is used and trusted by hundreds of thousands of publishers and touches almost 300 million people each month.  Designed and built with all the love in the world in Cambridge, Massachusetts.
+Shareaholic is used and trusted by hundreds of thousands of websites like yours and touches almost 300 million people each month. Designed and built with all the love in the world in Boston, Massachusetts.
 
 Note: The analytics portion of Shareaholic may use trusted 3rd party services like Google Analytics and AppNexus to enhance its data. 
 
@@ -80,12 +80,12 @@ Listed here are credits and special thanks to some of you who have helped us out
 
 == Screenshots ==
 
-1. Sexy Share Buttons - A quick preview of the final outcome (excess hidden)
-2. Sexy Share Buttons - Another preview of the final outcome with excess networks displayed upon hover
-3. Classic Share Buttons - Classic Bookmarks offer a clean-cut and professional look for your blog
-4. Recommendations - Drive pageviews and increase time on site with this related content widget
-5. Top Bar - Drive more shares to your content with this additional call-to-action
-6. An 100% integrated and customizable approach - It all comes together nicely in one place!
+1. All the tools and apps you need in one place! Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, we'll help you get it done.
+2. An 100% integrated and customizable approach - It all comes together nicely in one place!
+3. Share Buttons (SexyBookmarks Theme) - A quick preview of the final outcome (excess hidden)
+4. Share Buttons (Classic Theme) - Classic Bookmarks offer a clean-cut and professional look for your blog
+5. Related Content - Drive pageviews and increase time on site with this tool
+6. Top Bar - Drive more shares to your content with this additional call-to-action
 
 
 == Installation ==
@@ -125,10 +125,11 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Changelog ==
 
-= 6.1.3.2 =
+= 6.1.3.3 =
 * Upgraded PHP short tags
 * Much faster Related Content processing for new users!
 * A host of bug fixes and performance improvements
+* Deprecated Yandex
 
 = 6.1.3.1 =
 * Bug fixes & event reporting
@@ -831,7 +832,7 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Upgrade Notice ==
 
-= 6.1.3.2 =
+= 6.1.3.3 =
 Several bug fixes and performance improvements. This is a highly recommended upgrade!
 
 = 3.2.3.1 =

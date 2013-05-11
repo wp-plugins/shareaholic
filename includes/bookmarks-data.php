@@ -137,11 +137,6 @@ $shrsb_bookmarks_data=array(
 		'check'=>sprintf($checkthis_text,'BobrDobr').__(' (Russian)', 'shrsb'),
 		'share'=>__('Share this on ', 'shrsb').'BobrDobr'
 	),
-	'shr-yandex'=>array(
-		'id'=>267,
-		'check'=>sprintf($checkthis_text,'Yandex.Bookmarks').__(' (Russian)', 'shrsb'),
-		'share'=>__('Add this to ', 'shrsb').'Yandex.Bookmarks'
-	),
 	'shr-memoryru'=>array(
 		'id'=>269,
 		'check'=>sprintf($checkthis_text,'Memory.ru').__(' (Russian)', 'shrsb'),
