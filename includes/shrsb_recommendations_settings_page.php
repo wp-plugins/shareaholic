@@ -75,6 +75,7 @@ function shrsb_recommendations_settings_page() {
     
     if ($setting_changed == true){
       shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_rec', 'enabled' => ($shrsb_recommendations['recommendations'] == '1' ? 'true' : 'false')));
+      shr_recommendationsStatus();
     }
       
   }//Closed Save

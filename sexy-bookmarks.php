@@ -3,7 +3,7 @@
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=sexy-bookmarks.php">configuration panel</a> for more settings.
-Version: 6.1.3.3
+Version: 6.1.3.4
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
@@ -14,7 +14,7 @@ Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 *   @desc Define Plugin version
 */
 
-define('SHRSB_vNum','6.1.3.3');
+define('SHRSB_vNum','6.1.3.4');
 
 
 /*
@@ -37,7 +37,6 @@ if(false !== $shrsb_version &&  $shrsb_version !== SHRSB_vNum ) {
    add_action('admin_notices', 'shrsb_Upgrade', 12);
    
    shr_sendTrackingEvent('Upgrade', array('prev_plugin_ver' => get_option('SHRSBvNum')) );
-   shr_recommendationsStatus();
    
    // Added global variable to track the updating state
    define('SHRSB_UPGRADING', TRUE);
@@ -153,21 +152,35 @@ update_option('SHRSBvNum', SHRSB_vNum);
 
 function shr_getTrackingData() {
   	
+  global $wpdb;
 	$sbtmp = get_option('SexyBookmarks');
 	$cbtmp = get_option('ShareaholicClassicBookmarks');
 	$rdtmp = get_option('ShareaholicRecommendations');
 	$tbtmp = get_option('ShareaholicTopbar');
-  	
+  	  
 	$tracking_metadata = array(
-		'plugin_ver'  => SHRSB_vNum,
-		'apikey'      => isset($shrsb_plugopts['apikey']) ? $shrsb_plugopts['apikey'] : '',
-		'domain'      => home_url(),
-		'theme'       => get_option('template'),
-		'wp_ver'      => get_bloginfo('version'),
-		'f_sexy'      => ($sbtmp['sexybookmark'] == '1') ? 'true' : 'false',
-		'f_topbar'    => ($tbtmp['topbar'] == '1') ? 'true' : 'false',
-		'f_classic'   => ($cbtmp['cb'] == '1') ? 'true' : 'false',
-		'f_rec'       => ($rdtmp['recommendations'] == '1') ? 'true' : 'false'
+		'plugin_version' => SHRSB_vNum,
+		'api_key' => isset($shrsb_plugopts['apikey']) ? $shrsb_plugopts['apikey'] : '',
+		'domain' => get_bloginfo('url'),
+		'locale' => get_bloginfo('language'),
+		'stats' => array (
+		  'posts_total' => $wpdb->get_var( "SELECT count(ID) FROM $wpdb->posts where post_type = 'post' AND post_status = 'publish'" ),
+		  'pages_total' => $wpdb->get_var( "SELECT count(ID) FROM $wpdb->posts where post_type = 'page' AND post_status = 'publish'" ),
+		  'comments_total' => wp_count_comments()->approved,
+		  'users_total' => $wpdb->get_var("SELECT count(ID) FROM $wpdb->users"),
+      ),
+    'diagnostics' => array (
+  		'wp_version' => get_bloginfo('version'),
+  		'theme' => get_option('template'),
+  		'active_plugins' => get_option('active_plugins', array()),
+  		'multisite' => is_multisite(),
+  		),
+    'features' => array (
+  		'f_sexy' => ($sbtmp['sexybookmark'] == '1') ? 'true' : 'false',
+  		'f_topbar' => ($tbtmp['topbar'] == '1') ? 'true' : 'false',
+  		'f_classic' => ($cbtmp['cb'] == '1') ? 'true' : 'false',
+  		'f_rec' => ($rdtmp['recommendations'] == '1') ? 'true' : 'false'
+  		)
 	);
 	return $tracking_metadata;
 }  
