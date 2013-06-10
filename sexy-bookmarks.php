@@ -3,7 +3,7 @@
 Plugin Name: Shareaholic | share buttons, analytics, related posts
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=sexy-bookmarks.php">configuration panel</a> for more settings.
-Version: 6.1.3.6
+Version: 6.1.3.7
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
@@ -14,7 +14,7 @@ Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 *   @desc Define Plugin version
 */
 
-define('SHRSB_vNum','6.1.3.6');
+define('SHRSB_vNum','6.1.3.7');
 
 
 /*
@@ -147,7 +147,7 @@ require_once 'includes/shrsb_classicbookmarks_page.php';  // Classic Bookmarks g
 
 
 function shr_upgrade_routine() {
-  if(SHRSB_vNum === '6.1.3.6' ) {
+  if(SHRSB_vNum === '6.1.3.7' ) {
     global $shrsb_recommendations;
     if($shrsb_recommendations['recommendations']  !== '1') {
       $shrsb_recommendations['recommendations']  = '1';
