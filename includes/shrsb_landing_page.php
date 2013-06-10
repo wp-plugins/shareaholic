@@ -8,8 +8,18 @@
 		<ul id="shrsb-sortables">
 
         <li>
+            <div class="page-header" style="margin-top:20px;">
+						  <h1 class="grey_light">Enable Discovery:</h1>
+						</div>
+
+            <div id="rec_box" class="select_product">
+							<img style="float:left; margin-left:-25px;margin-top:-19px;" src="<?php echo SHRSB_PLUGPATH."images/new_badge.png" ?>">
+              <div class="shr-landing-product-icon"><img src="<?php echo SHRSB_PLUGPATH."images/thumbs.png" ?>"></div>
+              <div class="shr-landing-product-name"><h2>Recommendations / Related Content</h2><span class="shr-landing-product-desc">Proven to drive more pageviews by helping your readers discover more of your amazing content.</span></div>
+              <div class="shr-landing-product-configure"><a href="admin.php?page=shareaholic_recommendations.php" class="btn btn-large <?php global $shrsb_recommendations; echo ((@$shrsb_recommendations['recommendations'] == "1")? '' : "btn-primary");?>"><?php echo ((@$shrsb_recommendations['recommendations'] == "1")? '<i class="icon-cog" style="margin-top:2px;"></i> Settings' : "Enable");?></a></div>
+            </div>
 						
-						<div class="page-header" style="margin-top:20px;"">
+						<div class="page-header" style="margin-top:40px;"">
 						  <h1 class="grey_light">Enable Sharing:</h1>
 						</div>
 						
@@ -31,17 +41,6 @@
                 <div class="shr-landing-product-icon"><img src="<?php echo SHRSB_PLUGPATH."images/cbm.png" ?>"></div>
                 <div class="shr-landing-product-name"><h2>ClassicBookmarks</h2><span class="shr-landing-product-desc">Beautiful, elegant, classic styled sharing buttons.</span></div>
                 <div class="shr-landing-product-configure"><a href="admin.php?page=shareaholic_classicbookmarks.php" class="btn btn-large <?php global $shrsb_cb; echo ((@$shrsb_cb['cb'] == "1")? '' : "btn-primary");?>"><?php echo ((@$shrsb_cb['cb'] == "1")? '<i class="icon-cog" style="margin-top:2px;"></i> Settings' : "Enable");?></a></div>
-            </div>
-						
-						<div class="page-header" style="margin-top:40px;">
-						  <h1 class="grey_light">Enable Discovery:</h1>
-						</div>
-						
-            <div id="rec_box" class="select_product">
-							<img style="float:left; margin-left:-25px;margin-top:-19px;" src="<?php echo SHRSB_PLUGPATH."images/new_badge.png" ?>">
-              <div class="shr-landing-product-icon"><img src="<?php echo SHRSB_PLUGPATH."images/thumbs.png" ?>"></div>
-              <div class="shr-landing-product-name"><h2>Recommendations / Related Content</h2><span class="shr-landing-product-desc">Proven to drive more pageviews by helping your readers discover more of your amazing content.</span></div>
-              <div class="shr-landing-product-configure"><a href="admin.php?page=shareaholic_recommendations.php" class="btn btn-large <?php global $shrsb_recommendations; echo ((@$shrsb_recommendations['recommendations'] == "1")? '' : "btn-primary");?>"><?php echo ((@$shrsb_recommendations['recommendations'] == "1")? '<i class="icon-cog" style="margin-top:2px;"></i> Settings' : "Enable");?></a></div>
             </div>
 
 						<div class="page-header" style="margin-top:40px;">

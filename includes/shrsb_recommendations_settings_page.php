@@ -140,7 +140,19 @@ function shrsb_recommendations_settings_page() {
                                 </tr>
                                 
 																<tr>
-                                	<td colspan="3"><br /><p>Once enabled, we will analyze your content and begin generating recommended posts to display. This may take up to several hours if you are a new Shareaholic user and depending on the number of posts on your blog. The quality of recommended stories will improve once we complete our crawl of your website.</p><p><span class="label label-info">Tip</span> we recommend using Shareaholic sharing tools as they help boost the quality of your recommendations.</p></td>
+                                	<td colspan="3"><br />
+                                	  <p>Once enabled, we will analyze your content and begin generating recommended posts to display. This may take up to several hours if you are a new Shareaholic user and depending on the number of posts on your blog. The quality of recommended stories will improve once we complete our crawl of your website. <a href="http://support.shareaholic.com/forums/21886992-Recommendations-Related-Content" target="_new">Learn more.</a></p><p><span class="label label-info">Tip</span> we recommend using Shareaholic sharing tools as they help boost the quality of your recommendations.</p>
+                                	<p>
+                                	  <strong>Data Status:</strong> 
+                                	  <?php               	  
+                                	    $status = shr_recommendationsStatus_code();
+                                	    if ($status == "processing" || $status == 'unknown'){
+                                	      echo '<img class="shrsb_health_icon"  align="top" src="'.SHRSB_PLUGPATH.'/images/circle_yellow.png" /> Processing';
+                                	    } else {
+                                	      echo '<img class="shrsb_health_icon"  align="top" src="'.SHRSB_PLUGPATH.'/images/circle_green.png" /> Ready';
+                                	    }
+                                	  ?>
+                                	</p></td>
 																</tr>
                         </tbody></table>
                     </div>

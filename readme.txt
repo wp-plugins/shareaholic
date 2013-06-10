@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 2.7
 Tested up to: 3.5.1
-Stable tag: 6.1.3.5
+Stable tag: 6.1.3.6
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -32,7 +32,7 @@ Increase pageviews and engagement by highlighting relevant content from across y
 
 Shareaholic reports all of your important actionable social media metrics including popular pages on your website, referral channels, and who are making referrals and spreading your webpages on the internet on your behalf bringing you back more traffic and new visitors.
 
-= Performance =
+= Fast & Secure =
 
 We use industry best practices to make our code as fast and unobtrusive as possible, meaning - for example - that the performance impact is comparable to adding Google Analytics to your site. Because all of the processing and collection runs on our servers and not yours, it doesn't cause any additional load on your hosting account. In addition, our JavaScript is hosted on Amazon's CDN to make fetching it as blazing fast and reliable as possible. In fact, it's one of the fastest proven analytics system, hosted or not hosted, that you can use.
 
@@ -81,13 +81,14 @@ Listed here are credits and special thanks to some of you who have helped us out
 
 == Screenshots ==
 
-1. All the tools and apps you need in one place! Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, we'll help you get it done.
-2. An 100% integrated and customizable approach - It all comes together nicely in one place!
-3. Share Buttons (SexyBookmarks Theme) - A quick preview of the final outcome (excess hidden)
-4. Share Buttons (Classic Theme) - Classic Bookmarks offer a clean-cut and professional look for your blog
-5. Related Content - Drive pageviews and increase time on site with this tool
-6. Top Bar - Drive more shares to your content with this additional call-to-action
-
+1. An 100% integrated and customizable approach - all the tools and apps you need in one place! Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, we'll help you get it done.
+2. Related Content configuration panel - Drive pageviews and increase time on site with this tool.
+3. Share Buttons configuration panel - Make it easy for your visitors to share your site's content via social networks, email, blogs, IM, and more.
+4. De-clutter your WordPress installation. All the tools you need in one robust plugin.
+5. You're in great company - Gizmo Gadget  
+6. You're in great company - Your Lighter Side
+7. You're in great company - Guilty Kitchen
+8. You're in great company - Career Girl
 
 == Installation ==
 
@@ -125,6 +126,10 @@ Please see here: [Frequently Asked Questions](https://shareaholic.com/tools/word
 Please see here: [Usage & Installation Instructions](https://shareaholic.com/tools/wordpress/usage-installation)
 
 == Changelog ==
+
+= 6.1.3.6 =
+* Show Related Posts data status
+* Updated screenshots (corrected WordPress logo)
 
 = 6.1.3.5 =
 * Much faster Related Posts processing for new users!

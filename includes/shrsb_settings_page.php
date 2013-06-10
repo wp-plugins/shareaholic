@@ -316,10 +316,7 @@ function shrsb_getfooter(){
 	</div>
 	<br />
 	<div style="display:block; font-size: 11px; color: #777777;">
-		<?php if (shrsb_get_current_user_role()=="Administrator"){ ?>
-			<?php _e("<p>Note: The analytics portion of Shareaholic may at times use trusted 3rd party services like Google Analytics and AppNexus to enhance its data. Because all of the processing and collection runs on our servers and not yours, it doesn't cause any additional load on your hosting account. In addition, our JavaScript is hosted on Amazon's CDN to make fetching it blazing fast. In fact, it's one of the fastest proven analytics system, hosted or not hosted, that you can use.</p/>"); ?>
-			<?php } ?>
-		<?php _e("Shareaholic is trusted by over 200 thousand publishers and touches almost 300 million people each month.  Designed and built with all the love in the world in Cambridge, Massachusetts."); ?>
+		<?php _e("Shareaholic is trusted by over 200 thousand publishers and touches almost 300 million people each month.  Designed and built with all the love in the world in Boston, Massachusetts."); ?>
 	</div>
 	</li>
 </ul>

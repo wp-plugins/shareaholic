@@ -109,61 +109,8 @@ function shrsb_analytics_settings_page() {
                 </div>
 				<div class="box-mid-body">
                         <div style="padding:8px;background:#FDF6E5;"><img src="<?php echo SHRSB_PLUGPATH; ?>images/chart.png" align="right" alt="New!" />
-                                <?php
+                                <?php $parse = parse_url(get_bloginfo('url')); ?>
 
-									$parse = parse_url(get_bloginfo('url'));
-                                    $share_url = "https://www.shareaholic.com/api/data/".$parse['host']."/sharecount/30";
-                                    $top_users_url =  "https://www.shareaholic.com/api/data/".$parse['host']."/topusers/16/";
-
-                                    echo sprintf(__('<b style="font-size:14px;line-height:22px;">Did you know that content from this website has been shared <span style="color:#CC1100;"><span id="bonusShareCount"></span> time(s)</span> in the past <span id="bonusShareTimeFrame"></span> day(s)?</b>', 'shrsb'));
-                                ?>
-
-                                <script type ="text/javascript">
-                                    (function($){
-                                        $(document).ready( function () {
-                                            var url = <?php echo "'".$share_url."'";?>;
-                                            var top_users_url  = <?php echo "'".$top_users_url."'";?>;
-                                            $.getJSON(url+'?callback=?', function (obj) {
-                                                $('#bonusShareCount').text(obj.sharecount);
-                                                $('#bonusShareTimeFrame').text(obj.timeframe);
-                                            });
-
-                                            $.getJSON(top_users_url+'?callback=?', function (obj) {
-                                                add_faces(obj);
-                                            });
-                                        });
-
-                                        var add_faces = function(obj) {
-                                            if(obj && obj.length) {
-                                                var shuffle = function(v){
-                                                    //+ Jonas Raoni Soares Silva
-                                                    //@ http://jsfromhell.com/array/shuffle [rev. #1]
-                                                    for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
-                                                    return v;
-                                                };
-                                                obj = shuffle(obj);
-
-                                                $('#bonusShareTopUser').show();
-                                                var face_ul = $('<ul id="bonusShareFacesUL"/>');
-                                                for(var i=0; i<obj.length; ++i) {
-                                                    var shr_profile_url = "https://shareaholic.com/" + obj[i].username;
-                                                    face_ul.append(
-                                                        $("<li class='bonusShareLi'>").append("<a target='_blank' href="+shr_profile_url+"><img class='bonusShareFaces' title=" + obj[i].username + " src=" + obj[i].picture_url + "></img></a>")
-                                                    );
-                                                }
-
-                                                $('#bonusShareTopUser').append(face_ul);
-
-                                            }
-                                        };
-                                    })(jQuery);
-                                </script>
-                                <br/><br/>
-                                <div id="bonusShareTopUser" style="display:none"><b><?php _e('Meet who spreads your content the most:', 'shrsb'); ?></b></div>
-
-                                <br />
-                                <div style="background: url(https://shareaholic.com/media/images/border_hr.png) repeat-x scroll left top; height: 2px;"></div>
-                                <br />
                                   <?php  echo sprintf(__('<span style="font-size: 12px;">Shareaholic reports all of your important social media metrics including popular pages on your website, referral channels, and who are making referrals and spreading your webpages on the internet on your behalf bringing you back more traffic and new visitors for free.</span> <br><br> <b><span style="color:#CC1100;">What are you waiting for?</span> You can access detailed %ssocial engagement analytics%s about your website right now.</b>', 'shrsb'), '<a href="https://shareaholic.com/publishers/analytics/'.$parse['host'].'/">', '</a>');
                                 ?>
 

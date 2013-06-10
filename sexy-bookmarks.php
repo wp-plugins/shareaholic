@@ -3,7 +3,7 @@
 Plugin Name: Shareaholic | share buttons, analytics, related posts
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=sexy-bookmarks.php">configuration panel</a> for more settings.
-Version: 6.1.3.5
+Version: 6.1.3.6
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
@@ -14,7 +14,7 @@ Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 *   @desc Define Plugin version
 */
 
-define('SHRSB_vNum','6.1.3.5');
+define('SHRSB_vNum','6.1.3.6');
 
 
 /*
@@ -38,6 +38,7 @@ if(false !== $shrsb_version &&  $shrsb_version !== SHRSB_vNum ) {
    
    shr_sendTrackingEvent('Upgrade', array('prev_plugin_ver' => get_option('SHRSBvNum')) );
    shr_recommendationsStatus();
+   shr_upgrade_routine();
    
    // Added global variable to track the updating state
    define('SHRSB_UPGRADING', TRUE);
@@ -144,6 +145,18 @@ require_once 'includes/shrsb_analytics_page.php';  // Analytics global Settings
 require_once 'includes/shrsb_recommendations_page.php';  // Recommendations global Settings
 require_once 'includes/shrsb_classicbookmarks_page.php';  // Classic Bookmarks global Settings
 
+
+function shr_upgrade_routine() {
+  if(SHRSB_vNum === '6.1.3.6' ) {
+    global $shrsb_recommendations;
+    if($shrsb_recommendations['recommendations']  !== '1') {
+      $shrsb_recommendations['recommendations']  = '1';
+      $shrsb_recommendations['pageorpost'] ='postpage';
+      update_option('ShareaholicRecommendations',$shrsb_recommendations);
+    }
+  }
+}
+
 //Update version (note: location of this update is important)
 update_option('SHRSBvNum', SHRSB_vNum);
 
@@ -204,6 +217,21 @@ function shr_sendTrackingEvent($event_name = 'Default', $extra_params = NULL) {
 function shr_recommendationsStatus() {
 	$recommendationsStatusURL = "https://www.shareaholic.com/v2/recommendations/status?url=".home_url();
 	$response = wp_remote_post($recommendationsStatusURL);
+	return $response['body'];
+}
+
+function shr_recommendationsStatus_code() {
+	$recommendationsStatusURL_result = shr_recommendationsStatus();
+	$obj = json_decode($recommendationsStatusURL_result, true);
+	if ($obj['code'] == 200){
+	  if ($obj['data'][0]['status_code'] < 3) {
+	    return "processing";
+	  } else {
+	  return "ready";
+	  }
+  } else {
+    return "unknown";
+  }
 }
 
 $default_spritegen = get_option('SHRSB_DefaultSprite');
@@ -525,6 +553,9 @@ function shrsb_menu_link() {
 
     $shrsb_landing_page = add_menu_page( __( 'Shareaholic for Publishers', 'shrsb' ), __( 'Shareaholic', 'shrsb' ), 'edit_posts', basename(__FILE__), 'shrsb_landing', SHRSB_PLUGPATH.'images/shareaholic_16x16.png');
     $shrsb_landing_page = add_submenu_page( basename(__FILE__), __( 'Dashboard' ), __( 'Dashboard', 'shrsb' ), 'edit_posts', basename(__FILE__), 'shrsb_landing' );
+    
+    $shrsb_recommendations_page = add_submenu_page( basename(__FILE__), __( 'Related Content' ), __( 'Related Content', 'shrsb' ), 'administrator', 'shareaholic_recommendations.php', 'shrsb_recommendations_settings' );
+    
 		$shrsb_sexybookmarks_page = add_submenu_page( basename(__FILE__), __( 'SexyBookmarks' ), __( 'SexyBookmarks', 'shrsb' ), 'administrator', 'shareaholic_sexybookmarks.php', 'shrsb_sexybookmarks_settings' );
 
     /*
@@ -535,7 +566,6 @@ function shrsb_menu_link() {
     $shrsb_cb_page = add_submenu_page( basename(__FILE__), __( 'ClassicBookmarks' ), __( 'ClassicBookmarks', 'shrsb' ), 'administrator', 'shareaholic_classicbookmarks.php', 'shrsb_cb_settings' );
     $shrsb_topbar_page = add_submenu_page( basename(__FILE__), __( 'Top Bar' ), __( 'Top Bar', 'shrsb' ), 'administrator', 'shareaholic_topbar.php', 'shrsb_topbar_settings' );
     
-    $shrsb_recommendations_page = add_submenu_page( basename(__FILE__), __( 'Related Content' ), __( 'Related Content', 'shrsb' ), 'administrator', 'shareaholic_recommendations.php', 'shrsb_recommendations_settings' );
     $shrsb_analytics_page = add_submenu_page( basename(__FILE__), __( 'Social Analytics' ), __( 'Social Analytics', 'shrsb' ), 'edit_posts', 'shareaholic_analytics.php', 'shrsb_analytics_settings' );
 
 
@@ -570,7 +600,7 @@ function shrsb_admin_scripts() {
 		//Add promo bar for browser extensions
     if ($shrsb_plugopts['promo'] == "1") {
 				if(shrsb_check_activation() === true){
-        	wp_enqueue_script('shareaholic-promo', SHRSB_PLUGPATH.'js/shareaholic-promo.min.js', array('jquery'), SHRSB_vNum, false);
+        	// wp_enqueue_script('shareaholic-promo', SHRSB_PLUGPATH.'js/shareaholic-promo.min.js', array('jquery'), SHRSB_vNum, false);
 				}
     }
     if(shrsb_check_activation())
@@ -681,7 +711,7 @@ function shrsb_admin_styles() {
     //Add promo bar for browser extensions
     if ($shrsb_plugopts['promo'] == "1") {
 			if(shrsb_check_activation() === true){
-        wp_enqueue_style('shareaholic-promo', SHRSB_PLUGPATH.'css/shareaholic-promo.css', false, SHRSB_vNum);
+        // wp_enqueue_style('shareaholic-promo', SHRSB_PLUGPATH.'css/shareaholic-promo.css', false, SHRSB_vNum);
 			}
     }
     wp_enqueue_style('sexy-bookmarks', SHRSB_PLUGPATH.'css/admin-style.css', false, SHRSB_vNum);

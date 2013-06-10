@@ -15,7 +15,7 @@ function shrsb_recommendations_set_options( $action = NULL ) {
     
     $shrsb_recommendations_default = array(
         'recommendations'  => '1'
-        , 'num' => '4'
+        , 'num' => '3'
         , 'pageorpost' => 'postpageindexcategory'
         , 'style' => 'image'
     );
