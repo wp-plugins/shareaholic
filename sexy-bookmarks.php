@@ -3,7 +3,7 @@
 Plugin Name: Shareaholic | share buttons, analytics, related posts
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=sexy-bookmarks.php">configuration panel</a> for more settings.
-Version: 6.1.3.6
+Version: 6.1.3.8
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
@@ -14,7 +14,7 @@ Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 *   @desc Define Plugin version
 */
 
-define('SHRSB_vNum','6.1.3.6');
+define('SHRSB_vNum','6.1.3.8');
 
 
 /*
@@ -147,7 +147,7 @@ require_once 'includes/shrsb_classicbookmarks_page.php';  // Classic Bookmarks g
 
 
 function shr_upgrade_routine() {
-  if(SHRSB_vNum === '6.1.3.6' ) {
+  if(SHRSB_vNum === '6.1.3.8' ) {
     global $shrsb_recommendations;
     if($shrsb_recommendations['recommendations']  !== '1') {
       $shrsb_recommendations['recommendations']  = '1';
@@ -216,14 +216,18 @@ function shr_sendTrackingEvent($event_name = 'Default', $extra_params = NULL) {
 // kicks off Recommendations
 function shr_recommendationsStatus() {
 	$recommendationsStatusURL = "https://www.shareaholic.com/v2/recommendations/status?url=".home_url();
-	$response = wp_remote_post($recommendationsStatusURL);
-	return $response['body'];
+	$response = wp_remote_post($recommendationsStatusURL, array('sslverify'=>false));
+	if(is_array($response) && array_key_exists('body', $response)){
+	  return $response['body'];
+	} else {
+	  return false;
+	}
 }
 
 function shr_recommendationsStatus_code() {
 	$recommendationsStatusURL_result = shr_recommendationsStatus();
 	$obj = json_decode($recommendationsStatusURL_result, true);
-	if ($obj['code'] == 200){
+	if (is_array($obj) && $obj['code'] == 200){
 	  if ($obj['data'][0]['status_code'] < 3) {
 	    return "processing";
 	  } else {
