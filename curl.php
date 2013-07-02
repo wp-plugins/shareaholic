@@ -21,7 +21,7 @@ class ShareaholicCurl {
    * @return array the returned data json decoded
    */
   public static function post($url, $data = array(), $data_type = '') {
-    return self::send_request($url, $data, $data_type, 'POST');
+    return self::send_request_with_wp($url, $data, $data_type, 'POST');
   }
 
   /**
@@ -34,7 +34,18 @@ class ShareaholicCurl {
    * @return array the returned data json decoded
    */
   public static function get($url, $data = array(), $data_type = '') {
-    return self::send_request($url, $data, $data_type, 'GET');
+    return self::send_request_with_wp($url, $data, $data_type, 'GET');
+  }
+
+  private static function send_request_with_wp($url, $data, $data_type, $method) {
+    if ($method == 'GET') {
+      $response = wp_remote_get($url, array('body' => $data));
+    } elseif ($method == 'POST') {
+      $response = wp_remote_post($url, array('body' => $data));
+    }
+    $result = $response['body'];
+    return ShareaholicUtilities::object_to_array(json_decode($result)) ?
+      ShareaholicUtilities::object_to_array(json_decode($result)) : $result;
   }
 
   /**
@@ -49,7 +60,6 @@ class ShareaholicCurl {
    * @return array the returned data json decoded
    */
   private static function send_request($url, $data, $data_type, $method) {
-    ShareaholicUtilities::log($data);
     $curl = curl_init();
     curl_setopt_array($curl, array(
       CURLOPT_URL => $url,

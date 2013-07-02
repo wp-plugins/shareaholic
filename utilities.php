@@ -380,7 +380,7 @@ class ShareaholicUtilities {
   public static function get_or_create_api_key() {
     $settings = self::get_settings();
     if (isset($settings['api_key']) && !empty($settings['api_key'])) {
-      return;
+      return $settings['api_key'];
     }
     delete_option('shareaholic_settings');
 
@@ -523,7 +523,7 @@ class ShareaholicUtilities {
 
   	// var_dump($event_params);
 
-    // $result = ShareaholicCurl::post($event_api_url, $event_params);
+    $result = ShareaholicCurl::post($event_api_url, $event_params);
   	// $result = wp_remote_post($event_api_url, array('body' => $event_params) );
   }
 

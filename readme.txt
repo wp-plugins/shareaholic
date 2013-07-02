@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 2.7
 Tested up to: 3.5.2
-Stable tag: 6.1.3.8
+Stable tag: 7.0.0.4
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -92,18 +92,35 @@ Listed here are credits and special thanks to some of you who have helped us out
 
 == Installation ==
 
+*Via Upload:*
+
 1. Upload the extracted archive to `wp-content/plugins/`
 2. Activate the plugin through the 'Plugins' menu
 3. Open the plugin settings page Settings -> Shareaholic
 4. Adjust settings to your liking
-4. Enjoy!
+5. If you use a caching plugin please clear the cache
+6. Enjoy!
+
+*Via Admin:*
+
+1. Go to Plugins -> Add New
+2. Search for `Shareaholic`
+3. Install the plugin called `Shareaholic` and activate it
+4. Adjust settings to your liking
+5. If you use a caching plugin please clear the cache
+6. Enjoy!
 
 = Shareaholic Shortcode Support / Manual Usage =
 
-You can insert Share Buttons, Related Content, etc manually wherever you're like. Simply place the following Shortcode into your themewhere you want the corresponding app to appear:
+You can place Share Buttons, Related Content and any other Shareaholic app manually wherever you're like. Simply insert the following Shortcode where you want the corresponding app to appear:
 
 `[shareaholic app="share_buttons" id="<insert shareaholic app ID here>"]`
 `[shareaholic app="recommendations" id="<insert shareaholic app ID here>"]`
+
+In your PHP / theme template code, you would add:
+
+`<?php echo do_shortcode ('[shareaholic app="share_buttons" id="<insert shareaholic app ID here>"]'); ?>`
+`<?php echo do_shortcode ('[shareaholic app="recommendations" id="<insert shareaholic app ID here>"]'); ?>`
 
 Grab the corresponding App ID from your Shareaholic Dashboard for the App you want to manually insert into your theme. Shareaholic Shortcode's are full featured and support all available configuration options available. Enjoy!
 
@@ -124,7 +141,8 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Changelog ==
 
-= 7.0.0.3 =
+= 7.0.0.4 =
+* Several bug fixes, in addition to -
 * Huge update! The plugin has been completely re-written from the ground up to be faster, simpler to use
 * Choose from snazzy new Related Post themes
 * Related Posts now come mobile optimized and responsive out of the box - Shareaholic automagically determines how many Related Posts to show given how much screen width it is given
@@ -852,7 +870,7 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Upgrade Notice ==
 
-= 7.0.0.3 =
+= 7.0.0.4 =
 * Huge update! Completely re-written from the ground up to be faster and with a new simple interface! Includes brand new Share button themes (including vertical share buttons!) and Related posts themes. Related Posts now come mobile optimized and responsive out of the box - Shareaholic automagically determines how many Related Posts to show given how much screen width it is given. You can now even customize your "You may also like" text and exclude URLs.
 
 = 6.1.3.5 =
