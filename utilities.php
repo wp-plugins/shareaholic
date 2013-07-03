@@ -307,7 +307,8 @@ class ShareaholicUtilities {
       return true;
     }
 
-    $result = ShareaholicCurl::get(Shareaholic::URL . '/publisher_tools/' . $settings['api_key'] . '/verified');
+    $api_key = self::get_or_create_api_key();
+    $result = ShareaholicCurl::get(Shareaholic::URL . '/publisher_tools/' . $api_key . '/verified');
 
     if ($result == 'true') {
       ShareaholicUtilities::update_options(array(
@@ -334,15 +335,31 @@ class ShareaholicUtilities {
     update_option('shareaholic_settings', $settings);
   }
 
+  /**
+   *
+   * Loads the locations names and their respective ids for an api key
+   * and sets them in the shareaholic settings.'
+   *
+   * @param string $api_key
+   */
   public static function get_new_location_name_ids($api_key) {
     $publisher_configuration = ShareaholicCurl::get(Shareaholic::URL . "/publisher_tools/{$api_key}.json");
     $result = array();
 
+    $load_fail_template = false;
     if ($publisher_configuration) {
       foreach (array('share_buttons', 'recommendations') as $app) {
-        foreach ($publisher_configuration['apps'][$app]['locations'] as $id => $location) {
-          $result[$app][$location['name']] = $id;
+        if (isset($publisher_configuration['apps'][$app]['locations'])) {
+          foreach ($publisher_configuration['apps'][$app]['locations'] as $id => $location) {
+            $result[$app][$location['name']] = $id;
+          }
+        } else {
+          $load_fail_template = true;
         }
+      }
+
+      if ($load_fail_template) {
+        ShareaholicUtilities::load_template('failed_to_create_api_key_modal');
       }
 
       self::update_location_name_ids($result);

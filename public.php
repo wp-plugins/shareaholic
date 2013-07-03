@@ -195,9 +195,9 @@ class ShareaholicPublic {
     return "<div class='shareaholic-canvas'
       data-app-id='$id'
       data-app='$app'
-      data-title='" . urlencode($post->post_title) . "'
+      data-title='" . htmlspecialchars($post->post_title, ENT_QUOTES) . "'
       data-link='" . get_permalink($post->ID) . "'
-      data-summary='" . urlencode($post->post_excerpt) . "'></div>";
+      data-summary='" . urlencode(strip_tags(strip_shortcodes($post->post_excerpt))) . "'></div>";
   }
 }
 

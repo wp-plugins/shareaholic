@@ -37,12 +37,40 @@ class ShareaholicCurl {
     return self::send_request_with_wp($url, $data, $data_type, 'GET');
   }
 
+  /**
+   *
+   * Performs a request using the methods built into WordPress, which account for
+   * various PHP eccenctricities.
+   *
+   * @param string $url
+   * @param array  $data      an associative array of the data
+   * @param string $data_type either an empty string or 'json'
+   * @param string $method    the HTTP verb to be used
+   *
+   * @return array the returned data json decoded
+   */
   private static function send_request_with_wp($url, $data, $data_type, $method) {
+    ShareaholicUtilities::log($url);
+    ShareaholicUtilities::log($data);
+    ShareaholicUtilities::log($data_type);
+    ShareaholicUtilities::log($method);
+    ShareaholicUtilities::log('-----------------');
     if ($method == 'GET') {
       $response = wp_remote_get($url, array('body' => $data));
     } elseif ($method == 'POST') {
-      $response = wp_remote_post($url, array('body' => $data));
+      $request = array();
+      if ($data_type == 'json') {
+        $request['headers'] = array(
+          'Content-Type' => 'application/json'
+        );
+        $request['body'] = json_encode($data);
+      } else {
+        $request['body'] = $data;
+      }
+      $request['headers']['Accept'] = 'application/json';
+      $response = wp_remote_post($url, $request);
     }
+
     $result = $response['body'];
     return ShareaholicUtilities::object_to_array(json_decode($result)) ?
       ShareaholicUtilities::object_to_array(json_decode($result)) : $result;

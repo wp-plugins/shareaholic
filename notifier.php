@@ -24,7 +24,7 @@ class ShareaholicNotifier {
     $url = get_permalink($post_id);
     $tags = wp_get_post_tags($post_id, array('fields' => 'name'));
 
-    $categories = array_map(array(self, 'post_notify_iterator'), get_the_category($post_id));
+    $categories = array_map(array('ShareaholicNotifier', 'post_notify_iterator'), get_the_category($post_id));
 
     if (has_post_thumbnail($post_id)) {
       $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
@@ -70,7 +70,7 @@ class ShareaholicNotifier {
     $url = self::URL . '/notify';
     $response = ShareaholicCurl::post($url, $notification, 'json');
 
-    if ($response['result'] == 'success') {
+    if ($response && $response['result'] == 'success') {
       return true;
     } else {
       return false;

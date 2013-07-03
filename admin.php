@@ -222,7 +222,8 @@ class ShareaholicAdmin {
 
     }
 
-    ShareaholicUtilities::get_new_location_name_ids($settings['api_key']);
+    $api_key = ShareaholicUtilities::get_or_create_api_key();
+    ShareaholicUtilities::get_new_location_name_ids($api_key);
     self::draw_deprecation_warnings();
     self::draw_admin_form();
     self::draw_verify_api_key();
@@ -233,6 +234,7 @@ class ShareaholicAdmin {
    */
   public static function advanced_admin() {
     $settings = ShareaholicUtilities::get_settings();
+    $api_key = ShareaholicUtilities::get_or_create_api_key();
 
     if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
       ShareaholicUtilities::load_template('terms_of_service_modal', array(
@@ -252,7 +254,7 @@ class ShareaholicAdmin {
         }
       }
 
-      if ($_POST['shareaholic']['api_key'] != $settings['api_key']) {
+      if ($_POST['shareaholic']['api_key'] != $api_key) {
         ShareaholicUtilities::get_new_location_name_ids($_POST['shareaholic']['api_key']);
       }
 

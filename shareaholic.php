@@ -8,7 +8,7 @@
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.0.0.4
+Version: 7.0.0.5
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
@@ -39,7 +39,7 @@ require_once(SHAREAHOLIC_DIR . '/deprecation.php');
  */
 class Shareaholic {
   const URL = 'https://shareaholic.com';
-  const VERSION = '7.0.0.4';
+  const VERSION = '7.0.0.5';
   private static $instance = false;
 
   /**
@@ -95,16 +95,20 @@ class Shareaholic {
 
   /**
    * Runs any update code if the version is different from what's
-   * stored in the settings.
+   * stored in the settings. This will only run if we are on the
+   * shareaholic admin page to minimize any concurrency issues.
    */
   public static function update() {
-    if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
-      add_action('admin_notices', array('ShareaholicAdmin', 'show_terms_of_service'));
-    } else {
-      if (ShareaholicUtilities::get_version() != self::VERSION) {
-        ShareaholicUtilities::log_event("Upgrade", array ('previous_plugin_version' => ShareaholicUtilities::get_version()));
-        ShareaholicUtilities::perform_update();
-        ShareaholicUtilities::set_version(self::VERSION);
+    if (isset($_GET['page']) && preg_match('/shareaholic/', $_GET['page'])) {
+      if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
+        add_action('admin_notices', array('ShareaholicAdmin', 'show_terms_of_service'));
+      } else {
+        if (ShareaholicUtilities::get_version() != self::VERSION) {
+          ShareaholicUtilities::log_event("Upgrade", array ('previous_plugin_version' => ShareaholicUtilities::get_version()));
+          ShareaholicUtilities::perform_update();
+          ShareaholicUtilities::set_version(self::VERSION);
+          ShareaholicUtilities::recommendations_status_check();
+        }
       }
     }
   }
