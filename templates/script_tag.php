@@ -1,4 +1,4 @@
-<script data-cfasync='false' type='text/javascript'>
+<script type='text/javascript'>
   //<![CDATA[
     (function() {
       var shr = document.createElement('script');

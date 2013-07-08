@@ -71,7 +71,7 @@ h3 {
 }
 
 .reveal-modal {
-  width: 670px;
+  width: 720px;
   height: 600px;
   margin-left: -335px;
   position: fixed;
@@ -233,17 +233,25 @@ h4 {
   font-size: 14px;
 }
 
-    .blocking-modal .btn_main:hover {
-      background: #28cc8b;
-      color: white;
-      border: none;
-    }
+.blocking-modal .btn_main:hover {
+  background: #28cc8b;
+  color: white;
+  border: none;
+}
 
-    .blocking-modal .small {
-      font-size: 12px;
-      color: #888888;
-    }
+.blocking-modal .small {
+  font-size: 12px;
+  color: #888888;
+}
 
 input[type='text'] {
   width: 272px;
+}
+
+.settings_updated {
+  color: #fff;
+  text-shadow: 0px 1px 1px rgba(0,0,0,0.4);
+  font-size: 14px;
+  background-color: #45a147 !important;
+  border-color: #316632 !important;
 }

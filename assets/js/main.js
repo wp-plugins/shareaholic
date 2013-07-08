@@ -39,7 +39,7 @@ Shareaholic.click_objects = {
     callback: function(button) {
       id = $(button).data('location_id');
       app = $(button).data('app');
-      text = 'You can also this shortcode to place this {{app}} App anywhere.';
+      text = 'You can also use this shortcode to place this {{app}} App anywhere.';
       html = "<div id='shortcode_container'> \
         <span id='shortcode_description'></span> \
         <textarea id='shortcode' name='widget_div' onclick='select();' readonly='readonly'></textarea> \

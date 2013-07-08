@@ -25,17 +25,20 @@ class ShareaholicAdmin {
   }
   
   /**
-   * Adds meta boxes for post options
+   * Adds meta boxes for post and page options
    */
-  public static function add_meta_boxes($post) {
-    add_meta_box(
-      'shareaholic',
-      'Shareaholic',
-      array('ShareaholicAdmin', 'meta_box'),
-      'post',
-      'side',
-      'low'
-    );
+  public static function add_meta_boxes() {
+    $screens = array( 'post', 'page' );
+    foreach ($screens as $screen) {
+      add_meta_box(
+        'shareaholic',
+        'Shareaholic',
+        array('ShareaholicAdmin', 'meta_box'),
+        $screen,
+        'side',
+        'low'
+      );
+    }
   }
 
   /**
@@ -243,7 +246,7 @@ class ShareaholicAdmin {
     }
 
     if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y') {
-      echo "<div class='updated'><p><strong>Saved.</strong></p></div>";
+      echo "<div class='updated settings_updated'><p><strong>". sprintf(__('Settings successfully saved', 'shareaholic')) . "</strong></p></div>";
       foreach (array('disable_tracking', 'disable_og_tags') as $setting) {
         if (isset($settings[$setting]) &&
             !isset($_POST['shareaholic'][$setting]) &&
@@ -254,15 +257,21 @@ class ShareaholicAdmin {
         }
       }
 
-      if ($_POST['shareaholic']['api_key'] != $api_key) {
+      if (isset($_POST['shareaholic']['api_key']) && $_POST['shareaholic']['api_key'] != $api_key) {
         ShareaholicUtilities::get_new_location_name_ids($_POST['shareaholic']['api_key']);
       }
-
-      ShareaholicUtilities::update_options(array(
-        'disable_tracking' => $_POST['shareaholic']['disable_tracking'],
-        'disable_og_tags' => $_POST['shareaholic']['disable_og_tags'],
-        'api_key' => $_POST['shareaholic']['api_key']
-      ));
+      
+      if (isset($_POST['shareaholic']['api_key'])) {
+        ShareaholicUtilities::update_options(array('api_key' => $_POST['shareaholic']['api_key']));
+      }
+      
+      if (isset($_POST['shareaholic']['disable_tracking'])) {
+        ShareaholicUtilities::update_options(array('disable_tracking' => $_POST['shareaholic']['disable_tracking']));
+      }
+            
+      if (isset($_POST['shareaholic']['disable_og_tags'])) {
+        ShareaholicUtilities::update_options(array('disable_og_tags' => $_POST['shareaholic']['disable_og_tags']));
+      }      
     }
 
     ShareaholicUtilities::load_template('advanced_settings', array(

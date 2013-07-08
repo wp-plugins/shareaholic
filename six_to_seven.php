@@ -273,7 +273,7 @@ class ShareaholicSixToSeven {
    */
   private static function transform_classicbookmarks_locations($classicbookmarks_configuration) {
     $result = array(
-      'services' => array('facebook', 'twitter', 'email_this', 'pinterest', 'tumblr', 'google_plus', 'linked_in'),
+      'services' => array('facebook', 'twitter', 'email_this', 'pinterest', 'tumblr', 'google_plus', 'linkedin'),
     );
 
     if ($classicbookmarks_configuration['size'] == '16') {

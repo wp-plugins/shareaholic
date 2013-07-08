@@ -8,7 +8,7 @@
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.0.0.5
+Version: 7.0.0.6
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
@@ -39,7 +39,7 @@ require_once(SHAREAHOLIC_DIR . '/deprecation.php');
  */
 class Shareaholic {
   const URL = 'https://shareaholic.com';
-  const VERSION = '7.0.0.5';
+  const VERSION = '7.0.0.6';
   private static $instance = false;
 
   /**
@@ -88,7 +88,8 @@ class Shareaholic {
    */
   public static function init() {
     self::update();
-    if (ShareaholicUtilities::has_accepted_terms_of_service()) {
+    if (ShareaholicUtilities::has_accepted_terms_of_service() &&
+      isset($_GET['page']) && preg_match('/shareaholic/', $_GET['page'])) {
       ShareaholicUtilities::get_or_create_api_key();
     }
   }

@@ -61,7 +61,7 @@ class ShareaholicUtilities {
    */
   private static function defaults() {
     return array(
-      'disable_tracking' => false,
+      'disable_tracking' => 'off',
       'api_key' => '',
       'verification_key' => '',
     );
@@ -254,6 +254,14 @@ class ShareaholicUtilities {
     if (self::get_version() && intval(self::get_version()) <= 6) {
       // an update so big, it gets it's own class!
       ShareaholicSixToSeven::update();
+    }
+    if (self::get_option('metakey_6to7_upgraded') != 'true') {
+      global $wpdb;
+      $results = $wpdb->query( "UPDATE `wp_postmeta` SET `meta_key` = 'shareaholic_disable_open_graph_tags' WHERE `meta_key` = 'Hide OgTags'" );
+      $results = $wpdb->query( "UPDATE `wp_postmeta` SET `meta_key` = 'shareaholic_disable_share_buttons' WHERE `meta_key` = 'Hide SexyBookmarks'" );
+      self::update_options(array('disable_tracking' => 'off'));
+      self::update_options(array('disable_og_tags' => 'off'));
+      self::update_options(array('metakey_6to7_upgraded' => 'true'));
     }
     // any other things that need to be updated
   }

@@ -51,43 +51,54 @@ class ShareaholicPublic {
    */
   public static function tracking_meta_tag() {
     $settings = ShareaholicUtilities::get_settings();
-    if ($settings['disable_tracking']) {
+    if ($settings['disable_tracking'] == "on") {
       echo '<meta name="shareaholic:analytics" content="disabled" />';
     }
   }
 
   /**
-   * Draws the two shareaholic meta tags.
+   * Draws the shareaholic meta tags.
    */
   private static function shareaholic_tags() {
     echo "\n<!-- Shareaholic Content Tags (v" . ShareaholicUtilities::get_version() . ") -->\n";
     self::draw_site_name_meta_tag();
+    self::draw_language_meta_tag();
     self::draw_image_meta_tag();
     echo "\n<!-- Shareaholic Content Tags End -->\n";
   }
 
   /**
-   * Draws our specific site name meta tag.
+   * Draws Shareaholic language meta tag.
    */
-  private static function draw_site_name_meta_tag() {
-    $blog_name = get_bloginfo();
-    if (!empty($blog_name)) {
-      echo "<meta property='shareaholic:site_name' content='" . $blog_name . "' />\n";
+  private static function draw_language_meta_tag() {
+    $blog_language = get_bloginfo('language');
+    if (!empty($blog_language)) {
+      echo "<meta name='shareaholic:language' content='" . $blog_language . "' />\n";
     }
   }
 
   /**
-   * Draws our specific image tag. Will only run on pages or posts.
+   * Draws Shareaholic site name meta tag.
+   */
+  private static function draw_site_name_meta_tag() {
+    $blog_name = get_bloginfo();
+    if (!empty($blog_name)) {
+      echo "<meta name='shareaholic:site_name' content='" . $blog_name . "' />\n";
+    }
+  }
+
+  /**
+   * Draws Shareaholic image tag. Will only run on pages or posts.
    */
   private static function draw_image_meta_tag() {
     global $post;
     if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
       if (has_post_thumbnail($post->ID)) {
         $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
-        echo "<meta property='shareaholic:image' content='" . esc_attr($thumbnail_src[0]) . "' />";
+        echo "<meta name='shareaholic:image' content='" . esc_attr($thumbnail_src[0]) . "' />";
       } else {
         if ($first_image = self::post_first_image()) {
-          echo "<meta property='shareaholic:image' content='" . $first_image . "' />";
+          echo "<meta name='shareaholic:image' content='" . $first_image . "' />";
         }
       }
     }
@@ -102,7 +113,7 @@ class ShareaholicPublic {
     if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
       global $post;
 
-      if (!get_post_meta($post->ID, 'shareaholic_disable_open_graph_tags', true)) {
+      if (!get_post_meta($post->ID, 'shareaholic_disable_open_graph_tags', true) && $settings['disable_og_tags'] == "off") {
         if (has_post_thumbnail($post->ID)) {
           $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
           echo "\n<!-- Shareaholic Open Graph Tags -->\n";
@@ -156,7 +167,6 @@ class ShareaholicPublic {
     global $post;
     $settings = ShareaholicUtilities::get_settings();
     $page_type = ShareaholicUtilities::page_type();
-
     foreach (array('share_buttons', 'recommendations') as $app) {
       if (!get_post_meta($post->ID, "shareaholic_disable_{$app}", true)) {
         if (isset($settings[$app]["{$page_type}_above_content"]) &&
