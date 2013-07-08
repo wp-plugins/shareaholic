@@ -1,11 +1,20 @@
 <?php
 /**
+ * This file holds the ShareaholicAdmin class.
+ *
  * @package shareaholic
  */
+
 /**
  * This class takes care of all of the admin interface.
+ *
+ * @package shareaholic
  */
 class ShareaholicAdmin {
+  /**
+   * Load the terms of service notice that shows up
+   * at the top of the admin pages.
+   */
   public static function show_terms_of_service() {
     ShareaholicUtilities::load_template('terms_of_service_notice');
   }
@@ -19,11 +28,11 @@ class ShareaholicAdmin {
 
   /**
    * Renders SnapEngage
-   */  
+   */
   public static function include_snapengage() {
     ShareaholicUtilities::load_template('script_snapengage');
   }
-  
+
   /**
    * Adds meta boxes for post and page options
    */
@@ -260,18 +269,18 @@ class ShareaholicAdmin {
       if (isset($_POST['shareaholic']['api_key']) && $_POST['shareaholic']['api_key'] != $api_key) {
         ShareaholicUtilities::get_new_location_name_ids($_POST['shareaholic']['api_key']);
       }
-      
+
       if (isset($_POST['shareaholic']['api_key'])) {
         ShareaholicUtilities::update_options(array('api_key' => $_POST['shareaholic']['api_key']));
       }
-      
+
       if (isset($_POST['shareaholic']['disable_tracking'])) {
         ShareaholicUtilities::update_options(array('disable_tracking' => $_POST['shareaholic']['disable_tracking']));
       }
-            
+
       if (isset($_POST['shareaholic']['disable_og_tags'])) {
         ShareaholicUtilities::update_options(array('disable_og_tags' => $_POST['shareaholic']['disable_og_tags']));
-      }      
+      }
     }
 
     ShareaholicUtilities::load_template('advanced_settings', array(
@@ -280,6 +289,10 @@ class ShareaholicAdmin {
     ));
   }
 
+  /**
+   * Checks for any deprecations and then shows them
+   * to the end user.
+   */
   private static function draw_deprecation_warnings() {
     $deprecations = ShareaholicDeprecation::all();
     if (!empty($deprecations)) {

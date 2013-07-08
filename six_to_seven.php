@@ -1,11 +1,16 @@
 <?php
 /**
+ * This file holds the ShareaholicSixToSeven class.
+ *
  * @package shareaholic
  */
+
 /**
  * This class is in charge or extracting the old style of configuration
  * from the wordpress database and turning it into a format that we
  * can POST back to shareaholic.com to create a new publisher configuration.
+ *
+ * @package shareaholic
  */
 class ShareaholicSixToSeven {
   /**
@@ -68,15 +73,8 @@ class ShareaholicSixToSeven {
       self::transform_shortener_configuration($sexybookmarks_configuration) : array());
     $new_configuration = array_merge($new_configuration, $shortener_configuration);
 
-    $result = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', $new_configuration, 'json');
-    if (!$result) {
-      ShareaholicUtilities::log_event('6To7ConversionFailed', array(
-        'the_posted_json' => $new_configuration,
-        'SexyBookmarks' => $sexybookmarks_configuration,
-        'ShareaholicClassicBookmarks' => $classicbookmarks_configuration,
-        'ShareaholicRecommendations' => $recommendations_configuration
-      ));
-    } else {
+    $response = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', $new_configuration, 'json');
+    if ($response && preg_match('/20*/', $response['response']['code'])) {
       ShareaholicUtilities::log_event('6To7ConversionSuccess', array(
         'the_posted_json' => $new_configuration,
         'the_created_api_key' => $result['api_key'],
@@ -86,15 +84,22 @@ class ShareaholicSixToSeven {
       ));
 
       ShareaholicUtilities::update_options(array(
-        'api_key' => $result['api_key'],
+        'api_key' => $response['body']['api_key'],
         'version' => Shareaholic::VERSION,
         'verification_key' => $verification_key,
-        'location_name_ids' => (array)$result['location_name_ids']
+        'location_name_ids' => $response['body']['location_name_ids']
       ));
 
-      ShareaholicUtilities::turn_on_locations((array)$result['location_name_ids']);
+      ShareaholicUtilities::turn_on_locations($response['body']['location_name_ids']);
 
       self::transform_wordpress_specific_settings();
+    } else {
+      ShareaholicUtilities::log_event('6To7ConversionFailed', array(
+        'the_posted_json' => $new_configuration,
+        'SexyBookmarks' => $sexybookmarks_configuration,
+        'ShareaholicClassicBookmarks' => $classicbookmarks_configuration,
+        'ShareaholicRecommendations' => $recommendations_configuration
+      ));
     }
   }
 
@@ -268,7 +273,6 @@ class ShareaholicSixToSeven {
    * Returns a configuration if the user was using classicbookmarks.
    *
    * @param  array $classicbookmarks_configuration
-   * @param  array $share_buttons_configuration
    * @return array
    */
   private static function transform_classicbookmarks_locations($classicbookmarks_configuration) {
@@ -323,6 +327,13 @@ class ShareaholicSixToSeven {
     return array_map(array('self', 'services_iterator'), $services);
   }
 
+  /**
+   * Because PHP < 5.3 doesn't support anonymous functions, this serves
+   * as the mapping function for the above method.
+   *
+   * @param  string $value
+   * @return string
+   */
   private static function services_iterator($value) {
     if (preg_match('/googleplus/', $value)) {
       // it's stored as googleplus in wordpress, but

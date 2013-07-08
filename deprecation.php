@@ -8,8 +8,15 @@
 /**
  * This class keeps track of various deprecations and what files
  * and line numbers they occur on.
+ *
+ * @package shareaholic
  */
 class ShareaholicDeprecation {
+  /**
+   * Constructor for the `ShareaholicDeprecation` class.
+   *
+   * @param string $function the name of a function.
+   */
   public function __construct($function) {
     $this->function = $function;
     $deprecations = get_option('shareaholic_deprecations');

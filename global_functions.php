@@ -5,6 +5,13 @@
  * @package shareaholic
  */
 
+/**
+ * The old 'shortcode' function, which wasn't a real
+ * WordPress shortcode. This is currently deprecated so it
+ * logs that fact.
+ *
+ * @deprecated beginning with the release of 7.0.0.0
+ */
 function selfserv_shareaholic() {
   $trace = debug_backtrace();
   $deprecation = new ShareaholicDeprecation('selfserv_shareaholic');
@@ -12,6 +19,13 @@ function selfserv_shareaholic() {
   echo ShareaholicPublic::canvas(NULL, 'share_buttons');
 }
 
+/**
+ * Another old 'shortcode' function. Because this accepts a position
+ * (either 'Top' or 'Bottom') it requres a little more finessing in
+ * its implementation.
+ *
+ * @param string $position either 'Top' or 'Bottom'
+ */
 function get_shr_like_buttonset($position) {
   $trace = debug_backtrace();
   $deprecation = new ShareaholicDeprecation('get_shr_like_buttonset');

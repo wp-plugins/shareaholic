@@ -1,11 +1,15 @@
 <?php
 /**
+ * Holds the ShareaholicPublic class.
+ *
  * @package shareaholic
  */
 
 /**
  * This class is all about drawing the stuff in publishers'
  * templates that visitors can see.
+ *
+ * @package shareaholic
  */
 class ShareaholicPublic {
   /**

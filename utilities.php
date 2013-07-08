@@ -1,5 +1,7 @@
 <?php
 /**
+ * Holds the ShareaholicUtilities class.
+ *
  * @package shareaholic
  */
 
@@ -9,6 +11,8 @@ require_once(SHAREAHOLIC_DIR . '/six_to_seven.php');
 /**
  * This class is just a holder for general functions that have
  * no better place to be.
+ *
+ * @package shareaholic
  */
 class ShareaholicUtilities {
   /**
@@ -66,12 +70,13 @@ class ShareaholicUtilities {
       'verification_key' => '',
     );
   }
-  
+
   /**
    * Returns links to add to the plugin options admin page
    *
+   * @param  array $links
    * @return array
-   */ 
+   */
   public static function admin_plugin_action_links($links) {
   	$links[] = '<a href="admin.php?page=shareaholic-settings">'.__('Settings', 'shareaholic').'</a>';
   	return $links;
@@ -316,7 +321,8 @@ class ShareaholicUtilities {
     }
 
     $api_key = self::get_or_create_api_key();
-    $result = ShareaholicCurl::get(Shareaholic::URL . '/publisher_tools/' . $api_key . '/verified');
+    $response = ShareaholicCurl::get(Shareaholic::URL . '/publisher_tools/' . $api_key . '/verified');
+    $result = $response['body'];
 
     if ($result == 'true') {
       ShareaholicUtilities::update_options(array(
@@ -351,26 +357,20 @@ class ShareaholicUtilities {
    * @param string $api_key
    */
   public static function get_new_location_name_ids($api_key) {
-    $publisher_configuration = ShareaholicCurl::get(Shareaholic::URL . "/publisher_tools/{$api_key}.json");
+    $response = ShareaholicCurl::get(Shareaholic::URL . "/publisher_tools/{$api_key}.json");
+    $publisher_configuration = $response['body'];
     $result = array();
 
-    $load_fail_template = false;
-    if ($publisher_configuration) {
+    if ($publisher_configuration && is_array($publisher_configuration)) {
       foreach (array('share_buttons', 'recommendations') as $app) {
-        if (isset($publisher_configuration['apps'][$app]['locations'])) {
-          foreach ($publisher_configuration['apps'][$app]['locations'] as $id => $location) {
-            $result[$app][$location['name']] = $id;
-          }
-        } else {
-          $load_fail_template = true;
+        foreach ($publisher_configuration['apps'][$app]['locations'] as $id => $location) {
+          $result[$app][$location['name']] = $id;
         }
       }
 
-      if ($load_fail_template) {
-        ShareaholicUtilities::load_template('failed_to_create_api_key_modal');
-      }
-
       self::update_location_name_ids($result);
+    } else {
+      ShareaholicUtilities::load_template('failed_to_create_api_key_modal');
     }
   }
 
@@ -403,14 +403,28 @@ class ShareaholicUtilities {
    * Returns the api key or creates a new one.
    */
   public static function get_or_create_api_key() {
+    $trace = debug_backtrace();
+    $old_timezone = date_default_timezone_get();
+    date_default_timezone_set('UTC');
+    $things_to_log = array(
+      'request_uri' => $_SERVER['REQUEST_URI'],
+      'calling_location' => $trace[0]['file'] . ':' . $trace[0]['line'],
+      'time' => date('l jS \of F Y h:i:s A')
+    );
+    date_default_timezone_set($old_timezone);
+
+    ShareaholicUtilities::log($things_to_log);
+
     $settings = self::get_settings();
     if (isset($settings['api_key']) && !empty($settings['api_key'])) {
       return $settings['api_key'];
     }
     delete_option('shareaholic_settings');
 
+    ShareaholicUtilities::log_event('CreatingNewApiKey', $things_to_log);
+
     $verification_key = md5(mt_rand());
-    $result = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', array(
+    $response = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', array(
       'configuration_publisher' => array(
         'verification_key' => $verification_key,
         'site_name' => get_bloginfo('name'),
@@ -435,19 +449,24 @@ class ShareaholicUtilities {
       )
     ));
 
-    if ($result) {
+    if ($response && preg_match('/20*/', $response['response']['code'])) {
       self::update_options(array(
-        'api_key' => $result['api_key'],
+        'api_key' => $response['body']['api_key'],
         'verification_key' => $verification_key,
-        'location_name_ids' => $result['location_name_ids']
+        'location_name_ids' => $response['body']['location_name_ids']
       ));
 
-      ShareaholicUtilities::turn_on_locations($result['location_name_ids']);
+      ShareaholicUtilities::turn_on_locations($response['body']['location_name_ids']);
     } else {
       add_action('admin_notices', array('ShareaholicAdmin', 'failed_to_create_api_key'));
     }
   }
 
+  /**
+   * Returns the site's url stripped of protocol.
+   *
+   * @return string
+   */
   public static function site_url() {
     return preg_replace('/https?:\/\//', '', site_url());
   }
@@ -458,6 +477,10 @@ class ShareaholicUtilities {
    * of appending the values.
    *
    * http://www.php.net/manual/en/function.array-merge-recursive.php#92195
+   *
+   * @param  array $array1
+   * @param  array $array2
+   * @return array
    */
   public static function array_merge_recursive_distinct ( array &$array1, array &$array2 )
   {
@@ -484,6 +507,8 @@ class ShareaholicUtilities {
 
   /**
    * Array casting an object is not recursive, this makes it recursive
+   *
+   * @param object $d
    *
    * http://www.if-not-true-then-false.com/2009/php-tip-convert-stdclass-object-to-multidimensional-array-and-convert-multidimensional-array-to-stdclass-object/
    */
@@ -520,7 +545,7 @@ class ShareaholicUtilities {
   		'plugin_version' => Shareaholic::VERSION,
   		'api_key' => self::get_option('api_key'),
   		'domain' => get_bloginfo('url'),
-  		'locale' => get_bloginfo('language'),
+  		'language' => get_bloginfo('language'),
   		'stats' => array (
   		  'posts_total' => $wpdb->get_var( "SELECT count(ID) FROM $wpdb->posts where post_type = 'post' AND post_status = 'publish'" ),
   		  'pages_total' => $wpdb->get_var( "SELECT count(ID) FROM $wpdb->posts where post_type = 'page' AND post_status = 'publish'" ),
@@ -548,7 +573,7 @@ class ShareaholicUtilities {
 
   	// var_dump($event_params);
 
-    $result = ShareaholicCurl::post($event_api_url, $event_params);
+    $response = ShareaholicCurl::post($event_api_url, $event_params);
   	// $result = wp_remote_post($event_api_url, array('body' => $event_params) );
   }
 

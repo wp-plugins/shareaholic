@@ -1,10 +1,15 @@
 <?php
 /**
+ * Holds the ShareaholicQueryStringBuilder class.
+ *
  * @package shareaholic
  */
+
 /**
  * This class builds query strings, because PHP's built in
  * version doesn't deal with non-associative arrays correctly.
+ *
+ * @package shareaholic
  */
 class ShareaholicQueryStringBuilder {
 
@@ -76,6 +81,15 @@ class ShareaholicQueryStringBuilder {
     ));
   }
 
+  /**
+   * Because PHP < 5.3 doesn't support anonymous functions, this serves
+   * as the mapping function for the above method.
+   *
+   * @param  mixed $value
+   * @param  string $key
+   * @param  string $namespace
+   * @return string
+   */
   private static function assoc_array_to_param_iterator($value, $key, $namespace) {
     $new_key = ($namespace ? "{$namespace}[$key]" : $key);
     return ShareaholicQueryStringBuilder::to_param($value, $new_key);
@@ -105,6 +119,14 @@ class ShareaholicQueryStringBuilder {
     return implode("&", array_map(array('self', 'array_to_param_iterator'), $array, $prefix_array));
   }
 
+  /**
+   * Because PHP < 5.3 doesn't support anonymous functions, this serves
+   * as the mapping function for the above method.
+   *
+   * @param  mixed $value
+   * @param  string $prefix
+   * @return string
+   */
   private static function array_to_param_iterator($value, $prefix) {
     return ShareaholicQueryStringBuilder::to_param($value, $prefix);
   }

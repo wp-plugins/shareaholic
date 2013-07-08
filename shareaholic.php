@@ -1,14 +1,16 @@
 <?php
 /**
+ * The main and first file!
+ *
  * @package shareaholic
- * @version 7
+ * @version 7.0.0.7
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.0.0.6
+Version: 7.0.0.7
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
@@ -36,10 +38,16 @@ require_once(SHAREAHOLIC_DIR . '/deprecation.php');
 
 /**
  * The main / base class.
+ *
+ * @package shareaholic
  */
 class Shareaholic {
   const URL = 'https://shareaholic.com';
-  const VERSION = '7.0.0.6';
+  const VERSION = '7.0.0.7';
+  /**
+   * Starts off as false so that ::get_instance() returns
+   * a new instance.
+   */
   private static $instance = false;
 
   /**
@@ -64,7 +72,7 @@ class Shareaholic {
     register_activation_hook(__FILE__, array($this, 'after_activation' ));
     register_deactivation_hook( __FILE__, array($this, 'deactivate' ));
     register_uninstall_hook(__FILE__, array('Shareaholic', 'uninstall' ));
-    
+
     add_filter( 'plugin_action_links_'.plugin_basename(__FILE__), 'ShareaholicUtilities::admin_plugin_action_links', -10);
   }
 
@@ -114,6 +122,9 @@ class Shareaholic {
     }
   }
 
+  /**
+   * Checks whether to ask the user to accept the terms of service or not.
+   */
   public function terms_of_service() {
     if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
       add_action('admin_notices', array('ShareaholicAdmin', 'show_terms_of_service'));

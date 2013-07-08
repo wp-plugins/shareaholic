@@ -1,5 +1,7 @@
 <?php
 /**
+ * This file holds the ShareaholicCurl class.
+ *
  * @package shareaholic
  */
 
@@ -8,6 +10,8 @@ require_once(SHAREAHOLIC_DIR . '/query_string_builder.php');
 /**
  * This class is a library to easily interface with PHP's native
  * cURL library. It exposes two methods `get` and `post`.
+ *
+ * @package shareaholic
  */
 class ShareaholicCurl {
   /**
@@ -30,6 +34,7 @@ class ShareaholicCurl {
    *
    * @param string $url   the url you are GETing to
    * @param array  $data  an associative array of the data you are posting
+   * @param string $data_type defaults to nothing, you can pass in 'json'
    *
    * @return array the returned data json decoded
    */
@@ -71,9 +76,17 @@ class ShareaholicCurl {
       $response = wp_remote_post($url, $request);
     }
 
-    $result = $response['body'];
-    return ShareaholicUtilities::object_to_array(json_decode($result)) ?
-      ShareaholicUtilities::object_to_array(json_decode($result)) : $result;
+    if( is_wp_error( $response ) ) {
+     $error_message = $response->get_error_message();
+     ShareaholicUtilities::log($error_message);
+     return false;
+    }
+    else {
+      $body = $response['body'];
+      $response['body'] = ShareaholicUtilities::object_to_array(json_decode($body)) ?
+        ShareaholicUtilities::object_to_array(json_decode($body)) : $body;
+      return $response;
+    }
   }
 
   /**
