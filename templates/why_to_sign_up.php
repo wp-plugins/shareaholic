@@ -17,8 +17,8 @@
 }
 
 .promoh1{
-	font-size: 34px;
-	line-height: 20px;
+	font-size: 24px;
+	line-height: 28px;
 	margin: 10px 0 0 0;
 	padding: 0;
 	text-shadow: 0px 1px 0px rgba(0,0,0,0.4);
@@ -26,6 +26,7 @@
 
 .promosub{
 	color: black;
+	margin: 10px 0 0 0;
 	font-weight: bold;
 }
 
@@ -90,14 +91,15 @@ margin: 10px 0px;
 
 
 <div class="signuppromo unit size1of5">
-<p class="promoh1">Like to tinker?</p>
-<p class="promosub">Customize even more with a FREE Shareaholic account.</p>
+<p class="promoh1">Customize even more with a FREE Shareaholic account.</p>
+<p class="promosub">Such as:</p>
 
 <ul>
-<li>Customize tweets coming from your website.</li>
-<li>Choose your URL Shortener, or use your own.</li>
-<li>Choose from various themes and styles.</li>
-<li>Plus tons of great features and customization options.</li>
+  <li>Customize tweets coming from your website.</li>
+  <li>Choose your URL Shortener, or use your own.</li>
+  <li>Choose from various themes and styles.</li>
+  <li>Exclude pages from Recommendations engine.</li>
+  <li>Plus tons of great features and customization options.</li>
 </ul>
 <button data-href='edit' id='general_settings' class="btn btn-large"><?php echo sprintf(__('Edit General Website Settings', 'shareaholic')); ?></button>
 </div>
