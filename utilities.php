@@ -571,10 +571,7 @@ class ShareaholicUtilities {
   	$event_api_url = Shareaholic::URL . '/api/events';
   	$event_params = array('name' => "WordPress:".$event_name, 'data' => json_encode($event_metadata) );
 
-  	// var_dump($event_params);
-
     $response = ShareaholicCurl::post($event_api_url, $event_params);
-  	// $result = wp_remote_post($event_api_url, array('body' => $event_params) );
   }
 
   /**
@@ -583,7 +580,19 @@ class ShareaholicUtilities {
    */
    public static function recommendations_status_check() {
   	$recommendations_status_api_url = Shareaholic::URL . "/v2/recommendations/status?url=" . get_bloginfo('url');
-    $result = ShareaholicCurl::get($recommendations_status_api_url);
+    $response = ShareaholicCurl::get($recommendations_status_api_url);
+    if(is_array($response) && array_key_exists('body', $response)) {
+      $body = $response['body'];
+      if (is_array($body) && $body['code'] == 200) {
+        if ($body['data'][0]['status_code'] < 3) {
+          return "processing";
+        } else {
+          return "ready";
+        }
+      } else {
+        return "unknown";
+      }
+    }
    }
 
 }

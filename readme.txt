@@ -141,7 +141,7 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Changelog ==
 
-= 7.0.0.8 =
+= 7.0.0.9 =
 * Several bug fixes, in addition to -
 * Huge update! The plugin has been completely re-written from the ground up to be faster, simpler to use
 * Choose from snazzy new Related Post themes
@@ -155,6 +155,7 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 * Bugfix: Facebook Debugger will no longer show "Parser Mismatched Metadata" warnings
 * Bugfix: Page titles are now properly encoded
 * More robust curl function, more robust plugin
+* Show Related Posts data status
 
 = 6.1.3.8 =
 * Bugfix: fixed "Cannot use object of type WP_Error"
@@ -875,7 +876,7 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Upgrade Notice ==
 
-= 7.0.0.8 =
+= 7.0.0.9 =
 * Huge update! Completely re-written from the ground up to be faster and with a new simple interface! Includes brand new Share button themes (including vertical share buttons!) and Related posts themes. Related Posts now come mobile optimized and responsive out of the box - Shareaholic automagically determines how many Related Posts to show given how much screen width it is given. You can now even customize your "You may also like" text and exclude URLs.
 
 = 6.1.3.5 =

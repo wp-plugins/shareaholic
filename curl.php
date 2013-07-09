@@ -61,7 +61,7 @@ class ShareaholicCurl {
     ShareaholicUtilities::log($method);
     ShareaholicUtilities::log('-----------------');
     if ($method == 'GET') {
-      $response = wp_remote_get($url, array('body' => $data));
+      $response = wp_remote_get($url, array('body' => $data, 'sslverify'=>false));
     } elseif ($method == 'POST') {
       $request = array();
       if ($data_type == 'json') {
@@ -73,19 +73,22 @@ class ShareaholicCurl {
         $request['body'] = $data;
       }
       $request['headers']['Accept'] = 'application/json';
+      $request['sslverify'] = false;
       $response = wp_remote_post($url, $request);
     }
 
-    if( is_wp_error( $response ) ) {
+    if (is_wp_error($response)) {
      $error_message = $response->get_error_message();
      ShareaholicUtilities::log($error_message);
      return false;
     }
     else {
-      $body = $response['body'];
-      $response['body'] = ShareaholicUtilities::object_to_array(json_decode($body)) ?
-        ShareaholicUtilities::object_to_array(json_decode($body)) : $body;
-      return $response;
+      if(is_array($response) && array_key_exists('body', $response)) {
+        $body = $response['body'];
+        $response['body'] = ShareaholicUtilities::object_to_array(json_decode($body)) ?
+          ShareaholicUtilities::object_to_array(json_decode($body)) : $body;
+        return $response;
+      }
     }
   }
 
