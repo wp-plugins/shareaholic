@@ -206,12 +206,14 @@ class ShareaholicPublic {
   public static function canvas($id, $app) {
     global $post, $wp_query;
     $page_type = ShareaholicUtilities::page_type();
-    return "<div class='shareaholic-canvas'
+    $canvas = "<div class='shareaholic-canvas'
       data-app-id='$id'
       data-app='$app'
       data-title='" . htmlspecialchars($post->post_title, ENT_QUOTES) . "'
       data-link='" . get_permalink($post->ID) . "'
       data-summary='" . urlencode(strip_tags(strip_shortcodes($post->post_excerpt))) . "'></div>";
+
+    return trim(preg_replace('/\s+/', ' ', $canvas));
   }
 }
 

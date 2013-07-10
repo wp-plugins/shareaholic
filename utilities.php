@@ -423,8 +423,6 @@ class ShareaholicUtilities {
     }
     delete_option('shareaholic_settings');
 
-    ShareaholicUtilities::log_event('CreatingNewApiKey', $things_to_log);
-
     $verification_key = md5(mt_rand());
     $response = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', array(
       'configuration_publisher' => array(

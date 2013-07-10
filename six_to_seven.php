@@ -216,13 +216,16 @@ class ShareaholicSixToSeven {
    *               include 'shortener_api_key' and 'shortener_login'
    */
   private static function transform_shortener_configuration($share_buttons_configuration) {
-    $shortener = $share_buttons_configuration['shorty'];
+    $shortener = isset($share_buttons_configuration['shorty']) ? $share_buttons_configuration['shorty'] : NULL;
 
     switch ($shortener) {
       case 'goog':
         return array('shortener' => 'googl');
+        break;
       case 'tiny':
         return array('shortener' => 'tinyurl');
+        break;
+      case 'shrlc':
       case 'yourls':
       case 'tflp':
       case 'slly':
@@ -235,9 +238,13 @@ class ShareaholicSixToSeven {
       case 'awesm':
       case 'supr':
         return array('shortener' => 'shrlc');
+        break;
+      case '':
+        return array('shortener' => 'shrlc');
+        break;
       default:
         return array(
-          'shortener' => $shortener,
+          'shortener' => $shortener ? $shortener : 'shrlc',
           'shortener_api_key' => (isset($share_buttons_configuration['shortyapi'][$shortener]['key'])
             ? $share_buttons_configuration['shortyapi'][$shortener]['key'] : ''),
           'shortener_login' => (isset($share_buttons_configuration['shortyapi'][$shortener]['user'])
