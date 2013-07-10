@@ -68,9 +68,7 @@ Shareaholic.click_objects = {
 
 Shareaholic.Utils.PostMessage.receive('settings_saved', {
   success: function(data) {
-    setTimeout(function(){
-      $('input[type="submit"]').click();
-    }, 100);
+    $('input[type="submit"]').click();
   },
   failure: function(data) {
     console.log(data);

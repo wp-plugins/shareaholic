@@ -26,6 +26,14 @@
         <input type='submit' value='<?php echo sprintf(__('Save Changes', 'shareaholic')); ?>'>
       </div>
     </form>
+
+    <form name='reset_settings' method='post' action='<?php echo $action ?>'>
+      <input type='hidden' name='reset_settings' value='Y'>
+      <fieldset>
+        <p>Clicking this button will reset all of your settings and start you from scratch.</p>
+        <input type='submit' value='<?php echo sprintf(__('Reset Everything', 'shareaholic')); ?>'>
+      </fieldset>
+    </form>
   </div>
 </div>
 <?php ShareaholicAdmin::include_snapengage(); ?>

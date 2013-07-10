@@ -204,7 +204,7 @@ class ShareaholicAdmin {
     $action = str_replace( '%7E', '~', $_SERVER['REQUEST_URI']);
     if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y' &&
         check_admin_referer($action, 'nonce_field')) {
-      echo "<div class='updated'><p><strong>Saved.</strong></p></div>";
+      echo "<div class='updated settings_updated'><p><strong>". sprintf(__('Settings successfully saved', 'shareaholic')) . "</strong></p></div>";
 
       /*
        * only checked check boxes are submitted, so we have to iterate
@@ -234,8 +234,11 @@ class ShareaholicAdmin {
 
     }
 
-    $api_key = ShareaholicUtilities::get_or_create_api_key();
-    ShareaholicUtilities::get_new_location_name_ids($api_key);
+    if (ShareaholicUtilities::has_accepted_terms_of_service()) {
+      $api_key = ShareaholicUtilities::get_or_create_api_key();
+      ShareaholicUtilities::get_new_location_name_ids($api_key);
+    }
+
     self::draw_deprecation_warnings();
     self::draw_admin_form();
     self::draw_verify_api_key();
@@ -252,6 +255,13 @@ class ShareaholicAdmin {
       ShareaholicUtilities::load_template('terms_of_service_modal', array(
         'image_url' => SHAREAHOLIC_ASSET_DIR . 'img'
       ));
+    }
+
+    if(isset($_POST['reset_settings']) && $_POST['reset_settings'] == 'Y') {
+      ShareaholicUtilities::destroy_settings();
+      echo "<div class='updated settings_updated'><p><strong>"
+        . sprintf(__('Settings successfully reset. Refresh this page to complete the reset.', 'shareaholic'))
+        . "</strong></p></div>";
     }
 
     if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y') {

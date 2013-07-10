@@ -51,10 +51,20 @@ class ShareaholicUtilities {
    * get the shareaholic settings. If the settings
    * have not been set it will return an array of defaults.
    *
-   * @return mixed
+   * @return array
    */
   public static function get_settings() {
     return get_option('shareaholic_settings', self::defaults());
+  }
+
+  /**
+   * Destroys all settings except the acceptance
+   * of the terms of service.
+   *
+   * @return bool
+   */
+  public static function destroy_settings() {
+    return delete_option('shareaholic_settings');
   }
 
   /**
@@ -320,7 +330,11 @@ class ShareaholicUtilities {
       return true;
     }
 
-    $api_key = self::get_or_create_api_key();
+    $api_key = $settings['api_key'];
+    if (!$api_key) {
+      return false;
+    }
+
     $response = ShareaholicCurl::get(Shareaholic::URL . '/publisher_tools/' . $api_key . '/verified');
     $result = $response['body'];
 
@@ -403,18 +417,6 @@ class ShareaholicUtilities {
    * Returns the api key or creates a new one.
    */
   public static function get_or_create_api_key() {
-    $trace = debug_backtrace();
-    $old_timezone = date_default_timezone_get();
-    date_default_timezone_set('UTC');
-    $things_to_log = array(
-      'request_uri' => $_SERVER['REQUEST_URI'],
-      'calling_location' => $trace[0]['file'] . ':' . $trace[0]['line'],
-      'time' => date('l jS \of F Y h:i:s A')
-    );
-    date_default_timezone_set($old_timezone);
-
-    ShareaholicUtilities::log($things_to_log);
-
     $settings = self::get_settings();
     if (isset($settings['api_key']) && !empty($settings['api_key'])) {
       return $settings['api_key'];
@@ -430,6 +432,7 @@ class ShareaholicUtilities {
         'site_name' => get_bloginfo('name'),
         'domain' => self::site_url(),
         'platform' => 'wordpress',
+        'shortener' => 'shrlc',
         'recommendations_attributes' => array(
           'locations_attributes' => array(
             array('name' => 'post_below_content'),
