@@ -36,5 +36,5 @@
     </form>
   </div>
 </div>
-<?php ShareaholicAdmin::include_snapengage(); ?>
 <?php ShareaholicAdmin::show_footer(); ?>
+<?php ShareaholicAdmin::include_snapengage(); ?>

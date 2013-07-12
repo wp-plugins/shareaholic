@@ -32,7 +32,8 @@ class ShareaholicPublic {
    * Inserts the script code snippet into the head of the page
    */
   public static function script_tag() {
-    if (ShareaholicUtilities::get_option('api_key')){
+    if (ShareaholicUtilities::has_accepted_terms_of_service() &&
+        ShareaholicUtilities::get_or_create_api_key()) {
       ShareaholicUtilities::load_template('script_tag', array(
         'shareaholic_url' => Shareaholic::URL,
         'api_key' => ShareaholicUtilities::get_option('api_key')

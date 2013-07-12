@@ -149,14 +149,14 @@ class ShareaholicAdmin {
       array_push($csss, ShareaholicUtilities::asset_url('application.css'));
       array_push($csss, plugins_url('assets/css/bootstrap.min.css', __FILE__));
       array_push($csss, plugins_url('assets/css/main.css', __FILE__));
-      array_push($csss, 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,700');
+      array_push($csss, '//fonts.googleapis.com/css?family=Open+Sans:400,300,700');
 
       $javascripts = array();
-      array_push($javascripts, '//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
-      array_push($javascripts, ShareaholicUtilities::asset_url('application.js'));
       array_push($javascripts, ShareaholicUtilities::asset_url('pub/shareaholic.js'));
-      // array_push($javascripts, ShareaholicUtilities::asset_url('pub/utilities.js'));
       array_push($javascripts, plugins_url('assets/js/bootstrap.min.js', __FILE__));
+      array_push($javascripts, plugins_url('assets/js/jquery_custom.js', __FILE__));
+      array_push($javascripts, plugins_url('assets/js/jquery_ui_custom.js', __FILE__));
+      array_push($javascripts, plugins_url('assets/js/jquery.reveal.modified.js', __FILE__));
       array_push($javascripts, plugins_url('assets/js/main.js', __FILE__));
 
       foreach ($csss as $css) {

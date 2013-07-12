@@ -441,10 +441,10 @@ class ShareaholicUtilities {
         ),
         'share_buttons_attributes' => array(
           'locations_attributes' => array(
-            array('name' => 'post_below_content'),
-            array('name' => 'page_below_content'),
-            array('name' => 'index_below_content'),
-            array('name' => 'category_below_content')
+            array('name' => 'post_below_content', 'counter' => 'badge-counter'),
+            array('name' => 'page_below_content', 'counter' => 'badge-counter'),
+            array('name' => 'index_below_content', 'counter' => 'badge-counter'),
+            array('name' => 'category_below_content', 'counter' => 'badge-counter')
           )
         )
       )

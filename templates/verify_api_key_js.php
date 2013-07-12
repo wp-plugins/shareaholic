@@ -34,7 +34,4 @@ Shareaholic.click_objects['unverified_general_settings'] = {
   },
   close: Shareaholic.click_objects['general_settings'].close
 }
-
-Shareaholic.bind_button_clicks(Shareaholic.click_objects['unverified_app_settings'], true);
-Shareaholic.bind_button_clicks(Shareaholic.click_objects['unverified_general_settings'], true);
 </script>

@@ -16,7 +16,11 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
   <input type="hidden" name="already_submitted" value="Y">
 
   <div id='app_settings'>
-  <fieldset><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>/img/sharebuttons@2x.png" height=32 width=32 /> <?php echo sprintf(__('Share Buttons', 'shareaholic')); ?></h2></legend>
+  
+  <fieldset class="app" style="line-height:18px;"><?php echo sprintf(__('First time here? Read %sUnderstanding the new Shareaholic for WordPress interface and configuration settings%s', 'shareaholic'), '<a href="https://blog.shareaholic.com/2013/07/understanding-the-new-shareaholic-for-wordpress-interface-and-configuration-settings/" target="_blank">','</a>'); ?>
+  </fieldset>
+  
+  <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>/img/sharebuttons@2x.png" height=32 width=32 /> <?php echo sprintf(__('Share Buttons', 'shareaholic')); ?></h2></legend>
   <span class="helper"><i class="icon-question-sign"></i><?php echo sprintf(__('Pick where you want your buttons to be displayed. Click "Edit" to customize look & feel, themes, share counters, alignment, etc.', 'shareaholic')); ?></span>
 
     <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
@@ -43,7 +47,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
 
   <div class='clear'></div>
 
-  <fieldset><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>/img/related_content@2x.png" height=32 width=32 /> <?php echo sprintf(__('Related Content / Recommendations', 'shareaholic')); ?></h2></legend>
+  <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>/img/related_content@2x.png" height=32 width=32 /> <?php echo sprintf(__('Related Content / Recommendations', 'shareaholic')); ?></h2></legend>
   <span class="helper"><i class="icon-question-sign"></i><?php echo sprintf(__('Pick where you want Related Content to be displayed. Click "Edit" to customize look & feel, themes, block lists, etc.', 'shareaholic')); ?></span>
     <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
       <?php if (isset($settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"])) { ?>
@@ -77,7 +81,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
 	  ?>
 	      
   </fieldset>
-  </div>
+  </div>  
 
   <div class='clear'></div>
   <div class="row" style="padding-top:20px; padding-bottom:35px;">
@@ -88,6 +92,6 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
 <?php ShareaholicUtilities::load_template('why_to_sign_up', array('url' => Shareaholic::URL)) ?>
 </div>
 
-<?php ShareaholicAdmin::include_snapengage(); ?>
 
 <?php ShareaholicAdmin::show_footer(); ?>
+<?php ShareaholicAdmin::include_snapengage(); ?>

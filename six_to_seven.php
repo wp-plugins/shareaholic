@@ -116,7 +116,8 @@ class ShareaholicSixToSeven {
 
     $result[$share_buttons_configuration['position']] = array(
       'services' => self::services($share_buttons_configuration['bookmark']),
-      'theme' => 'diglett'
+      'theme' => 'diglett',
+      'counter' => 'badge-counter'
     );
 
     if (!isset($result['above']) && $share_buttons_configuration['likeButtonSetTop'] == '1') {
@@ -220,12 +221,14 @@ class ShareaholicSixToSeven {
 
     switch ($shortener) {
       case 'goog':
+      case 'google':
         return array('shortener' => 'googl');
         break;
       case 'tiny':
         return array('shortener' => 'tinyurl');
         break;
       case 'shrlc':
+      case 'shr.lc':
       case 'yourls':
       case 'tflp':
       case 'slly':

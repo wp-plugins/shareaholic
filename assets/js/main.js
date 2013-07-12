@@ -1,3 +1,4 @@
+(function($) {
 window.Shareaholic = window.Shareaholic || {};
 window.shareaholic_debug = true;
 
@@ -7,6 +8,7 @@ Shareaholic.bind_button_clicks = function(click_object, off) {
   }
 
   $(click_object.selector).off('click.app_settings').on('click.app_settings', function(e) {
+    button = this;
     e.preventDefault();
     url = click_object.url(this);
     $frame = $('<iframe>', { src: url }).appendTo('#iframe_container');
@@ -153,8 +155,10 @@ $(document).ready(function() {
 
   Shareaholic.disable_buttons();
 
-  for (button in Shareaholic.click_objects) {
-    Shareaholic.bind_button_clicks(Shareaholic.click_objects[button]);
+  Shareaholic.bind_button_clicks(Shareaholic.click_objects['app_settings']);
+  Shareaholic.bind_button_clicks(Shareaholic.click_objects['general_settings']);
+  if (Shareaholic.click_objects['unverified_general_settings']) {
+    Shareaholic.bind_button_clicks(Shareaholic.click_objects['unverified_general_settings'], true);
   }
 
   $('#terms_of_service_modal').reveal({
@@ -183,3 +187,4 @@ $(document).ready(function() {
     }
   });
 });
+})(sQuery);

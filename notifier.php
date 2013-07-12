@@ -95,14 +95,15 @@ class ShareaholicNotifier {
   /**
    * Actually sends the request to the notification API
    *
-   * @param array $notification an associative array of data
-   *                            to send to the API
+   * @param  array $notification an associative array of data
+   *                             to send to the API
+   * @return bool
    */
   private static function send_notification($notification) {
     $url = self::URL . '/notify';
     $response = ShareaholicCurl::post($url, $notification, 'json');
 
-    if ($response && $response['body']['result'] == 'success') {
+    if ($response && preg_match('/20*/', $response['response']['code'])) {
       return true;
     } else {
       return false;

@@ -2,6 +2,10 @@ body {
   background: transparent;
 }
 
+#app_settings{
+  padding-top:20px;
+}
+
 fieldset {
 	border: 1px solid #d8d8d8;
 	margin: 5px;
@@ -12,6 +16,14 @@ fieldset {
   float:left;
 }
 
+.app {
+  width:100%;
+}
+
+.app h2 {
+  font-size: 20px;
+ }
+ 
 legend {
 	border: none;
 	width: auto;
