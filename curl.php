@@ -52,7 +52,7 @@ class ShareaholicCurl {
    * @param string $data_type either an empty string or 'json'
    * @param string $method    the HTTP verb to be used
    *
-   * @return array the returned data json decoded
+   * @return mixed the returned data json decoded or false
    */
   private static function send_request_with_wp($url, $data, $data_type, $method) {
     ShareaholicUtilities::log($url);

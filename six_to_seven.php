@@ -26,20 +26,21 @@ class ShareaholicSixToSeven {
     $top_bar_configuration = get_option('ShareaholicTopBar');
 
     $new_share_buttons_configuration = self::transform_sexybookmarks_configuration($sexybookmarks_configuration);
-    $new_classicbookmarks_locations = self::transform_classicbookmarks_locations($classicbookmarks_configuration);
+    $new_classicbookmarks_locations = self::transform_classicbookmarks_locations($classicbookmarks_configuration, $sexybookmarks_configuration);
     $new_top_bar_configuration = self::transform_top_bar_configuration($top_bar_configuration);
 
 
+    $location_names = array_map(array('self', 'grab_location_iterator'), $new_share_buttons_configuration['locations_attributes']);
     // if sexybookmarks are off or not on the bottom
     if ($sexybookmarks_configuration['sexybookmark'] != '1' ||
-        !(bool)preg_grep('/below/', array_keys($new_share_buttons_configuration))) {
+        !(bool)preg_grep('/below/', $location_names)) {
       // then merge in the classic bookmark locations
       $new_share_buttons_configuration = array_merge(
         $new_share_buttons_configuration,
         $new_classicbookmarks_locations
       );
     } elseif ($sexybookmarks_configuration['sexybookmark'] != '1' ||
-              !(bool)preg_grep('/above/', array_keys($new_share_buttons_configuration))) {
+              !(bool)preg_grep('/above/', $location_names)) {
       $new_share_buttons_configuration = array_merge(
         $new_share_buttons_configuration,
         $new_top_bar_configuration
@@ -47,7 +48,9 @@ class ShareaholicSixToSeven {
     }
 
     if ($recommendations_configuration['recommendations'] == '1') {
-      $new_recommendations_configuration = self::transform_recommendations_configuration($recommendations_configuration);
+      $new_recommendations_configuration = array(
+        'locations_attributes' => self::transform_recommendations_configuration($recommendations_configuration)
+      );
     } elseif (ShareaholicUtilities::version_less_than_or_equal_to($version, '6.1.3.6')) {
       $new_recommendations_configuration = array(
         'locations_attributes' => array(
@@ -77,7 +80,7 @@ class ShareaholicSixToSeven {
     if ($response && preg_match('/20*/', $response['response']['code'])) {
       ShareaholicUtilities::log_event('6To7ConversionSuccess', array(
         'the_posted_json' => $new_configuration,
-        'the_created_api_key' => $result['api_key'],
+        'the_created_api_key' => $response['body']['api_key'],
         'SexyBookmarks' => $sexybookmarks_configuration,
         'ShareaholicClassicBookmarks' => $classicbookmarks_configuration,
         'ShareaholicRecommendations' => $recommendations_configuration
@@ -103,6 +106,10 @@ class ShareaholicSixToSeven {
     }
   }
 
+  private static function grab_location_iterator($location) {
+    return $location['name'];
+  }
+
   /**
    * Munge the stored configuration for sexybookmarks
    * into the format we expect them on our side.
@@ -120,7 +127,7 @@ class ShareaholicSixToSeven {
       'counter' => 'badge-counter'
     );
 
-    if (!isset($result['above']) && $share_buttons_configuration['likeButtonSetTop'] == '1') {
+    if (!isset($result['above']) && $share_buttons_configuration['likeButtonSetTop']) {
       $result['above'] = array(
         'services' => self::like_button_set_services($share_buttons_configuration),
         'size' => 'rectangle',
@@ -128,7 +135,7 @@ class ShareaholicSixToSeven {
       );
     }
 
-    if (!isset($result['below']) && $share_buttons_configuration['likeButtonSetBottom'] == '1') {
+    if (!isset($result['below']) && $share_buttons_configuration['likeButtonSetBottom']) {
       $result['below'] = array(
         'services' => self::like_button_set_services($share_buttons_configuration),
         // theme candybar
@@ -283,9 +290,10 @@ class ShareaholicSixToSeven {
    * Returns a configuration if the user was using classicbookmarks.
    *
    * @param  array $classicbookmarks_configuration
+   * @param  array $share_buttons_configuration
    * @return array
    */
-  private static function transform_classicbookmarks_locations($classicbookmarks_configuration) {
+  private static function transform_classicbookmarks_locations($classicbookmarks_configuration, $share_buttons_configuration) {
     $result = array(
       'services' => array('facebook', 'twitter', 'email_this', 'pinterest', 'tumblr', 'google_plus', 'linkedin'),
     );
@@ -306,7 +314,10 @@ class ShareaholicSixToSeven {
       ));
     }
 
-    return self::set_page_types(array('below' => $result), $classicbookmarks_configuration['pageorpost']);
+    return array(
+      'message_format' => urldecode($share_buttons_configuration['tweetconfig']),
+      'locations_attributes' => self::set_page_types(array('below' => $result), $classicbookmarks_configuration['pageorpost'])
+    );
   }
 
   /**
@@ -317,12 +328,16 @@ class ShareaholicSixToSeven {
    * @return array
    */
   private static function transform_recommendations_configuration($recommendations_configuration) {
-    return array(
-      'headline_text' => 'You may also like:',
-      // if they requested text, honor that,
-      // otherwise give them the default style
-      'theme' => $recommendations_configuration['style'] == 'text' ? 'text-only' : 'default'
+    $settings = array(
+      'below' => array(
+        'headline_text' => 'You may also like:',
+        // if they requested text, honor that,
+        // otherwise give them the default style
+        'theme' => $recommendations_configuration['style'] == 'text' ? 'text-only' : 'default'
+      )
     );
+
+    return self::set_page_types($settings, $recommendations_configuration['pageorpost']);
   }
 
   /**
@@ -333,7 +348,6 @@ class ShareaholicSixToSeven {
    * @return array
    */
   private static function services($services) {
-    // anonymous function for `array_map`
     return array_map(array('self', 'services_iterator'), $services);
   }
 
@@ -368,10 +382,11 @@ class ShareaholicSixToSeven {
    */
   private static function like_button_set_services($share_buttons_configuration) {
     if ($share_buttons_configuration['position'] == 'above') {
-      $position = 'Top';
-    } else {
       $position = 'Bottom';
+    } else {
+      $position = 'Top';
     }
+
     $result = array();
     if ($share_buttons_configuration['fbLikeButton' . $position] == '1' ||
         $share_buttons_configuration['fbSendButton' . $position] == '1') {

@@ -141,7 +141,30 @@ class ShareaholicAdmin {
   }
 
   /**
+   * Enqueing styles and scripts for the admin the correct way.
+   *
+   * @since 7.0.2.0
+   */
+  public static function enqueue_scripts() {
+    if (isset($_GET['page']) && preg_match('/shareaholic/', $_GET['page'])) {
+      wp_enqueue_style('shareaholic_application_css', ShareaholicUtilities::asset_url('application.css'), false,  ShareaholicUtilities::get_version());
+      wp_enqueue_style('shareaholic_bootstrap_css', plugins_url('assets/css/bootstrap.min.css', __FILE__), false,  ShareaholicUtilities::get_version());
+      wp_enqueue_style('shareaholic_main_css', plugins_url('assets/css/main.css', __FILE__), false,  ShareaholicUtilities::get_version());
+      wp_enqueue_style('shareaholic_open_sans_css', '//fonts.googleapis.com/css?family=Open+Sans:400,300,700');
+
+      wp_enqueue_script('shareholic_utilities_js', ShareaholicUtilities::asset_url('pub/utilities.js'), false, ShareaholicUtilities::get_version());
+      wp_enqueue_script('shareholic_bootstrap_js', plugins_url('assets/js/bootstrap.min.js', __FILE__), false,  ShareaholicUtilities::get_version());
+      wp_enqueue_script('shareholic_jquery_custom_js', plugins_url('assets/js/jquery_custom.js', __FILE__), false,  ShareaholicUtilities::get_version());
+      wp_enqueue_script('shareholic_jquery_ui_custom_js', plugins_url('assets/js/jquery_ui_custom.js', __FILE__), array('shareholic_jquery_custom_js'),  ShareaholicUtilities::get_version());
+      wp_enqueue_script('shareholic_modified_reveal_js', plugins_url('assets/js/jquery.reveal.modified.js', __FILE__), array('shareholic_jquery_custom_js', 'shareholic_jquery_ui_custom_js'),  ShareaholicUtilities::get_version());
+      wp_enqueue_script('shareholic_main_js', plugins_url('assets/js/main.js', __FILE__), false,  ShareaholicUtilities::get_version());
+    }
+  }
+
+  /**
    * Inserts admin css and js
+   *
+   * @deprecated in 7.0.2.0 and higher
    */
   public static function admin_head() {
     if (isset($_GET['page']) && preg_match('/shareaholic/', $_GET['page'])) {
@@ -234,6 +257,9 @@ class ShareaholicAdmin {
 
     }
 
+    /*
+     * Just in case they've added new settings on shareaholic.com
+     */
     if (ShareaholicUtilities::has_accepted_terms_of_service()) {
       $api_key = ShareaholicUtilities::get_or_create_api_key();
       ShareaholicUtilities::get_new_location_name_ids($api_key);

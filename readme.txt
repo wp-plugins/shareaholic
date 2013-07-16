@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 2.7
 Tested up to: 3.5.2
-Stable tag: 7.0.2.0
+Stable tag: 7.0.3.0
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -141,12 +141,20 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Changelog ==
 
+= 7.0.3.0 =
+* New feature: You can now center, left AND right align your share buttons!
+* New feature: Added support for *custom headers* for share buttons! ([How-To Instructions](http://support.shareaholic.com/entries/24846703-How-to-use-a-custom-Header-image))
+* New feature: You can now on / off toggle the "More Options" share button
+* Various bug fixes and performance improvements
+* Cleaned up assets directory, as a result the plugin zip file is now a lot smaller
+* Added a check to ensure multiple versions of Shareaholic are not running at the same time on the same install
+* Bugfix: A host of fixes for the unresponsive "Edit Button" and "General Website Settings" button bug (If you're still facing this issue, [please contact us](http://support.shareaholic.com/anonymous_requests/new))
+
 = 7.0.2.0 =
 * This is a big update based on a lot of user feedback!
 * For Facebook, sharers are now taken directly to Facebook
 * Fixed how Twitter and Facebook sharing work on mobile devices
 * Now access Share Button and Related Content settings without a (free) account, although it is highly encouraged
-* Bugfix: Unresponsive "Edit Button" and "General Website Settings" button
 
 = 7.0.1.0 =
 * Several bug fixes, in addition to -
@@ -884,8 +892,11 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Upgrade Notice ==
 
+= 7.0.3.0 =
+Lots of new features! You can now center, left and right align your share buttons, use custom headers, toggle the "more options" button, various bug fixes, performance improvements and more.
+
 = 7.0.2.0 =
-As always, we're listening and reacting to all your feedback. This release represents a slew of updates based on a lot of user feedback. For Facebook sharing, sharers are now taken directly to Facebook, now access Share Button and Related Content settings without an (free) account, and much much more.
+As always, we're listening and working in all your feedback. This release represents a slew of updates based on a lot of user feedback. For Facebook sharing, sharers are now taken directly to Facebook, now access Share Button and Related Content settings without an (free) account, and much much more.
 
 = 7.0.1.0 =
 * Huge update! Completely re-written from the ground up to be faster and with a new simple interface! Includes brand new Share button themes (including vertical share buttons!) and Related posts themes. Related Posts now come mobile optimized and responsive out of the box - Shareaholic automagically determines how many Related Posts to show given how much screen width it is given. You can now even customize your "You may also like" text and exclude URLs.

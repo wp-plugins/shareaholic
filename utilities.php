@@ -385,6 +385,7 @@ class ShareaholicUtilities {
       self::update_location_name_ids($result);
     } else {
       ShareaholicUtilities::load_template('failed_to_create_api_key_modal');
+      ShareaholicUtilities::log_bad_response('FailedToCreateApiKey', $response);
     }
   }
 
@@ -414,52 +415,125 @@ class ShareaholicUtilities {
   }
 
   /**
+   * Sets a lock (mutex)
+   *
+   * @param string $name
+   */
+  public static function set_lock($name) {
+    update_option('shareaholic_' . $name, true);
+  }
+
+  /**
+   * Checks if an action is locked.
+   *
+   * @param  string $name
+   * @return bool
+   */
+  public static function is_locked($name) {
+    return get_option('shareaholic_' . $name, false);
+  }
+
+  /**
+   * Unlocks a mutex
+   *
+   * @param string $name
+   */
+  public static function unlock($name) {
+    delete_option('shareaholic_' . $name);
+  }
+
+  /**
+   * Checks whether a plugin is active
+   *
+   * @param string $name
+   */
+  public static function check_for_other_plugin() {
+    if (is_plugin_active('sexybookmarks/sexy-bookmarks.php')) {
+      deactivate_plugins('sexybookmarks/sexy-bookmarks.php');
+    }
+  }
+
+  /**
    * Returns the api key or creates a new one.
    */
   public static function get_or_create_api_key() {
-    $settings = self::get_settings();
-    if (isset($settings['api_key']) && !empty($settings['api_key'])) {
-      return $settings['api_key'];
-    }
-    delete_option('shareaholic_settings');
+    if (!self::is_locked('get_or_create_api_key')) {
+      self::set_lock('get_or_create_api_key');
 
-    $verification_key = md5(mt_rand());
-    $response = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', array(
-      'configuration_publisher' => array(
-        'verification_key' => $verification_key,
-        'site_name' => get_bloginfo('name'),
-        'domain' => self::site_url(),
-        'platform' => 'wordpress',
-        'shortener' => 'shrlc',
-        'recommendations_attributes' => array(
-          'locations_attributes' => array(
-            array('name' => 'post_below_content'),
-            array('name' => 'page_below_content'),
-            array('name' => 'index_below_content'),
-            array('name' => 'category_below_content')
-          )
-        ),
-        'share_buttons_attributes' => array(
-          'locations_attributes' => array(
-            array('name' => 'post_below_content', 'counter' => 'badge-counter'),
-            array('name' => 'page_below_content', 'counter' => 'badge-counter'),
-            array('name' => 'index_below_content', 'counter' => 'badge-counter'),
-            array('name' => 'category_below_content', 'counter' => 'badge-counter')
+      $settings = self::get_settings();
+      if (isset($settings['api_key']) && !empty($settings['api_key'])) {
+        self::unlock('get_or_create_api_key');
+        return $settings['api_key'];
+      }
+      delete_option('shareaholic_settings');
+
+      $verification_key = md5(mt_rand());
+      $response = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', array(
+        'configuration_publisher' => array(
+          'verification_key' => $verification_key,
+          'site_name' => get_bloginfo('name'),
+          'domain' => self::site_url(),
+          'platform' => 'wordpress',
+          'shortener' => 'shrlc',
+          'recommendations_attributes' => array(
+            'locations_attributes' => array(
+              array('name' => 'post_below_content'),
+              array('name' => 'page_below_content'),
+            )
+          ),
+          'share_buttons_attributes' => array(
+            'locations_attributes' => array(
+              array('name' => 'post_below_content', 'counter' => 'badge-counter'),
+              array('name' => 'page_below_content', 'counter' => 'badge-counter'),
+              array('name' => 'index_below_content', 'counter' => 'badge-counter'),
+              array('name' => 'category_below_content', 'counter' => 'badge-counter')
+            )
           )
         )
-      )
-    ));
-
-    if ($response && preg_match('/20*/', $response['response']['code'])) {
-      self::update_options(array(
-        'api_key' => $response['body']['api_key'],
-        'verification_key' => $verification_key,
-        'location_name_ids' => $response['body']['location_name_ids']
       ));
 
-      ShareaholicUtilities::turn_on_locations($response['body']['location_name_ids']);
+      if ($response && preg_match('/20*/', $response['response']['code'])) {
+        self::update_options(array(
+          'api_key' => $response['body']['api_key'],
+          'verification_key' => $verification_key,
+          'location_name_ids' => $response['body']['location_name_ids']
+        ));
+
+        if (isset($response['body']['location_name_ids']) && is_array($response['body']['location_name_ids'])) {
+          ShareaholicUtilities::turn_on_locations($response['body']['location_name_ids']);
+        } else {
+          ShareaholicUtilities::log_bad_response('FailedToCreateApiKey', $response);
+        }
+      } else {
+        add_action('admin_notices', array('ShareaholicAdmin', 'failed_to_create_api_key'));
+        ShareaholicUtilities::log_bad_response('FailedToCreateApiKey', $response);
+      }
+
+      self::unlock('get_or_create_api_key');
     } else {
-      add_action('admin_notices', array('ShareaholicAdmin', 'failed_to_create_api_key'));
+      usleep(100000);
+      self::get_or_create_api_key();
+    }
+  }
+
+  /**
+   * Log reasons for a failure of a response.
+   *
+   * Checks if the code is not a 20*, the response body
+   * is not an array, and whether the response object
+   * was false. Sends the appropriate logging message.
+   *
+   * @param string $name     the name of the event to log
+   * @param mixed  $response the response object
+   */
+  public static function log_bad_response($name, $response) {
+    if ($response && is_array($response) && !preg_match('/20*/',$response['response']['code'])) {
+      ShareaholicUtilities::log_event($name, array('reason' => 'the response was a ' . $response['response']['code']));
+    } elseif ($response && !is_array($response)) {
+      $thing = preg_replace('/\n/', '', var_export($response, true));
+      ShareaholicUtilities::log_event($name, array('reason' => 'the publisher configuration was not an array, it was this ' . $thing));
+    } elseif (!$response) {
+      ShareaholicUtilities::log_event($name, array('reason' => 'the response was false, meaning that some sort of error occured'));
     }
   }
 
@@ -554,6 +628,7 @@ class ShareaholicUtilities {
   		  'users_total' => $wpdb->get_var("SELECT count(ID) FROM $wpdb->users"),
 	      ),
   		'diagnostics' => array (
+  		  'php_version' => phpversion(),
   		  'wp_version' => get_bloginfo('version'),
   		  'theme' => get_option('template'),
   		  'active_plugins' => get_option('active_plugins', array()),

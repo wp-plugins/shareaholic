@@ -65,9 +65,10 @@ class ShareaholicPublic {
    * Draws the shareaholic meta tags.
    */
   private static function shareaholic_tags() {
-    echo "\n<!-- Shareaholic Content Tags (v" . ShareaholicUtilities::get_version() . ") -->\n";
+    echo "\n<!-- Shareaholic Content Tags -->\n";
     self::draw_site_name_meta_tag();
     self::draw_language_meta_tag();
+    self::draw_plugin_version_meta_tag();
     self::draw_image_meta_tag();
     echo "\n<!-- Shareaholic Content Tags End -->\n";
   }
@@ -81,7 +82,14 @@ class ShareaholicPublic {
       echo "<meta name='shareaholic:language' content='" . $blog_language . "' />\n";
     }
   }
-
+  
+  /**
+   * Draws Shareaholic version meta tag.
+   */
+  private static function draw_plugin_version_meta_tag() {
+      echo "<meta name='shareaholic:version' content='" . ShareaholicUtilities::get_version() . "' />\n";
+  }  
+  
   /**
    * Draws Shareaholic site name meta tag.
    */
