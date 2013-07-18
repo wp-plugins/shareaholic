@@ -310,9 +310,9 @@ class ShareaholicUtilities {
     if (preg_match('/spreadaholic/', Shareaholic::URL)) {
       return "http://spreadaholic.com:8080/assets-development/" . $asset;
     } elseif (preg_match('/staging\.shareaholic/', Shareaholic::URL)) {
-      return '//dtym7iokkjlif.cloudfront.net/assets-staging/' . $asset;
+      return 'https://dsms0mj1bbhn4.cloudfront.net/assets-staging/' . $asset;
     } else {
-      return '//dtym7iokkjlif.cloudfront.net/assets/' . $asset;
+      return 'https://dsms0mj1bbhn4.cloudfront.net/assets/' . $asset;
     }
   }
 
@@ -455,23 +455,33 @@ class ShareaholicUtilities {
 
   /**
    * Returns the api key or creates a new one.
+   *
+   * It first checks the database. If the key is not
+   * found (or is an empty string or empty array or
+   * anything that evaluates to false) then we will
+   * attempt to make a new one by POSTing to the
+   * anonymous configuration endpoint. That action
+   * is wrapped in a mutex to keep two requests from
+   * trying to create new api keys at the same time.
+   *
+   * @return string
    */
   public static function get_or_create_api_key() {
+    $api_key = self::get_option('api_key');
+    if ($api_key) {
+      return $api_key;
+    }
+
     if (!self::is_locked('get_or_create_api_key')) {
       self::set_lock('get_or_create_api_key');
 
-      $settings = self::get_settings();
-      if (isset($settings['api_key']) && !empty($settings['api_key'])) {
-        self::unlock('get_or_create_api_key');
-        return $settings['api_key'];
-      }
       delete_option('shareaholic_settings');
 
       $verification_key = md5(mt_rand());
       $response = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', array(
         'configuration_publisher' => array(
           'verification_key' => $verification_key,
-          'site_name' => get_bloginfo('name'),
+          'site_name' => self::site_name(),
           'domain' => self::site_url(),
           'platform' => 'wordpress',
           'shortener' => 'shrlc',
@@ -532,8 +542,6 @@ class ShareaholicUtilities {
     } elseif ($response && !is_array($response)) {
       $thing = preg_replace('/\n/', '', var_export($response, true));
       ShareaholicUtilities::log_event($name, array('reason' => 'the publisher configuration was not an array, it was this ' . $thing));
-    } elseif (!$response) {
-      ShareaholicUtilities::log_event($name, array('reason' => 'the response was false, meaning that some sort of error occured'));
     }
   }
 
@@ -544,6 +552,10 @@ class ShareaholicUtilities {
    */
   public static function site_url() {
     return preg_replace('/https?:\/\//', '', site_url());
+  }
+
+  public static function site_name() {
+    get_bloginfo('name') ? get_bloginfo('name') : site_url();
   }
 
   /**
@@ -647,7 +659,7 @@ class ShareaholicUtilities {
   	$event_api_url = Shareaholic::URL . '/api/events';
   	$event_params = array('name' => "WordPress:".$event_name, 'data' => json_encode($event_metadata) );
 
-    $response = ShareaholicCurl::post($event_api_url, $event_params);
+    $response = ShareaholicCurl::post($event_api_url, $event_params, '', true);
   }
 
   /**

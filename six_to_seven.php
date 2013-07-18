@@ -65,7 +65,7 @@ class ShareaholicSixToSeven {
       'configuration_publisher' => array(
         'share_buttons_attributes' => $new_share_buttons_configuration,
         'recommendations_attributes' => $new_recommendations_configuration,
-        'site_name' => get_bloginfo('name'),
+        'site_name' => ShareaholicUtilities::site_name(),
         'domain' => ShareaholicUtilities::site_url(),
         'verification_key' => $verification_key,
         'platform' => 'wordpress'

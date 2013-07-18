@@ -18,28 +18,30 @@ class ShareaholicCurl {
    *
    * Performs a POST request
    *
-   * @param string $url       the url you are POSTing to
-   * @param array  $data      an associative array of the data you are posting
-   * @param string $data_type defaults to nothing, you can pass in 'json'
+   * @param string $url          the url you are POSTing to
+   * @param array  $data         an associative array of the data you are posting
+   * @param string $data_type    defaults to nothing, you can pass in 'json'
+   * @param bool   $ignore_error whether to log a networking error
    *
    * @return array the returned data json decoded
    */
-  public static function post($url, $data = array(), $data_type = '') {
-    return self::send_request_with_wp($url, $data, $data_type, 'POST');
+  public static function post($url, $data = array(), $data_type = '', $ignore_error = false) {
+    return self::send_request_with_wp($url, $data, $data_type, $ignore_error, 'POST');
   }
 
   /**
    *
    * Performs a GET request
    *
-   * @param string $url   the url you are GETing to
-   * @param array  $data  an associative array of the data you are posting
-   * @param string $data_type defaults to nothing, you can pass in 'json'
+   * @param string $url          the url you are GETing to
+   * @param array  $data         an associative array of the data you are posting
+   * @param string $data_type    defaults to nothing, you can pass in 'json'
+   * @param bool   $ignore_error whether to log a networking error
    *
    * @return array the returned data json decoded
    */
-  public static function get($url, $data = array(), $data_type = '') {
-    return self::send_request_with_wp($url, $data, $data_type, 'GET');
+  public static function get($url, $data = array(), $data_type = '', $ignore_error = false) {
+    return self::send_request_with_wp($url, $data, $data_type, $ignore_error, 'GET');
   }
 
   /**
@@ -48,13 +50,14 @@ class ShareaholicCurl {
    * various PHP eccenctricities.
    *
    * @param string $url
-   * @param array  $data      an associative array of the data
-   * @param string $data_type either an empty string or 'json'
-   * @param string $method    the HTTP verb to be used
+   * @param array  $data         an associative array of the data
+   * @param string $data_type    either an empty string or 'json'
+   * @param bool   $ignore_error whether to log a networking error
+   * @param string $method       the HTTP verb to be used
    *
    * @return mixed the returned data json decoded or false
    */
-  private static function send_request_with_wp($url, $data, $data_type, $method) {
+  private static function send_request_with_wp($url, $data, $data_type, $ignore_error, $method) {
     ShareaholicUtilities::log($url);
     ShareaholicUtilities::log($data);
     ShareaholicUtilities::log($data_type);
@@ -78,9 +81,12 @@ class ShareaholicCurl {
     }
 
     if (is_wp_error($response)) {
-     $error_message = $response->get_error_message();
-     ShareaholicUtilities::log($error_message);
-     return false;
+      $error_message = $response->get_error_message();
+      ShareaholicUtilities::log($error_message);
+      if (!$ignore_error) {
+        ShareaholicUtilities::log_event('CurlRequestFailure', array('error_message' => $error_message));
+      }
+      return false;
     }
     else {
       if(is_array($response) && array_key_exists('body', $response)) {
