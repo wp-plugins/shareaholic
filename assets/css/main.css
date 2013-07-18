@@ -1,0 +1,269 @@
+body {
+  background: transparent;
+}
+
+#app_settings{
+  padding-top:20px;
+}
+
+fieldset {
+	border: 1px solid #d8d8d8;
+	margin: 5px;
+	padding: 10px;
+	color: #666666;
+	line-height: 3em;
+  font-size: 12px;
+  float:left;
+}
+
+.app {
+  width:100%;
+}
+
+.app h2 {
+  font-size: 20px;
+ }
+ 
+legend {
+	border: none;
+	width: auto;
+	font-weight: bold;
+	padding: 0px 10px;
+	color: #007bb6;
+  margin-bottom: 0;
+}
+
+.check {
+	position: relative;
+	top:-4px;
+}
+.btn {
+	margin-left:20px;
+}
+
+.helper {
+	display: block;
+	margin-left: 20px;
+	font-size: 12px;
+	line-height: 14pt;
+	text-indent: -17px;
+}
+
+.label {
+	margin-right:20px;
+}
+
+h3 {
+  clear:both;
+}
+
+.clear {
+  clear:both
+}
+
+#iframe_container, iframe {
+  width:100%;
+  height: 550px;
+}
+
+#shortcode_container, #shortcode {
+  cursor: inherit;
+  width: 100%;
+  text-align: center;
+  background: white;
+  height: 30px;
+}
+
+#shortcode_container {
+  border-top: 3px solid #ccc;
+}
+
+#shortcode {
+  font-family: monospace;
+}
+
+.reveal-modal {
+  width: 720px;
+  height: 600px;
+  margin-left: -335px;
+  position: fixed;
+  /* display: none; */
+}
+
+#editing_modal {
+  padding: 0;
+}
+
+.wp-submenu-wrap ul {
+  margin: 0;
+}
+
+/* OOCSS Styles */
+
+.line,.lastUnit{overflow:hidden; *overflow:visible;*zoom:1;}
+.unit{float:left;}
+.unitRight{float:right;}
+.size1of1{float:none;}
+.size1of2{width:50%;}
+.size1of3{width:33.33333%;}
+.size2of3{width:66.66666%;}
+.size1of4{width:25%;}
+.size3of4{width:75%;}
+.size1of5{width:20%;}
+.size2of5{width:40%;}
+.size3of5{width:60%;}
+.size4of5{width:80%;}
+.lastUnit{float:none;width:auto;_position:relative;_left:-3px;_margin-right:-3px;}
+
+/**
+ * Spacing classes
+ * Should be used to modify the default spacing between objects (not between nodes of the same object)
+ * Please use judiciously. You want to be using defaults most of the time, these are exceptions!
+ * <type><location><size>
+ */
+ /* ====== Default spacing ====== */
+h1, h2, h3, h4, h5, h6, ul, ol,dl, p,blockquote, .media {margin:10px;}
+h1, h2, h3, h4, h5, h6,img{padding-bottom:0px;}
+pre{margin: 10px;}
+table h1,table h2,table h3, table h4, table h5, table h6, table p, table ul, table ol, table dl{padding:0;}
+
+/* spacing helpers
+p,m = padding,margin
+a,t,r,b,l,h,v = all,top,right,bottom,left,horizontal,vertical
+s,m,l,n = small(5px),medium(10px),large(20px),none(0px)
+*/
+
+.ptn,.pvn,.pan{padding-top:0px !important}
+.pts,.pvs,.pas{padding-top:5px !important}
+.ptm,.pvm,.pam{padding-top:10px !important}
+.ptl,.pvl,.pal{padding-top:20px !important}
+.prn,.phn,.pan{padding-right:0px !important}
+.prs,.phs,.pas{padding-right:5px !important}
+.prm,.phm,.pam{padding-right:10px !important}
+.prl,.phl,.pal{padding-right:20px !important}
+.pbn,.pvn,.pan{padding-bottom:0px !important}
+.pbs,.pvs,.pas{padding-bottom:5px !important}
+.pbm,.pvm,.pam{padding-bottom:10px !important}
+.pbl,.pvl,.pal{padding-bottom:20px !important}
+.pln,.phn,.pan{padding-left:0px !important}
+.pls,.phs,.pas{padding-left:5px !important}
+.plm,.phm,.pam{padding-left:10px !important}
+.pll,.phl,.pal{padding-left:20px !important}
+.mtn,.mvn,.man{margin-top:0px !important}
+.mts,.mvs,.mas{margin-top:5px !important}
+.mtm,.mvm,.mam{margin-top:10px !important}
+.mtl,.mvl,.mal{margin-top:20px !important}
+.mrn,.mhn,.man{margin-right:0px !important}
+.mrs,.mhs,.mas{margin-right:5px !important}
+.mrm,.mhm,.mam{margin-right:10px !important}
+.mrl,.mhl,.mal{margin-right:20px !important}
+.mbn,.mvn,.man{margin-bottom:0px !important}
+.mbs,.mvs,.mas{margin-bottom:5px !important}
+.mbm,.mvm,.mam{margin-bottom:10px !important}
+.mbl,.mvl,.mal{margin-bottom:20px !important}
+.mln,.mhn,.man{margin-left:0px !important}
+.mls,.mhs,.mas{margin-left:5px !important}
+.mlm,.mhm,.mam{margin-left:10px !important}
+.mll,.mhl,.mal{margin-left:20px !important}
+.mra,.mha{margin-right:auto !important}
+.mla,.mha{margin-left:auto !important}
+
+/* body { */
+/* background: rgba(0,0,0, 0.3); */
+/*     font-family: 'Open Sans', sans-serif; */
+/*     margin: 0; */
+/*     padding: 0; */
+/*     height: 100%; */
+/*     min-height: 100%; */
+/* } */
+
+.blocking-modal{
+  font-family: 'Open Sans', sans-serif;
+  top:150px;
+  background: white;
+  width: 680px;
+  overflow: hidden;
+  text-align: center;
+  color: #414042;
+  font-size: 14px;
+  line-height: 16pt;
+  box-shadow: 0px 0px 52px rgba(0,0,0,0.32);
+  padding: 0;
+  height: 560px;
+}
+
+.blocking-modal .content{
+
+}
+
+h4 {
+    background: #424142;
+    color: #e6e6e6;
+    font-size: 30px;
+    line-height: 60px;
+    height: auto;
+    font-weight: 300;
+    margin: 0;
+}
+
+.blocking-modal a {
+    color: #2ba9e1;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.blocking-modal a:hover {
+  border-bottom: 1px dashed;
+  color: #0988be;
+}
+
+
+.blocking-modal h2 {
+    font-size: 28px;
+   font-weight: normal;
+}
+
+.blocking-modal p {
+  margin: 10px;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.blocking-modal img {
+    width: 150px;
+    height: 150px;
+}
+
+.blocking-modal .btn_main {
+  cursor: pointer;
+  display: inline-block;
+  background: #31986E;
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 20px 40px;
+  font-size: 14px;
+}
+
+.blocking-modal .btn_main:hover {
+  background: #28cc8b;
+  color: white;
+  border: none;
+}
+
+.blocking-modal .small {
+  font-size: 12px;
+  color: #888888;
+}
+
+input[type='text'] {
+  width: 272px;
+}
+
+.settings_updated {
+  color: #fff;
+  text-shadow: 0px 1px 1px rgba(0,0,0,0.4);
+  font-size: 14px;
+  background-color: #45a147 !important;
+  border-color: #316632 !important;
+}
