@@ -164,12 +164,13 @@
     $('#terms_of_service_modal').reveal({
       closeonbackgroundclick: false,
       closeonescape: false,
-      topPosition: 100
+      topPosition: 50
     });
 
     $('#failed_to_create_api_key').reveal({
       closeonbackgroundclick: false,
-      closeonescape: false
+      closeonescape: false,
+      topPosition: 50
     });
 
     $('#get_started').on('click', function(e) {

@@ -555,7 +555,7 @@ class ShareaholicUtilities {
   }
 
   public static function site_name() {
-    get_bloginfo('name') ? get_bloginfo('name') : site_url();
+    return get_bloginfo('name') ? get_bloginfo('name') : site_url();
   }
 
   /**

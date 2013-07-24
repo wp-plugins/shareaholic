@@ -1,4 +1,4 @@
-<div class='reveal-modal blocking-modal' id='failed_to_create_api_key'>
+<div class='reveal-modal blocking-modal api-key-modal' id='failed_to_create_api_key'>
   <h4><?php echo sprintf(__('Setup Shareaholic', 'shareaholic')); ?></h4>
   <div class="content pal">
   <div class="line pvl">
