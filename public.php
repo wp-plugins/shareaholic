@@ -220,7 +220,7 @@ class ShareaholicPublic {
       data-app='$app'
       data-title='" . htmlspecialchars($post->post_title, ENT_QUOTES) . "'
       data-link='" . get_permalink($post->ID) . "'
-      data-summary='" . urlencode(strip_tags(strip_shortcodes($post->post_excerpt))) . "'></div>";
+      data-summary='" . htmlspecialchars(strip_tags(strip_shortcodes($post->post_excerpt)), ENT_QUOTES) . "'></div>";
 
     return trim(preg_replace('/\s+/', ' ', $canvas));
   }
