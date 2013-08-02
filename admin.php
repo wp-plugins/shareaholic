@@ -276,6 +276,7 @@ class ShareaholicAdmin {
   public static function advanced_admin() {
     $settings = ShareaholicUtilities::get_settings();
     $api_key = ShareaholicUtilities::get_or_create_api_key();
+    $action = str_replace( '%7E', '~', $_SERVER['REQUEST_URI']);
 
     if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
       ShareaholicUtilities::load_template('terms_of_service_modal', array(
@@ -283,14 +284,16 @@ class ShareaholicAdmin {
       ));
     }
 
-    if(isset($_POST['reset_settings']) && $_POST['reset_settings'] == 'Y') {
+    if(isset($_POST['reset_settings']) && $_POST['reset_settings'] == 'Y' &&
+        check_admin_referer($action, 'nonce_field')) {
       ShareaholicUtilities::destroy_settings();
       echo "<div class='updated settings_updated'><p><strong>"
         . sprintf(__('Settings successfully reset. Refresh this page to complete the reset.', 'shareaholic'))
         . "</strong></p></div>";
     }
 
-    if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y') {
+    if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y' &&
+        check_admin_referer($action, 'nonce_field')) {
       echo "<div class='updated settings_updated'><p><strong>". sprintf(__('Settings successfully saved', 'shareaholic')) . "</strong></p></div>";
       foreach (array('disable_tracking', 'disable_og_tags') as $setting) {
         if (isset($settings[$setting]) &&
@@ -321,7 +324,7 @@ class ShareaholicAdmin {
 
     ShareaholicUtilities::load_template('advanced_settings', array(
       'settings' => ShareaholicUtilities::get_settings(),
-      'action' => str_replace( '%7E', '~', $_SERVER['REQUEST_URI'])
+      'action' => $action
     ));
   }
 

@@ -661,6 +661,14 @@ class ShareaholicUtilities {
 
     $response = ShareaholicCurl::post($event_api_url, $event_params, '', true);
   }
+  
+  /**
+   * This loads the locales
+   *
+   */
+  public static function localize() {
+    load_plugin_textdomain('shareaholic', false, basename(dirname(__FILE__)) . '/languages/');
+  }
 
   /**
    * This is a wrapper for the Recommendations Status API

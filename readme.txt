@@ -2,8 +2,8 @@
 Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 2.7
-Tested up to: 3.5.2
-Stable tag: 7.0.3.3
+Tested up to: 3.6
+Stable tag: 7.0.3.4
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -76,7 +76,7 @@ Listed here are credits and special thanks to some of you who have helped us out
 * Credit goes to [Alexander Ovsov](http://www.webhostinggeeks.com) for translating to Belarusian
 * Credit goes to Bartosz Chojnacki for translating to Polish
 * Credit goes to Joan Jordi Berdullas Segura for translating to Catalan
-* Credit goes to [Nikolay Nikolov](http://statiiki.com/) for translating to Bulgarian
+* Credit goes to [Nikolay Nikolov](http://en.chat4o.com/) for translating to Bulgarian
 * Credit goes to [Nata Strazda](http://www.webhostinghub.com/) for translating to Lithuanian
 
 == Screenshots ==
@@ -124,7 +124,7 @@ In your PHP / theme template code, you would add:
 
 Grab the corresponding App ID from your Shareaholic Dashboard for the App you want to manually insert into your theme. Shareaholic Shortcode's are full featured and support all available configuration options available. Enjoy!
 
-Old legacy methods (no longer supported as of version 7.0.0.0):
+Old legacy methods (not officially supported as of version 7.0.0.0):
 
 `<?php if(function_exists('selfserv_shareaholic')) { selfserv_shareaholic(); } ?>`
 `<?php if(function_exists('get_shr_like_buttonset')) { get_shr_like_buttonset('Top'); } ?>`
@@ -140,6 +140,16 @@ Please see here: [Frequently Asked Questions](https://shareaholic.com/tools/word
 Please see here: [Usage & Installation Instructions](https://shareaholic.com/tools/wordpress/usage-installation)
 
 == Changelog ==
+
+= 7.0.3.4 =
+* Fix for Cross-Site Request Forgery vulnerability. Upgrade immediately. 
+* Shareaholic is 100% compatible with WordPress 3.6! Yay!
+* Added close button to settings modals
+* Added "loading" image to modals
+* Added additional strings for localization
+* Localizations
+  * Added Simplified Chinese (zh_CN) by [Larry Zhang](http://zhxl.me)
+  * Added Greek (el) by [Takis Bouyouris](http://www.nevma.gr)
 
 = 7.0.3.3 =
 * Increased cURL timeout to prevent API timeouts
@@ -905,6 +915,9 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.0.3.4 =
+Fix for security vulnerability. Upgrade immediately.
 
 = 7.0.3.3 =
 This is a highly recommended upgrade. Fixes issues of API timeouts and data-summary not being encoding correctly.

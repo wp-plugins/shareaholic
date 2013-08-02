@@ -3,7 +3,8 @@
 <h2><?php echo sprintf(__('Shareaholic: Available Apps', 'shareaholic')); ?></h2>
 
 <div class='reveal-modal' id='editing_modal'>
-  <div id='iframe_container'></div>
+  <div id='iframe_container' class='bg-loading-img' allowtransparency='true'></div>
+  <a class="close-reveal-modal">&#215;</a>
 </div>
 
 <script>
@@ -20,7 +21,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
   <fieldset class="app" style="line-height:18px;"><?php echo sprintf(__('First time here? Read %sUnderstanding the new Shareaholic for WordPress interface and configuration settings.%s', 'shareaholic'), '<a href="https://blog.shareaholic.com/2013/07/understanding-the-new-shareaholic-for-wordpress-interface-and-configuration-settings/" target="_blank">','</a>'); ?> <?php echo sprintf(__('If you are upgrading from an earlier version of Shareaholic for WordPress and need help, have a question or have a bug to report, please %slet us know%s.', 'shareaholic'), '<a href="#" onclick="SnapEngage.startLink();">','</a>'); ?>
   </fieldset>
   
-  <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>/img/sharebuttons@2x.png" height=32 width=32 /> <?php echo sprintf(__('Share Buttons', 'shareaholic')); ?></h2></legend>
+  <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>img/sharebuttons@2x.png" height=32 width=32 /> <?php echo sprintf(__('Share Buttons', 'shareaholic')); ?></h2></legend>
   <span class="helper"><i class="icon-question-sign"></i><?php echo sprintf(__('Pick where you want your buttons to be displayed. Click "Edit" to customize look & feel, themes, share counters, alignment, etc.', 'shareaholic')); ?></span>
 
     <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
@@ -47,7 +48,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
 
   <div class='clear'></div>
 
-  <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>/img/related_content@2x.png" height=32 width=32 /> <?php echo sprintf(__('Related Content / Recommendations', 'shareaholic')); ?></h2></legend>
+  <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>img/related_content@2x.png" height=32 width=32 /> <?php echo sprintf(__('Related Content / Recommendations', 'shareaholic')); ?></h2></legend>
   <span class="helper"><i class="icon-question-sign"></i><?php echo sprintf(__('Pick where you want Related Content to be displayed. Click "Edit" to customize look & feel, themes, block lists, etc.', 'shareaholic')); ?></span>
     <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
       <?php if (isset($settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"])) { ?>
@@ -70,13 +71,13 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
     
     <div class='clear'></div>
     
-    <strong>Data Status:</strong>
+    <strong><?php echo sprintf(__('Data Status:', 'shareaholic')); ?></strong>
     <?php               	  
 	    $status = ShareaholicUtilities::recommendations_status_check();
 	    if ($status == "processing" || $status == 'unknown'){
-	      echo '<img class="shrsb_health_icon" align="top" src="'.SHAREAHOLIC_ASSET_DIR.'/img/circle_yellow.png" /> Processing';
+	      echo '<img class="shrsb_health_icon" align="top" src="'.SHAREAHOLIC_ASSET_DIR.'img/circle_yellow.png" />'. sprintf(__('Processing', 'shareaholic'));
 	    } else {
-	      echo '<img class="shrsb_health_icon" align="top" src="'.SHAREAHOLIC_ASSET_DIR.'/img/circle_green.png" /> Ready';
+	      echo '<img class="shrsb_health_icon" align="top" src="'.SHAREAHOLIC_ASSET_DIR.'img/circle_green.png" />'. sprintf(__('Ready', 'shareaholic'));
 	    }
 	  ?>
 	      

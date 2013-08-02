@@ -5,6 +5,7 @@
   <?php echo sprintf(__('You rarely should need to edit the settings on this page.', 'shareaholic')); ?>
   <div style="min-height:300px;">
     <form name='advanced_settings' method='post' action='<?php echo $action ?>'>
+    <?php wp_nonce_field($action, 'nonce_field') ?>
     <input type='hidden' name='already_submitted' value='Y'>
       <div class='clear'>
         <fieldset>
@@ -28,9 +29,10 @@
     </form>
 
     <form name='reset_settings' method='post' action='<?php echo $action ?>'>
+      <?php wp_nonce_field($action, 'nonce_field') ?>
       <input type='hidden' name='reset_settings' value='Y'>
       <fieldset>
-        <p>Clicking this button will reset all of your settings and start you from scratch.</p>
+        <p><?php echo sprintf(__('Clicking this button will reset all of your settings and start you from scratch.', 'shareaholic')); ?></p>
         <input type='submit' value='<?php echo sprintf(__('Reset Everything', 'shareaholic')); ?>'>
       </fieldset>
     </form>

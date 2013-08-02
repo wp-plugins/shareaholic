@@ -3,14 +3,14 @@
  * The main and first file!
  *
  * @package shareaholic
- * @version 7.0.3.3
+ * @version 7.0.3.4
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.0.3.3
+Version: 7.0.3.4
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
@@ -23,8 +23,7 @@ Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 */
 
 define('SHAREAHOLIC_DIR', dirname(__FILE__));
-define('SHAREAHOLIC_ASSET_DIR', get_option('siteurl') . '/wp-content/plugins/' . plugin_basename(dirname(__FILE__)) . '/assets/');
-load_plugin_textdomain('shareaholic', false, basename(dirname(__FILE__)) . '/languages/');
+define('SHAREAHOLIC_ASSET_DIR', plugins_url( '/assets/' , __FILE__ ));
 
 // because define can use function returns and const can't
 define('SHAREAHOLIC_DEBUG', getenv('SHAREAHOLIC_DEBUG'));
@@ -43,7 +42,7 @@ require_once(SHAREAHOLIC_DIR . '/deprecation.php');
  */
 class Shareaholic {
   const URL = 'https://shareaholic.com';
-  const VERSION = '7.0.3.3';
+  const VERSION = '7.0.3.4';
   /**
    * Starts off as false so that ::get_instance() returns
    * a new instance.
@@ -60,7 +59,8 @@ class Shareaholic {
     add_action('wp_head',         array('ShareaholicPublic', 'wp_head'));
     add_shortcode('shareaholic',  array('ShareaholicPublic', 'shortcode'));
 
-    add_action('admin_init', 'ShareaholicUtilities::check_for_other_plugin');
+    add_action('admin_init',      'ShareaholicUtilities::check_for_other_plugin');
+    add_action('plugins_loaded',  array($this, 'shareaholic_init'));
 
     add_action('wp_ajax_shareaholic_add_location',  array('ShareaholicAdmin', 'add_location'));
     add_action('add_meta_boxes',                    array('ShareaholicAdmin', 'add_meta_boxes'));
@@ -75,9 +75,9 @@ class Shareaholic {
     add_action('publish_post', array('ShareaholicNotifier', 'post_notify'));
     add_action('publish_page', array('ShareaholicNotifier', 'post_notify'));
 
-    register_activation_hook(__FILE__, array($this, 'after_activation' ));
-    register_deactivation_hook( __FILE__, array($this, 'deactivate' ));
-    register_uninstall_hook(__FILE__, array('Shareaholic', 'uninstall' ));
+    register_activation_hook(__FILE__, array($this, 'after_activation'));
+    register_deactivation_hook( __FILE__, array($this, 'deactivate'));
+    register_uninstall_hook(__FILE__, array('Shareaholic', 'uninstall'));
 
     add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'ShareaholicUtilities::admin_plugin_action_links', -10);
   }
@@ -107,6 +107,14 @@ class Shareaholic {
       ShareaholicUtilities::get_or_create_api_key();
     }
   }
+
+  /**
+   * This function fires once any activated plugins have been loaded. Is generally used for immediate filter setup, or plugin overrides.
+   */
+  public function shareaholic_init() {
+    ShareaholicUtilities::localize();
+  }
+
 
   /**
    * Runs any update code if the version is different from what's
