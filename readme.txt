@@ -1,9 +1,9 @@
 === Shareaholic | share buttons & related posts ===
 Contributors: shareaholic
-Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
+Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 2.7
 Tested up to: 3.6
-Stable tag: 7.0.3.4
+Stable tag: 7.0.3.5
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -17,8 +17,7 @@ Our sole aim was to stray away from the "in the box" thinking behind most social
 
 * Recommendations & Related Content - Increase reader engagement and pageviews by highlighting related content from across your site
 * Social Analytics - Actionable and easy to understand
-* Classic Bookmarks - Classic Bookmarks offer a clean-cut and professional look for your blog
-* Full support for Facebook Like Button, Facebook Send, Google Plus, Pinterest
+* Full support for Facebook, Twitter, Google Plus, Pinterest, etc
 * Share Counters for Twitter, Facebook, LinkedIn, etc
 * Official support for Google's URL shortener (goo.gl) and Google Analytics
 * Utilizes the [Share API](https://shareaholic.com/api/)
@@ -81,14 +80,13 @@ Listed here are credits and special thanks to some of you who have helped us out
 
 == Screenshots ==
 
-1. An 100% integrated and customizable approach - all the tools and apps you need in one place! Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, we'll help you get it done.
+1. An 100% integrated and customizable approach - all the tools and apps you need in one robust plugin! Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, we'll help you get it done. De-clutter your WordPress installation.
 2. Related Content configuration panel - Drive pageviews and increase time on site with this tool.
 3. Share Buttons configuration panel - Make it easy for your visitors to share your site's content via social networks, email, blogs, IM, and more.
-4. De-clutter your WordPress installation. All the tools you need in one robust plugin.
-5. You're in great company - Gizmo Gadget  
-6. You're in great company - Your Lighter Side
-7. You're in great company - Guilty Kitchen
-8. You're in great company - Career Girl
+4. You're in great company - Gizmo Gadget  
+5. You're in great company - Your Lighter Side
+6. You're in great company - Guilty Kitchen
+7. You're in great company - Career Girl
 
 == Installation ==
 
@@ -140,6 +138,12 @@ Please see here: [Frequently Asked Questions](https://shareaholic.com/tools/word
 Please see here: [Usage & Installation Instructions](https://shareaholic.com/tools/wordpress/usage-installation)
 
 == Changelog ==
+
+= 7.0.3.5 =
+* Localizations
+  * Added German (de_DE) by Lothar Schiborr
+* Added support for shareaholic:url meta tag
+* Bugfix: Now compatible with JavaScript minification plugins
 
 = 7.0.3.4 =
 * Fix for Cross-Site Request Forgery vulnerability. Upgrade immediately. 
@@ -915,6 +919,9 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.0.3.5 =
+Language localizations and bugfixes.
 
 = 7.0.3.4 =
 Fix for security vulnerability. Upgrade immediately.

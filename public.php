@@ -68,6 +68,7 @@ class ShareaholicPublic {
     echo "\n<!-- Shareaholic Content Tags -->\n";
     self::draw_site_name_meta_tag();
     self::draw_language_meta_tag();
+    self::draw_plugin_url_meta_tag();
     self::draw_plugin_version_meta_tag();
     self::draw_image_meta_tag();
     echo "\n<!-- Shareaholic Content Tags End -->\n";
@@ -82,12 +83,22 @@ class ShareaholicPublic {
       echo "<meta name='shareaholic:language' content='" . $blog_language . "' />\n";
     }
   }
-  
+
+  /**
+   * Draws Shareaholic url meta tag.
+   */
+  private static function draw_plugin_url_meta_tag() {
+    if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
+      $url_link = get_permalink();
+      echo "<meta name='shareaholic:url' content='" . $url_link . "' />\n";
+    }
+  }
+    
   /**
    * Draws Shareaholic version meta tag.
    */
   private static function draw_plugin_version_meta_tag() {
-      echo "<meta name='shareaholic:version' content='" . ShareaholicUtilities::get_version() . "' />\n";
+      echo "<meta name='shareaholic:wp_version' content='" . ShareaholicUtilities::get_version() . "' />\n";
   }  
   
   /**
@@ -126,7 +137,7 @@ class ShareaholicPublic {
     if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
       global $post;
 
-      if (!get_post_meta($post->ID, 'shareaholic_disable_open_graph_tags', true) && $settings['disable_og_tags'] == "off") {
+      if (!get_post_meta($post->ID, 'shareaholic_disable_open_graph_tags', true) && (isset($settings['disable_og_tags']) && $settings['disable_og_tags'] == "off")) {
         if (has_post_thumbnail($post->ID)) {
           $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
           echo "\n<!-- Shareaholic Open Graph Tags -->\n";

@@ -8,7 +8,7 @@
       shr.onload = shr.onreadystatechange = function() {
         var rs = this.readyState;
         if (rs && rs != 'complete' && rs != 'loaded') return;
-        var apikey = '<?php echo $api_key; ?>'
+        var apikey = '<?php echo $api_key; ?>';
         try { Shareaholic.init(apikey); } catch (e) {}
       };
       var s = document.getElementsByTagName('script')[0];
