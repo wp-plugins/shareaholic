@@ -64,6 +64,7 @@ class ShareaholicUtilities {
    * @return bool
    */
   public static function destroy_settings() {
+    delete_option('shareaholic_get_or_create_api_key');
     return delete_option('shareaholic_settings');
   }
 
@@ -134,9 +135,7 @@ class ShareaholicUtilities {
    */
   public static function update_options($array) {
     $old_settings = self::get_settings();
-
     $new_settings = self::array_merge_recursive_distinct($old_settings, $array);
-
     update_option('shareaholic_settings', $new_settings);
   }
 
@@ -451,6 +450,9 @@ class ShareaholicUtilities {
     if (is_plugin_active('sexybookmarks/sexy-bookmarks.php')) {
       deactivate_plugins('sexybookmarks/sexy-bookmarks.php');
     }
+    if (is_plugin_active('sexybookmarks/shareaholic.php')) {
+      deactivate_plugins('sexybookmarks/shareaholic.php');
+    }
   }
 
   /**
@@ -483,7 +485,8 @@ class ShareaholicUtilities {
           'verification_key' => $verification_key,
           'site_name' => self::site_name(),
           'domain' => self::site_url(),
-          'platform' => 'wordpress',
+          'platform_id' => '12',
+          'language_id' => self::site_language(),
           'shortener' => 'shrlc',
           'recommendations_attributes' => array(
             'locations_attributes' => array(
@@ -554,10 +557,47 @@ class ShareaholicUtilities {
     return preg_replace('/https?:\/\//', '', site_url());
   }
 
+  /**
+   * Returns the site's name
+   *
+   * @return string
+   */
   public static function site_name() {
     return get_bloginfo('name') ? get_bloginfo('name') : site_url();
   }
 
+  /**
+   * Returns the site's primary locale / language
+   *
+   * @return string
+   */
+  public static function site_language() {
+    $site_language = strtolower(get_bloginfo('language'));
+    
+    if (strpos($site_language, 'en-') !== false) {
+      $language_id = 9; // English
+    } elseif (strpos($site_language, 'da-') !== false) {
+      $language_id = 7; // Danish
+    } elseif (strpos($site_language, 'de-') !== false) {
+      $language_id = 13; // German
+    } elseif (strpos($site_language, 'es-') !== false) {
+      $language_id = 31; // Spanish
+    } elseif (strpos($site_language, 'fr-') !== false) {
+      $language_id = 12; // French
+    } elseif (strpos($site_language, 'pt-') !== false) {
+      $language_id = 25; // Portuguese
+    } elseif (strpos($site_language, 'it-') !== false) {
+      $language_id = 18; // Italian
+    } elseif (strpos($site_language, 'zh-cn') !== false) {
+      $language_id = 3; // Chinese (Simplified)
+    } elseif (strpos($site_language, 'zh-tw') !== false) {
+      $language_id = 4; // Chinese (Traditional)
+    } else {
+      $language_id = NULL;
+    }
+    return $language_id;
+  }
+  
   /**
    * Shockingly the built in PHP array_merge_recursive function is stupid.
    * this is stolen from the PHP docs and will overwrite existing keys instead

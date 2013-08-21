@@ -68,7 +68,8 @@ class ShareaholicSixToSeven {
         'site_name' => ShareaholicUtilities::site_name(),
         'domain' => ShareaholicUtilities::site_url(),
         'verification_key' => $verification_key,
-        'platform' => 'wordpress'
+        'platform_id' => '12',
+        'language_id' => ShareaholicUtilities::site_language()
       ),
     );
 

@@ -11,6 +11,7 @@
 window.first_part_of_url = '<?php echo Shareaholic::URL . '/publisher_tools/' . $settings['api_key']?>/';
 window.verification_key = '<?php echo $settings['verification_key'] ?>'
 </script>
+
 <div class='unit size3of5'>
   <form name="settings" method="post" action="<?php echo $action; ?>"></iframe>
   <?php wp_nonce_field($action, 'nonce_field') ?>
@@ -18,11 +19,11 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
 
   <div id='app_settings'>
   
-  <fieldset class="app" style="line-height:18px;"><?php echo sprintf(__('First time here? Read %sUnderstanding the new Shareaholic for WordPress interface and configuration settings.%s', 'shareaholic'), '<a href="https://blog.shareaholic.com/2013/07/understanding-the-new-shareaholic-for-wordpress-interface-and-configuration-settings/" target="_blank">','</a>'); ?> <?php echo sprintf(__('If you are upgrading from an earlier version of Shareaholic for WordPress and need help, have a question or have a bug to report, please %slet us know%s.', 'shareaholic'), '<a href="#" onclick="SnapEngage.startLink();">','</a>'); ?>
+  <fieldset class="app" style="line-height:18px;"><?php echo sprintf(__('First time here? Read %sUnderstanding the new Shareaholic for WordPress interface and configuration settings.%s', 'shareaholic'), '<a href="https://blog.shareaholic.com/understanding-the-new-shareaholic-for-wordpress-interface-and-configuration-settings/" target="_blank">','</a>'); ?> <?php echo sprintf(__('If you are upgrading from an earlier version of Shareaholic for WordPress and need help, have a question or have a bug to report, please %slet us know%s.', 'shareaholic'), '<a href="#" onclick="SnapEngage.startLink();">','</a>'); ?>
   </fieldset>
   
   <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>img/sharebuttons@2x.png" height=32 width=32 /> <?php echo sprintf(__('Share Buttons', 'shareaholic')); ?></h2></legend>
-  <span class="helper"><i class="icon-question-sign"></i><?php echo sprintf(__('Pick where you want your buttons to be displayed. Click "Edit" to customize look & feel, themes, share counters, alignment, etc.', 'shareaholic')); ?></span>
+  <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want your buttons to be displayed. Click "Edit" to customize look & feel, themes, share counters, alignment, etc.', 'shareaholic')); ?></span>
 
     <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
     <fieldset id='sharebuttons'>
@@ -49,7 +50,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
   <div class='clear'></div>
 
   <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>img/related_content@2x.png" height=32 width=32 /> <?php echo sprintf(__('Related Content / Recommendations', 'shareaholic')); ?></h2></legend>
-  <span class="helper"><i class="icon-question-sign"></i><?php echo sprintf(__('Pick where you want Related Content to be displayed. Click "Edit" to customize look & feel, themes, block lists, etc.', 'shareaholic')); ?></span>
+  <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want Related Content to be displayed. Click "Edit" to customize look & feel, themes, block lists, etc.', 'shareaholic')); ?></span>
     <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
       <?php if (isset($settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"])) { ?>
         <?php $location_id = $settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"] ?>
@@ -86,7 +87,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
 
   <div class='clear'></div>
   <div class="row" style="padding-top:20px; padding-bottom:35px;">
-    <div class="span2"><input type='submit' value='<?php echo sprintf(__('Save Changes', 'shareaholic')); ?>'></div>
+    <div class="span2"><input type='submit' onclick="this.value='<?php echo sprintf(__('Saving Changes...', 'shareaholic')); ?>';" value='<?php echo sprintf(__('Save Changes', 'shareaholic')); ?>'></div>
   </div>
   </form>
 </div>

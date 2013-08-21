@@ -42,12 +42,25 @@ class ShareaholicPublic {
   }
 
   /**
-   * The function that gets called for shortcoding.
+   * The function that gets called for shortcodes
    *
-   * @param array $attributes this is passed two keys: `app` and `name`
+   * @param array $attributes this is passed keys: `id`, `app`, `title`, `link`, `summary`
+   * @param string $content is the enclosed content (if the shortcode is used in its enclosing form)
    */
-  public static function shortcode($attributes) {
-    return self::canvas($attributes['id'], $attributes['app']);
+  public static function shortcode($attributes, $content = NULL) {
+    extract(shortcode_atts(array(
+      "id" => NULL,
+      "app" => 'share_buttons',
+      "title" => NULL,
+      "link" => NULL,
+      "summary" => NULL
+    ), $attributes, 'shareaholic'));
+    
+    if (isset($attributes['title'])) $title = esc_attr(trim($attributes['title']));  
+    if (isset($attributes['link'])) $link = trim($attributes['link']);
+    if (isset($attributes['summary'])) $summary = esc_attr(trim($attributes['summary']));  
+    
+    return self::canvas($attributes['id'], $attributes['app'], $title, $link, $summary);
   }
 
   /**
@@ -222,16 +235,23 @@ class ShareaholicPublic {
    *
    * @param string $id  the location id for configuration
    * @param string $app the type of app
+   * @param string $title the title of URL
+   * @param string $link url
+   * @param string $summary summary text for URL
    */
-  public static function canvas($id, $app) {
+  public static function canvas($id, $app, $title = NULL, $link = NULL, $summary = NULL) {
     global $post, $wp_query;
-    $page_type = ShareaholicUtilities::page_type();
+    
+    $data_title = ((trim($title) != NULL) ? $title : htmlspecialchars($post->post_title, ENT_QUOTES));
+    $data_link = ((trim($link) != NULL) ? trim($link) : get_permalink($post->ID));
+    $data_summary = ((trim($summary) != NULL) ? $summary : htmlspecialchars(strip_tags(strip_shortcodes($post->post_excerpt)), ENT_QUOTES));
+        
     $canvas = "<div class='shareaholic-canvas'
       data-app-id='$id'
       data-app='$app'
-      data-title='" . htmlspecialchars($post->post_title, ENT_QUOTES) . "'
-      data-link='" . get_permalink($post->ID) . "'
-      data-summary='" . htmlspecialchars(strip_tags(strip_shortcodes($post->post_excerpt)), ENT_QUOTES) . "'></div>";
+      data-title='$data_title'
+      data-link='$data_link'
+      data-summary='$data_summary'></div>";
 
     return trim(preg_replace('/\s+/', ' ', $canvas));
   }

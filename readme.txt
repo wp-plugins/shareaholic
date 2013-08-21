@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 2.7
 Tested up to: 3.6
-Stable tag: 7.0.3.5
+Stable tag: 7.0.3.6
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -115,12 +115,21 @@ You can place Share Buttons, Related Content and any other Shareaholic app manua
 `[shareaholic app="share_buttons" id="<insert shareaholic app ID here>"]`
 `[shareaholic app="recommendations" id="<insert shareaholic app ID here>"]`
 
+Notes: optionally, you can also specify `title`, `link` or `summary` as Shareaholic shortcode parameters. If you don't specify these optional  parameters, the shortcode will automatically determine these values.
+
+Example:
+
+`[shareaholic app="recommendations" id="<insert shareaholic app ID here>" title="About Me" link="http://mysite.com/about"]`
+
 In your PHP / theme template code, you would add:
 
 `<?php echo do_shortcode ('[shareaholic app="share_buttons" id="<insert shareaholic app ID here>"]'); ?>`
 `<?php echo do_shortcode ('[shareaholic app="recommendations" id="<insert shareaholic app ID here>"]'); ?>`
 
-Grab the corresponding App ID from your Shareaholic Dashboard for the App you want to manually insert into your theme. Shareaholic Shortcode's are full featured and support all available configuration options available. Enjoy!
+Grab the corresponding App ID from your Shareaholic Dashboard for the App you want to manually insert into your theme. If use double quotes ("'s) in your title or summary, make sure to encode them properly as `&quot;`
+
+Shareaholic Shortcode's are full featured and support all available configuration options available. Enjoy!
+
 
 Old legacy methods (not officially supported as of version 7.0.0.0):
 
@@ -139,11 +148,16 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Changelog ==
 
+= 7.0.3.6 =
+* New "Vertical" theme for Related Content!
+* Added a note about caching plugins; organized the "Advanced Settings" page
+* Shareaholic shortcode now support title, link and summary parameters
+
 = 7.0.3.5 =
-* Localizations
-  * Added German (de_DE) by Lothar Schiborr
 * Added support for shareaholic:url meta tag
 * Bugfix: Now compatible with JavaScript minification plugins
+* Localizations
+  * Added German (de_DE) by Lothar Schiborr
 
 = 7.0.3.4 =
 * Fix for Cross-Site Request Forgery vulnerability. Upgrade immediately. 
@@ -919,6 +933,9 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.0.3.6 =
+New "Vertical" theme for Related Content! Organized the "Advanced Settings" page and Shareaholic shortcode now support title, link and summary parameters.
 
 = 7.0.3.5 =
 Language localizations and bugfixes.
