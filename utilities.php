@@ -592,6 +592,16 @@ class ShareaholicUtilities {
       $language_id = 3; // Chinese (Simplified)
     } elseif (strpos($site_language, 'zh-tw') !== false) {
       $language_id = 4; // Chinese (Traditional)
+    } elseif (strpos($site_language, 'ja-') !== false) {
+        $language_id = 19; // Japanese
+    } elseif (strpos($site_language, 'ar-') !== false) {
+        $language_id = 1; // Arabic
+    } elseif (strpos($site_language, 'sv-') !== false) {
+        $language_id = 32; // Swedish
+    } elseif (strpos($site_language, 'tr-') !== false) {
+        $language_id = 34; // Turkish
+    } elseif (strpos($site_language, 'el-') !== false) {
+      $language_id = 14; // Greek
     } else {
       $language_id = NULL;
     }
@@ -709,6 +719,25 @@ class ShareaholicUtilities {
   public static function localize() {
     load_plugin_textdomain('shareaholic', false, basename(dirname(__FILE__)) . '/languages/');
   }
+  
+  /**
+   * Server Connectivity check
+   *
+   */
+   public static function connectivity_check() {
+  	$health_check_url = Shareaholic::URL . "/haproxy_health_check";
+    $response = ShareaholicCurl::get($health_check_url);
+    $body = $response['body'];
+    if(is_array($response) && array_key_exists('body', $response)) {
+      if ($body == "OK"){
+        return "SUCCESS";
+      } else {
+        return "FAIL";
+      }
+    } else {
+      return "FAIL";
+    }
+   }
 
   /**
    * This is a wrapper for the Recommendations Status API

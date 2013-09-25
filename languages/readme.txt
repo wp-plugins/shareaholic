@@ -13,6 +13,7 @@ Instructions: https://shareaholic.com/tools/wordpress/translate
 * English (en)
 * Simplified Chinese (zh_CN) by [Larry Zhang](http://zhxl.me)
 * Greek (el) by [Takis Bouyouris](http://www.nevma.gr)
+* German (de) by Lothar Schiborr
 * Contribute a translation!
 
 == Notes ==

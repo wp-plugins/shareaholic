@@ -1,21 +1,32 @@
 <?php
 /**
- * The main and first file!
+ * The main file!
  *
  * @package shareaholic
- * @version 7.0.3.6
+ * @version 7.0.4.1
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.0.3.6
+Version: 7.0.4.1
 Author: Shareaholic
 Author URI: https://shareaholic.com
+Text Domain: shareaholic
+Domain Path: /languages
 Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 */
 
+
+/**
+ * Make sure we don't expose any info if called directly
+ *
+ */
+ if ( !function_exists( 'add_action' ) ) {
+	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
+	exit;
+}
 
 /**
 * if we ever wanted to disable warning notices, use the following:
@@ -42,7 +53,7 @@ require_once(SHAREAHOLIC_DIR . '/deprecation.php');
  */
 class Shareaholic {
   const URL = 'https://shareaholic.com';
-  const VERSION = '7.0.3.6';
+  const VERSION = '7.0.4.1';
   /**
    * Starts off as false so that ::get_instance() returns
    * a new instance.

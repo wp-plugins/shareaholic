@@ -3,6 +3,10 @@ body {
   font-family: sans-serif;
 }
 
+.canvas {
+    display: block;
+}
+
 #app_settings{
   padding-top:20px;
 }
@@ -12,13 +16,13 @@ fieldset {
 	margin: 5px;
 	padding: 10px;
 	color: #666666;
-	line-height: 3em;
   font-size: 12px;
   float:left;
 }
 
 .app {
   width:100%;
+  line-height: 3em;
 }
 
 .app h2 {
@@ -364,4 +368,31 @@ margin: 10px 0px;
   background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
   background-color:#f6f6f6;
+}
+
+
+.key-status {
+  padding: 0.4em 1em;
+  color: #fff;
+  text-align: center;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: solid;
+  text-shadow: 0px 1px 0px rgba(0,0,0,0.4);
+}
+
+.key-description {
+  line-height: 1.6em;
+  margin-top:10px;
+}
+
+.key-status.failed {
+  background-color: #EB5353;
+  border: 1px solid #e62525;
+}
+
+.key-status.passed {
+  background-color: #45a147;
+  border: 1px solid #1E8520;
 }
