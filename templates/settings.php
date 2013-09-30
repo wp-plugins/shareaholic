@@ -13,7 +13,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
 </script>
 
 <div class='unit size3of5'>
-  <form name="settings" method="post" action="<?php echo $action; ?>"></iframe>
+  <form name="settings" method="post" action="<?php echo $action; ?>">
   <?php wp_nonce_field($action, 'nonce_field') ?>
   <input type="hidden" name="already_submitted" value="Y">
 

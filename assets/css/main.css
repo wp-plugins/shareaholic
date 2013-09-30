@@ -204,7 +204,7 @@ s,m,l,n = small(5px),medium(10px),large(20px),none(0px)
 }
 
 .api-key-modal{
-  height: 350px;
+  height: 400px;
 }
 
 .blocking-modal .content{

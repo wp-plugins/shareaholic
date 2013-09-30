@@ -22,7 +22,6 @@ Shareaholic.click_objects['unverified_general_settings'] = {
   url: function(button) {
     url = first_part_of_url + 'verify'
       + '?verification_key=<?php echo $verification_key ?>'
-      + '&embedded=true'
       + '&redirect_to='
       + encodeURIComponent(
         Shareaholic.click_objects['general_settings'].url(button)

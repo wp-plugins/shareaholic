@@ -84,7 +84,7 @@ class ShareaholicAdmin {
    */
   public static function failed_to_create_api_key() {
     ShareaholicUtilities::load_template('failed_to_create_api_key');
-    if (isset($_GET['page']) && preg_match('/shareaholic/', $_GET['page'])) {
+    if (isset($_GET['page']) && preg_match('/shareaholic-settings/', $_GET['page'])) {
       ShareaholicUtilities::load_template('failed_to_create_api_key_modal');
     }
   }
