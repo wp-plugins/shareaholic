@@ -27,7 +27,7 @@ class ShareaholicNotifier {
     global $wpdb;
     $post = get_post($post_id);
     $url = get_permalink($post_id);
-    $tags = wp_get_post_tags($post_id, array('fields' => 'name'));
+    $tags = wp_get_post_tags($post_id, array('fields' => 'names'));
 
     $categories = array_map(array('ShareaholicNotifier', 'post_notify_iterator'), get_the_category($post_id));
 

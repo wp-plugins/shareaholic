@@ -81,12 +81,54 @@ class ShareaholicPublic {
     echo "\n<!-- Shareaholic Content Tags -->\n";
     self::draw_site_name_meta_tag();
     self::draw_language_meta_tag();
-    self::draw_plugin_url_meta_tag();
+    self::draw_url_meta_tag();
+    self::draw_keywords_meta_tag();
     self::draw_plugin_version_meta_tag();
     self::draw_image_meta_tag();
     echo "\n<!-- Shareaholic Content Tags End -->\n";
   }
 
+  /**
+   * Draws Shareaholic keywords meta tag.
+   */
+  private static function draw_keywords_meta_tag() {
+    if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
+      global $post;
+      $keywords = '';
+      
+      // Get post tags
+      $keywords = implode(', ', wp_get_post_tags( $post->ID, array('fields' => 'names') ) );
+      
+      // Get post categories
+      $categories = get_the_category($post->ID);
+      $separator = ', ';
+      $output = '';
+      
+      if($categories) {
+      	foreach($categories as $category) {
+      	  if ($category->cat_name != "Uncategorized") {
+      		  $output .= $separator.$category->cat_name;
+    		  }
+      	}
+       $categories = trim($output, $separator);
+      }
+      
+      // Merge post tags and categories
+      if ($keywords != ''){
+        $keywords .= ', '.$categories;
+      } else {
+        $keywords .= $categories;
+      }
+      
+      // Encode appropriately
+      $keywords = trim(htmlspecialchars(htmlspecialchars_decode($keywords), ENT_QUOTES));
+      
+      if ($keywords != '') {
+        echo "<meta name='shareaholic:keywords' content='" .  strtolower($keywords) . "' />\n";
+      }
+    }
+  }
+    
   /**
    * Draws Shareaholic language meta tag.
    */
@@ -100,7 +142,7 @@ class ShareaholicPublic {
   /**
    * Draws Shareaholic url meta tag.
    */
-  private static function draw_plugin_url_meta_tag() {
+  private static function draw_url_meta_tag() {
     if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
       $url_link = get_permalink();
       echo "<meta name='shareaholic:url' content='" . $url_link . "' />\n";
