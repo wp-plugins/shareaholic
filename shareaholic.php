@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.0.4.3
+ * @version 7.0.4.4
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.0.4.3
+Version: 7.0.4.4
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -53,26 +53,28 @@ require_once(SHAREAHOLIC_DIR . '/deprecation.php');
  */
 class Shareaholic {
   const URL = 'https://shareaholic.com';
-  const VERSION = '7.0.4.3';
+  const VERSION = '7.0.4.4';
   /**
    * Starts off as false so that ::get_instance() returns
    * a new instance.
    */
   private static $instance = false;
-
+    
   /**
    * The constructor registers all the wordpress actions.
    */
   private function __construct() {
     add_action('wp_ajax_shareaholic_accept_terms_of_service', array('ShareaholicUtilities', 'accept_terms_of_service'));
 
+    add_action('init',            array('ShareaholicPublic', 'init'));
     add_action('the_content',     array('ShareaholicPublic', 'draw_canvases'));
     add_action('wp_head',         array('ShareaholicPublic', 'wp_head'));
     add_shortcode('shareaholic',  array('ShareaholicPublic', 'shortcode'));
-
-    add_action('admin_init',      'ShareaholicUtilities::check_for_other_plugin');
+  
     add_action('plugins_loaded',  array($this, 'shareaholic_init'));
 
+    add_action('admin_init',                        array('ShareaholicAdmin', 'admin_init'));
+    add_action('admin_enqueue_scripts',             array('ShareaholicAdmin', 'admin_header'));
     add_action('wp_ajax_shareaholic_add_location',  array('ShareaholicAdmin', 'add_location'));
     add_action('add_meta_boxes',                    array('ShareaholicAdmin', 'add_meta_boxes'));
     add_action('save_post',                         array('ShareaholicAdmin', 'save_post'));
@@ -177,7 +179,7 @@ class Shareaholic {
   public function deactivate() {
     ShareaholicUtilities::log_event("Deactivate");
   }
-
+  
   /**
    * This function fires when the plugin is uninstalled.
    */

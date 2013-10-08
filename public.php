@@ -12,10 +12,18 @@
  * @package shareaholic
  */
 class ShareaholicPublic {
+
+  /**
+   * Loads before all else
+   */
+  public static function init() {
+    add_filter('wp_headers', 'ShareaholicUtilities::add_header_xua');
+  }
+
   /**
    * The function called during the wp_head action. The
    * rest of the plugin doesn't need to know exactly what happens.
-   */
+  */
   public static function wp_head() {
     // this will only run on pages that would actually call
     // the deprecated functions. For some reason I could not
@@ -26,7 +34,7 @@ class ShareaholicPublic {
     self::tracking_meta_tag();
     self::shareaholic_tags();
     self::draw_og_tags();
-  }
+  }  
 
   /**
    * Inserts the script code snippet into the head of the page
@@ -73,7 +81,8 @@ class ShareaholicPublic {
       echo '<meta name="shareaholic:analytics" content="disabled" />';
     }
   }
-
+  
+  
   /**
    * Draws the shareaholic meta tags.
    */

@@ -11,6 +11,22 @@
  * @package shareaholic
  */
 class ShareaholicAdmin {
+  
+  /**
+   * Loads before all else
+   */
+  public static function admin_init() {        
+    ShareaholicUtilities::check_for_other_plugin();
+  }
+  
+  /**
+   * The function called during the admin_head action.
+   *
+  */
+  public static function admin_header() {
+    ShareaholicUtilities::draw_meta_xua();
+  }
+  
   /**
    * Load the terms of service notice that shows up
    * at the top of the admin pages.
@@ -139,9 +155,10 @@ class ShareaholicAdmin {
       }
     }
   }
+  
 
   /**
-   * Enqueing styles and scripts for the admin the correct way.
+   * Enqueing styles and scripts for the admin panel
    *
    * @since 7.0.2.0
    */
@@ -158,37 +175,6 @@ class ShareaholicAdmin {
       wp_enqueue_script('shareholic_jquery_ui_custom_js', plugins_url('assets/js/jquery_ui_custom.js', __FILE__), array('shareholic_jquery_custom_js'),  ShareaholicUtilities::get_version());
       wp_enqueue_script('shareholic_modified_reveal_js', plugins_url('assets/js/jquery.reveal.modified.js', __FILE__), array('shareholic_jquery_custom_js', 'shareholic_jquery_ui_custom_js'),  ShareaholicUtilities::get_version());
       wp_enqueue_script('shareholic_main_js', plugins_url('assets/js/main.js', __FILE__), false,  ShareaholicUtilities::get_version());
-    }
-  }
-
-  /**
-   * Inserts admin css and js
-   *
-   * @deprecated in 7.0.2.0 and higher
-   */
-  public static function admin_head() {
-    if (isset($_GET['page']) && preg_match('/shareaholic/', $_GET['page'])) {
-      $csss = array();
-      array_push($csss, ShareaholicUtilities::asset_url('application.css'));
-      array_push($csss, plugins_url('assets/css/bootstrap.min.css', __FILE__));
-      array_push($csss, plugins_url('assets/css/main.css', __FILE__));
-      array_push($csss, '//fonts.googleapis.com/css?family=Open+Sans:400,300,700');
-
-      $javascripts = array();
-      array_push($javascripts, ShareaholicUtilities::asset_url('pub/shareaholic.js'));
-      array_push($javascripts, plugins_url('assets/js/bootstrap.min.js', __FILE__));
-      array_push($javascripts, plugins_url('assets/js/jquery_custom.js', __FILE__));
-      array_push($javascripts, plugins_url('assets/js/jquery_ui_custom.js', __FILE__));
-      array_push($javascripts, plugins_url('assets/js/jquery.reveal.modified.js', __FILE__));
-      array_push($javascripts, plugins_url('assets/js/main.js', __FILE__));
-
-      foreach ($csss as $css) {
-        echo '<link rel="stylesheet" type="text/css" href="' . $css . '">';
-      }
-
-      foreach ($javascripts as $js) {
-        echo '<script type="text/javascript" src="' . $js . '"></script>';
-      }
     }
   }
 

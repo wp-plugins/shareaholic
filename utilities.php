@@ -720,6 +720,28 @@ class ShareaholicUtilities {
     load_plugin_textdomain('shareaholic', false, basename(dirname(__FILE__)) . '/languages/');
   }
   
+  /*
+   * Adds a xua response header
+   *
+   * @return array Where header => header value
+   */
+  public function add_header_xua($headers)
+  {
+      if(!isset($headers['X-UA-Compatible'])) {
+        $headers['X-UA-Compatible'] = 'IE=edge,chrome=1';
+      }
+      return $headers;
+  }
+  
+  /*
+   * Draws xua meta tag
+   *
+   */
+  public function draw_meta_xua()
+  {    
+    echo '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">';
+  }
+  
   /**
    * Server Connectivity check
    *
