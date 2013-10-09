@@ -17,7 +17,7 @@ class ShareaholicPublic {
    * Loads before all else
    */
   public static function init() {
-    add_filter('wp_headers', 'ShareaholicUtilities::add_header_xua');
+    add_filter('wp_headers', array('ShareaholicUtilities', 'add_header_xua'));
   }
 
   /**
