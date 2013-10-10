@@ -1,9 +1,9 @@
-<script type='text/javascript'>
+<script type='text/javascript' data-cfasync='false'>
   //<![CDATA[
     (function() {
       var shr = document.createElement('script');
       shr.setAttribute('data-cfasync', 'false');
-      shr.src = '<?php echo ShareaholicUtilities::asset_url('pub/shareaholic.js') ?>?ver=<?php echo  ShareaholicUtilities::get_version() ?>';
+      shr.src = '<?php echo ShareaholicUtilities::asset_url('pub/shareaholic.js') ?>';
       shr.type = 'text/javascript'; shr.async = 'true';
       shr.onload = shr.onreadystatechange = function() {
         var rs = this.readyState;

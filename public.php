@@ -105,11 +105,17 @@ class ShareaholicPublic {
       global $post;
       $keywords = '';
       
-      // Get post tags
-      $keywords = implode(', ', wp_get_post_tags( $post->ID, array('fields' => 'names') ) );
+      if (is_attachment() && $post->post_parent){
+        $id = $post->post_parent;
+      } else {
+        $id = $post->ID;
+      }
       
+      // Get post tags
+      $keywords = implode(', ', wp_get_post_tags( $id, array('fields' => 'names') ) );
+       
       // Get post categories
-      $categories = get_the_category($post->ID);
+      $categories = get_the_category($id);
       $separator = ', ';
       $output = '';
       
@@ -120,7 +126,7 @@ class ShareaholicPublic {
     		  }
       	}
        $categories = trim($output, $separator);
-      }
+      }      
       
       // Merge post tags and categories
       if ($keywords != ''){
@@ -129,11 +135,20 @@ class ShareaholicPublic {
         $keywords .= $categories;
       }
       
-      // Encode appropriately
-      $keywords = trim(htmlspecialchars(htmlspecialchars_decode($keywords), ENT_QUOTES));
+      // Support for All in One SEO Pack keywords
+      $keywords .= stripslashes(get_post_meta($post->ID, '_aioseop_keywords', true));
       
-      if ($keywords != '') {
-        echo "<meta name='shareaholic:keywords' content='" .  strtolower($keywords) . "' />\n";
+      // Encode & trim appropriately
+      $keywords = trim(strtolower(trim(htmlspecialchars(htmlspecialchars_decode($keywords), ENT_QUOTES))), ",");
+
+      // Unique keywords
+      $keywords_array = array();
+      $keywords_array = explode(', ', $keywords);
+      $keywords_array = array_unique($keywords_array);      
+      $keywords_unique_list = implode(', ', $keywords_array);
+      
+      if ($keywords_unique_list != '' && $keywords_unique_list != "array") {
+        echo "<meta name='shareaholic:keywords' content='" .  $keywords_unique_list . "' />\n";
       }
     }
   }
