@@ -40,7 +40,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
             <?php echo ucfirst($position) ?> Content <button data-app='share_buttons'
                                                              data-location_id='<?php echo $location_id ?>'
                                                              data-href='share_buttons/locations/{{id}}/edit'
-                                                      class="btn btn-success">Edit</button>
+                                                      class="btn btn-success"><?php _e('Customize', 'shareaholic'); ?></button>
           </div>
       <?php } ?>
     </fieldset>
@@ -65,7 +65,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
             <?php echo ucfirst($position) ?> Content <button data-app='recommendations'
                                                              data-location_id='<?php echo $location_id ?>'
                                                              data-href="recommendations/locations/{{id}}/edit"
-                                                      class="btn btn-success">Edit</button>
+                                                      class="btn btn-success"><?php _e('Customize', 'shareaholic'); ?></button>
           </div>
       </fieldset>
     <?php } ?>

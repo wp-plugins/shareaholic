@@ -5,6 +5,6 @@
   </small>
   <br />
   <small class="muted">
-    <?php echo sprintf(__('If you like our work, show some love and %sgive us a good rating%s. Made with much love in Boston, Massachusetts.', 'shareaholic'), '<a href="http://wordpress.org/support/view/plugin-reviews/shareaholic" target="_new">', '</a>'); ?>
+    <?php echo sprintf(__('If you like our work, show some love and %sgive us a good rating%s. Made with much love in Boston, Massachusetts.', 'shareaholic'), '<a href="http://wordpress.org/support/view/plugin-reviews/shareaholic?rate=5#postform" target="_new">', '</a>'); ?>
   </small>
-</div>    
+</div>

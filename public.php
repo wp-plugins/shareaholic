@@ -92,6 +92,7 @@ class ShareaholicPublic {
     self::draw_language_meta_tag();
     self::draw_url_meta_tag();
     self::draw_keywords_meta_tag();
+    self::draw_article_meta_tag();
     self::draw_plugin_version_meta_tag();
     self::draw_image_meta_tag();
     echo "\n<!-- Shareaholic Content Tags End -->\n";
@@ -136,7 +137,7 @@ class ShareaholicPublic {
       }
       
       // Support for All in One SEO Pack keywords
-      $keywords .= stripslashes(get_post_meta($post->ID, '_aioseop_keywords', true));
+      $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_aioseop_keywords', true));
       
       // Encode & trim appropriately
       $keywords = trim(strtolower(trim(htmlspecialchars(htmlspecialchars_decode($keywords), ENT_QUOTES))), ",");
@@ -152,7 +153,52 @@ class ShareaholicPublic {
       }
     }
   }
+  
+  /**
+   * Draws Shareaholic article meta tags
+   */
+  private static function draw_article_meta_tag() {
+    if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
+      global $post;
     
+      // Article Publish and Modified Time
+      $article_published_time = strtotime($post->post_date_gmt);
+      $article_modified_time = strtotime(get_lastpostmodified('GMT'));
+    
+      if (!empty($article_published_time)) {
+        echo "<meta name='shareaholic:article_published_time' content='" . date('c', $article_published_time) . "' />\n";
+      }
+      if (!empty($article_modified_time)) {
+        echo "<meta name='shareaholic:article_modified_time' content='" . date('c', $article_modified_time) . "' />\n";
+      }
+    
+      // Article Visibility
+      $article_visibility = $post->post_status;
+      $article_password = $post->post_password;
+
+      if ($article_visibility == 'draft' || $article_visibility == 'auto-draft'){
+        $article_visibility = 'draft';
+      } else if ($article_visibility == 'private' || $post->post_password != '') {
+        $article_visibility = 'private';
+      } else {
+        $article_visibility = NULL;
+      }
+    
+      if (!empty($article_visibility)) {
+        echo "<meta name='shareaholic:article_visibility' content='" . $article_visibility . "' />\n";
+      }
+      
+      // Article Author Name      
+      if ($post->post_author) {
+        $article_author_data = get_userdata($post->post_author);
+        $article_author_name = $article_author_data->display_name;
+      }
+      if (!empty($article_author_name)) {
+        echo "<meta name='shareaholic:article_author_name' content='" . $article_author_name . "' />\n";
+      }
+    }
+  }
+  
   /**
    * Draws Shareaholic language meta tag.
    */
@@ -311,7 +357,7 @@ class ShareaholicPublic {
     $data_title = ((trim($title) != NULL) ? $title : htmlspecialchars($post->post_title, ENT_QUOTES));
     $data_link = ((trim($link) != NULL) ? trim($link) : get_permalink($post->ID));
     $data_summary = ((trim($summary) != NULL) ? $summary : htmlspecialchars(strip_tags(strip_shortcodes($post->post_excerpt)), ENT_QUOTES));
-        
+    
     $canvas = "<div class='shareaholic-canvas'
       data-app-id='$id'
       data-app='$app'
