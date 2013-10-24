@@ -140,7 +140,7 @@ class ShareaholicPublic {
       $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_aioseop_keywords', true));
       
       // Encode & trim appropriately
-      $keywords = trim(strtolower(trim(htmlspecialchars(htmlspecialchars_decode($keywords), ENT_QUOTES))), ",");
+      $keywords = trim(trim(strtolower(trim(htmlspecialchars(htmlspecialchars_decode($keywords), ENT_QUOTES))), ","));
 
       // Unique keywords
       $keywords_array = array();
@@ -171,19 +171,24 @@ class ShareaholicPublic {
       if (!empty($article_modified_time)) {
         echo "<meta name='shareaholic:article_modified_time' content='" . date('c', $article_modified_time) . "' />\n";
       }
-    
+      
       // Article Visibility
       $article_visibility = $post->post_status;
       $article_password = $post->post_password;
 
       if ($article_visibility == 'draft' || $article_visibility == 'auto-draft'){
         $article_visibility = 'draft';
-      } else if ($article_visibility == 'private' || $post->post_password != '') {
+      } else if ($article_visibility == 'private' || $post->post_password != '' || is_attachment()) {
         $article_visibility = 'private';
       } else {
         $article_visibility = NULL;
       }
-    
+      
+      // Lookup Metabox value
+      if (get_post_meta($post->ID, 'shareaholic_exclude_recommendations', true)) {
+        $article_visibility = 'private';
+      }
+
       if (!empty($article_visibility)) {
         echo "<meta name='shareaholic:article_visibility' content='" . $article_visibility . "' />\n";
       }

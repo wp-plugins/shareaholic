@@ -23,7 +23,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
   </fieldset>
   
   <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>img/sharebuttons@2x.png" height=32 width=32 /> <?php echo sprintf(__('Share Buttons', 'shareaholic')); ?></h2></legend>
-  <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want your buttons to be displayed. Click "Edit" to customize look & feel, themes, share counters, alignment, etc.', 'shareaholic')); ?></span>
+  <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want your buttons to be displayed. Click "Customize" to customize look & feel, themes, share counters, alignment, etc.', 'shareaholic')); ?></span>
 
     <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
     <fieldset id='sharebuttons'>
@@ -50,7 +50,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
   <div class='clear'></div>
 
   <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>img/related_content@2x.png" height=32 width=32 /> <?php echo sprintf(__('Related Content / Recommendations', 'shareaholic')); ?></h2></legend>
-  <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want Related Content to be displayed. Click "Edit" to customize look & feel, themes, block lists, etc.', 'shareaholic')); ?></span>
+  <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want Related Content to be displayed. Click "Customize" to customize look & feel, themes, block lists, etc.', 'shareaholic')); ?></span>
     <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
       <?php if (isset($settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"])) { ?>
         <?php $location_id = $settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"] ?>

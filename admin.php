@@ -133,7 +133,7 @@ class ShareaholicAdmin {
   }
 
   /**
-   * For each of the things that a user can disable per post,
+   * For each of the things that a user can disable or exclude per post,
    * we iterate through and turn add the post meta, or make it false
    * if it *used* to be true, but did not come through in $_POST
    * (because unchecked boxes are not submitted).
@@ -144,6 +144,7 @@ class ShareaholicAdmin {
     foreach (array(
       'disable_share_buttons',
       'disable_open_graph_tags',
+      'exclude_recommendations',
       'disable_recommendations'
     ) as $attribute) {
       $key = 'shareaholic_' . $attribute;
