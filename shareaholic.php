@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.0.4.8
+ * @version 7.0.4.9
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.0.4.8
+Version: 7.0.4.9
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -53,7 +53,7 @@ require_once(SHAREAHOLIC_DIR . '/deprecation.php');
  */
 class Shareaholic {
   const URL = 'https://shareaholic.com';
-  const VERSION = '7.0.4.8';
+  const VERSION = '7.0.4.9';
   /**
    * Starts off as false so that ::get_instance() returns
    * a new instance.
