@@ -101,7 +101,7 @@ class ShareaholicUtilities {
   public static function has_accepted_terms_of_service() {
     return get_option('shareaholic_has_accepted_tos');
   }
-
+  
   /**
    * Accepts the terms of service.
    */
@@ -668,6 +668,42 @@ class ShareaholicUtilities {
     }
   }
 
+  /**
+   * Answers whether we should ping CM
+   *
+   * @return bool
+   */
+  public static function should_notify_cm() {
+    $settings = ShareaholicUtilities::get_settings();    
+    $recommendations_settings = $settings["recommendations"];
+    
+    if (in_array("on", $recommendations_settings)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  /**
+   * This is a wrapper for Shareaholic Content Manager API's
+   *
+   * @param string $post_id
+   */
+   public static function notify_content_manager($post_id = NULL) {   
+     $post_permalink = get_permalink($post_id);
+     
+     if ($post_permalink != NULL) {
+       $cm_single_page_job_url = Shareaholic::URL_CM . '/jobs/single_page';
+       $payload = array (
+         'args' => array (
+           $post_permalink,
+           array ('force' => true)
+          )
+        );
+      $response = ShareaholicCurl::post($cm_single_page_job_url, $payload, 'json');
+     }
+   }
+  
   /**
    * This is a wrapper for the Event API
    *

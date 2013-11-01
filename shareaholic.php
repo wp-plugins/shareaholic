@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.0.4.9
+ * @version 7.0.5.0
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.0.4.9
+Version: 7.0.5.0
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -53,7 +53,9 @@ require_once(SHAREAHOLIC_DIR . '/deprecation.php');
  */
 class Shareaholic {
   const URL = 'https://shareaholic.com';
-  const VERSION = '7.0.4.9';
+  const URL_CM = 'https://cm.shareaholic.com';
+  const VERSION = '7.0.5.0';
+  
   /**
    * Starts off as false so that ::get_instance() returns
    * a new instance.
@@ -84,10 +86,16 @@ class Shareaholic {
     if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
       add_action('admin_notices',                   array('ShareaholicAdmin', 'show_terms_of_service'));
     }
-
-    add_action('publish_post', array('ShareaholicNotifier', 'post_notify'));
-    add_action('publish_page', array('ShareaholicNotifier', 'post_notify'));
-
+    
+    // add_action('publish_post', array('ShareaholicNotifier', 'post_notify'));
+    // add_action('publish_page', array('ShareaholicNotifier', 'post_notify'));
+    
+    // Check if at least one Related Content location is enabled, if so, notify CM when a new post is published
+    if (ShareaholicUtilities::should_notify_cm()) {
+      add_action('publish_post', array('ShareaholicUtilities', 'notify_content_manager'));
+      add_action('publish_page', array('ShareaholicUtilities', 'notify_content_manager'));
+    }
+    
     register_activation_hook(__FILE__, array($this, 'after_activation'));
     register_deactivation_hook( __FILE__, array($this, 'deactivate'));
     register_uninstall_hook(__FILE__, array('Shareaholic', 'uninstall'));
