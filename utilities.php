@@ -674,11 +674,18 @@ class ShareaholicUtilities {
    * @return bool
    */
   public static function should_notify_cm() {
+    $settings = array();
+    $recommendations_settings = array();
+    
     $settings = ShareaholicUtilities::get_settings();    
     $recommendations_settings = $settings["recommendations"];
     
-    if (in_array("on", $recommendations_settings)) {
-      return true;
+    if (is_array($recommendations_settings)) {
+      if (in_array("on", $recommendations_settings)) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
@@ -693,7 +700,7 @@ class ShareaholicUtilities {
      $post_permalink = get_permalink($post_id);
      
      if ($post_permalink != NULL) {
-       $cm_single_page_job_url = Shareaholic::URL_CM . '/jobs/single_page';
+       $cm_single_page_job_url = Shareaholic::URL_CM . '/jobs/uber_single_page';
        $payload = array (
          'args' => array (
            $post_permalink,
