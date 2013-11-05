@@ -287,13 +287,13 @@ class ShareaholicUtilities {
    * @return string
    */
   public static function page_type() {
-    if (is_front_page()) {
+    if (is_front_page() || is_home()) {
       return 'index';
     } elseif (is_page()) {
       return 'page';
     } elseif (is_single()) {
       return 'post';
-    } elseif (is_category()) {
+    } elseif (is_category() || is_author() || is_tag() || is_date()) {
       return 'category';
     }
   }
@@ -602,12 +602,20 @@ class ShareaholicUtilities {
         $language_id = 34; // Turkish
     } elseif (strpos($site_language, 'el-') !== false) {
       $language_id = 14; // Greek
+    } elseif (strpos($site_language, 'nl-') !== false) {
+      $language_id = 8; // Dutch
+    } elseif (strpos($site_language, 'pl-') !== false) {
+      $language_id = 24; // Polish
+    } elseif (strpos($site_language, 'ru-') !== false) {
+      $language_id = 27; // Russian
+    } elseif (strpos($site_language, 'cs-') !== false) {
+      $language_id = 6; // Czech
     } else {
       $language_id = NULL;
     }
     return $language_id;
   }
-  
+    
   /**
    * Shockingly the built in PHP array_merge_recursive function is stupid.
    * this is stolen from the PHP docs and will overwrite existing keys instead

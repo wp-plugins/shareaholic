@@ -33,14 +33,16 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
           <?php $location_id = $settings['location_name_ids']['share_buttons']["{$page_type}_{$position}_content"] ?>
         <?php } else { $location_id = ''; } ?>
           <div>
-            <input type="checkbox" name="share_buttons[<?php echo "{$page_type}_{$position}_content" ?>]" class="check"
+            <input type="checkbox" id="share_buttons_<?php echo "{$page_type}_{$position}_content" ?>" name="share_buttons[<?php echo "{$page_type}_{$position}_content" ?>]" class="check"
             <?php if (isset($share_buttons["{$page_type}_{$position}_content"])) { ?>
               <?php echo ($share_buttons["{$page_type}_{$position}_content"] == 'on' ? 'checked' : '') ?>
             <?php } ?>>
-            <?php echo ucfirst($position) ?> Content <button data-app='share_buttons'
-                                                             data-location_id='<?php echo $location_id ?>'
-                                                             data-href='share_buttons/locations/{{id}}/edit'
-                                                      class="btn btn-success"><?php _e('Customize', 'shareaholic'); ?></button>
+            <label for="share_buttons_<?php echo "{$page_type}_{$position}_content" ?>"><?php echo ucfirst($position) ?> Content</label>
+            <button data-app='share_buttons'
+                    data-location_id='<?php echo $location_id ?>'
+                    data-href='share_buttons/locations/{{id}}/edit'
+                    class="btn btn-success">
+            <?php _e('Customize', 'shareaholic'); ?></button>
           </div>
       <?php } ?>
     </fieldset>
@@ -58,14 +60,16 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
       <fieldset id='recommendations'>
         <legend><?php echo ucfirst($page_type) ?></legend>
           <div>
-            <input type="checkbox" name="recommendations[<?php echo "{$page_type}_below_content" ?>]" class="check"
+            <input type="checkbox" id="recommendations_<?php echo "{$page_type}_below_content" ?>" name="recommendations[<?php echo "{$page_type}_below_content" ?>]" class="check"
             <?php if (isset($recommendations["{$page_type}_below_content"])) { ?>
               <?php echo ($recommendations["{$page_type}_below_content"] == 'on' ? 'checked' : '') ?>
             <?php } ?>>
-            <?php echo ucfirst($position) ?> Content <button data-app='recommendations'
-                                                             data-location_id='<?php echo $location_id ?>'
-                                                             data-href="recommendations/locations/{{id}}/edit"
-                                                      class="btn btn-success"><?php _e('Customize', 'shareaholic'); ?></button>
+            <label for="recommendations_<?php echo "{$page_type}_below_content" ?>"><?php echo ucfirst($position) ?> Content</label>
+            <button data-app='recommendations'
+                    data-location_id='<?php echo $location_id ?>'
+                    data-href="recommendations/locations/{{id}}/edit"
+                    class="btn btn-success">
+            <?php _e('Customize', 'shareaholic'); ?></button>
           </div>
       </fieldset>
     <?php } ?>
