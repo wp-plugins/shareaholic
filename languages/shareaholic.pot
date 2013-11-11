@@ -3,9 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Shareaholic | share buttons, analytics, related content "
-"7.0.4.1\n"
+"7.0.6.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/shareaholic\n"
-"POT-Creation-Date: 2013-09-25 16:56:44+00:00\n"
+"POT-Creation-Date: 2013-11-11 23:30:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,11 +13,11 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: admin.php:230 admin.php:297
+#: admin.php:217 admin.php:284
 msgid "Settings successfully saved"
 msgstr ""
 
-#: admin.php:291
+#: admin.php:278
 msgid "Settings successfully reset. Refresh this page to complete the reset."
 msgstr ""
 
@@ -56,11 +56,11 @@ msgstr ""
 msgid "(it is recommended NOT to disable open graph tags)"
 msgstr ""
 
-#: templates/advanced_settings.php:28 templates/settings.php:90
+#: templates/advanced_settings.php:28 templates/settings.php:94
 msgid "Saving Changes..."
 msgstr ""
 
-#: templates/advanced_settings.php:28 templates/settings.php:90
+#: templates/advanced_settings.php:28 templates/settings.php:94
 msgid "Save Changes"
 msgstr ""
 
@@ -148,8 +148,19 @@ msgstr ""
 msgid "Retry"
 msgstr ""
 
-#: templates/failed_to_create_api_key_modal.php:14
-msgid "or, try again later"
+#: templates/failed_to_create_api_key_modal.php:15
+msgid "or, try again later."
+msgstr ""
+
+#: templates/failed_to_create_api_key_modal.php:19
+msgid ""
+"If you continue to get this prompt for more than a few hours, try to check "
+"server connectivity or reset the plugin in %sadvanced settings%s."
+msgstr ""
+
+#: templates/failed_to_create_api_key_modal.php:19
+msgid ""
+"Also, if you have a question or have a bug to report, please %slet us know%s."
 msgstr ""
 
 #: templates/footer.php:8
@@ -167,6 +178,10 @@ msgid "Hide Related Content"
 msgstr ""
 
 #: templates/meta_boxes.php:26
+msgid "Exclude from Related Content"
+msgstr ""
+
+#: templates/meta_boxes.php:36
 msgid "Do not include Open Graph tags"
 msgstr ""
 
@@ -193,29 +208,33 @@ msgstr ""
 
 #: templates/settings.php:26
 msgid ""
-"Pick where you want your buttons to be displayed. Click \"Edit\" to "
+"Pick where you want your buttons to be displayed. Click \"Customize\" to "
 "customize look & feel, themes, share counters, alignment, etc."
 msgstr ""
 
-#: templates/settings.php:52
+#: templates/settings.php:45 templates/settings.php:72
+msgid "Customize"
+msgstr ""
+
+#: templates/settings.php:54
 msgid "Related Content / Recommendations"
 msgstr ""
 
-#: templates/settings.php:53
+#: templates/settings.php:55
 msgid ""
-"Pick where you want Related Content to be displayed. Click \"Edit\" to "
+"Pick where you want Related Content to be displayed. Click \"Customize\" to "
 "customize look & feel, themes, block lists, etc."
 msgstr ""
 
-#: templates/settings.php:75
+#: templates/settings.php:79
 msgid "Data Status:"
 msgstr ""
 
-#: templates/settings.php:79
+#: templates/settings.php:83
 msgid "Processing"
 msgstr ""
 
-#: templates/settings.php:81
+#: templates/settings.php:85
 msgid "Ready"
 msgstr ""
 

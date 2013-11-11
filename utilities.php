@@ -684,10 +684,11 @@ class ShareaholicUtilities {
   public static function should_notify_cm() {
     $settings = array();
     $recommendations_settings = array();
-    
-    $settings = ShareaholicUtilities::get_settings();    
-    $recommendations_settings = $settings["recommendations"];
-    
+    $settings = ShareaholicUtilities::get_settings();
+    if (isset($settings["recommendations"])){
+      $recommendations_settings = $settings["recommendations"];
+    }
+        
     if (is_array($recommendations_settings)) {
       if (in_array("on", $recommendations_settings)) {
         return true;
