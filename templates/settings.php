@@ -18,10 +18,10 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
   <input type="hidden" name="already_submitted" value="Y">
 
   <div id='app_settings'>
-  
+
   <fieldset class="app" style="line-height:18px;"><?php echo sprintf(__('First time here? Read %sUnderstanding the new Shareaholic for WordPress interface and configuration settings.%s', 'shareaholic'), '<a href="https://blog.shareaholic.com/understanding-the-new-shareaholic-for-wordpress-interface-and-configuration-settings/" target="_blank">','</a>'); ?> <?php echo sprintf(__('If you are upgrading from an earlier version of Shareaholic for WordPress and need help, have a question or have a bug to report, please %slet us know%s.', 'shareaholic'), '<a href="#" onclick="SnapEngage.startLink();">','</a>'); ?>
   </fieldset>
-  
+
   <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>img/sharebuttons@2x.png" height=32 width=32 /> <?php echo sprintf(__('Share Buttons', 'shareaholic')); ?></h2></legend>
   <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want your buttons to be displayed. Click "Customize" to customize look & feel, themes, share counters, alignment, etc.', 'shareaholic')); ?></span>
 
@@ -73,11 +73,11 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
           </div>
       </fieldset>
     <?php } ?>
-    
+
     <div class='clear'></div>
-    
+
     <strong><?php echo sprintf(__('Data Status:', 'shareaholic')); ?></strong>
-    <?php               	  
+    <?php
 	    $status = ShareaholicUtilities::recommendations_status_check();
 	    if ($status == "processing" || $status == 'unknown'){
 	      echo '<img class="shrsb_health_icon" align="top" src="'.SHAREAHOLIC_ASSET_DIR.'img/circle_yellow.png" />'. sprintf(__('Processing', 'shareaholic'));
@@ -85,9 +85,9 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
 	      echo '<img class="shrsb_health_icon" align="top" src="'.SHAREAHOLIC_ASSET_DIR.'img/circle_green.png" />'. sprintf(__('Ready', 'shareaholic'));
 	    }
 	  ?>
-	      
+
   </fieldset>
-  </div>  
+  </div>
 
   <div class='clear'></div>
   <div class="row" style="padding-top:20px; padding-bottom:35px;">

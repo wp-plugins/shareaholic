@@ -271,8 +271,9 @@ class ShareaholicAdmin {
       ));
     }
 
-    if(isset($_POST['reset_settings']) && $_POST['reset_settings'] == 'Y' &&
-        check_admin_referer($action, 'nonce_field')) {
+    if(isset($_POST['reset_settings'])
+      && $_POST['reset_settings'] == 'Y'
+      && check_admin_referer($action, 'nonce_field')) {
       ShareaholicUtilities::destroy_settings();
       echo "<div class='updated settings_updated'><p><strong>"
         . sprintf(__('Settings successfully reset. Refresh this page to complete the reset.', 'shareaholic'))

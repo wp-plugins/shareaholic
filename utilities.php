@@ -101,7 +101,7 @@ class ShareaholicUtilities {
   public static function has_accepted_terms_of_service() {
     return get_option('shareaholic_has_accepted_tos');
   }
-  
+
   /**
    * Accepts the terms of service.
    */
@@ -403,7 +403,7 @@ class ShareaholicUtilities {
    *
    * @param array $array
    */
-  public static function turn_on_locations($array) {
+  public static function turn_on_locations($array, $turn_off_array = array()) {
     foreach($array as $app => $ids) {
       foreach($ids as $name => $id) {
         self::update_options(array(
@@ -411,6 +411,38 @@ class ShareaholicUtilities {
         ));
       }
     }
+
+    foreach($turn_off_array as $app => $ids) {
+      foreach($ids as $name => $id) {
+        self::update_options(array(
+          $app => array($name => 'off')
+        ));
+      }
+    }
+  }
+
+  /**
+   * Give back only the request keys from an array. The first
+   * argument is the array to be sliced, and after that it can
+   * either be a variable-length list of keys or one array of keys.
+   *
+   * @param  array $array
+   * @param  Mixed ... can be either one array or many keys
+   * @return array
+   */
+  public static function associative_array_slice($array) {
+    $keys = array_slice(func_get_args(), 1);
+    if (func_num_args() == 2 && is_array($keys[0])) {
+      $keys = $keys[0];
+    }
+
+    $result = array();
+
+    foreach($keys as $key) {
+      $result[$key] = $array[$key];
+    }
+
+    return $result;
   }
 
   /**
@@ -480,7 +512,31 @@ class ShareaholicUtilities {
       delete_option('shareaholic_settings');
 
       $verification_key = md5(mt_rand());
-      $response = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', array(
+      $turned_on_share_buttons_locations = array(
+        array('name' => 'post_below_content', 'counter' => 'badge-counter'),
+        array('name' => 'page_below_content', 'counter' => 'badge-counter'),
+        array('name' => 'index_below_content', 'counter' => 'badge-counter'),
+        array('name' => 'category_below_content', 'counter' => 'badge-counter')
+      );
+      $turned_off_share_buttons_locations = array(
+        array('name' => 'post_above_content', 'counter' => 'badge-counter'),
+        array('name' => 'page_above_content', 'counter' => 'badge-counter'),
+        array('name' => 'index_above_content', 'counter' => 'badge-counter'),
+        array('name' => 'category_above_content', 'counter' => 'badge-counter')
+      );
+
+      $turned_on_recommendations_locations = array(
+        array('name' => 'post_below_content'),
+        array('name' => 'page_below_content'),
+      );
+      $turned_off_recommendations_locations = array(
+        array('name' => 'index_below_content'),
+        array('name' => 'category_below_content'),
+      );
+
+      $share_buttons_attributes = array_merge($turned_on_share_buttons_locations, $turned_off_share_buttons_locations);
+      $recommendations_attributes = array_merge($turned_on_recommendations_locations, $turned_off_recommendations_locations);
+      $data = array(
         'configuration_publisher' => array(
           'verification_key' => $verification_key,
           'site_name' => self::site_name(),
@@ -489,21 +545,19 @@ class ShareaholicUtilities {
           'language_id' => self::site_language(),
           'shortener' => 'shrlc',
           'recommendations_attributes' => array(
-            'locations_attributes' => array(
-              array('name' => 'post_below_content'),
-              array('name' => 'page_below_content'),
-            )
+            'locations_attributes' => $recommendations_attributes
           ),
           'share_buttons_attributes' => array(
-            'locations_attributes' => array(
-              array('name' => 'post_below_content', 'counter' => 'badge-counter'),
-              array('name' => 'page_below_content', 'counter' => 'badge-counter'),
-              array('name' => 'index_below_content', 'counter' => 'badge-counter'),
-              array('name' => 'category_below_content', 'counter' => 'badge-counter')
-            )
+            'locations_attributes' => $share_buttons_attributes
           )
         )
-      ));
+      );
+
+      $response = ShareaholicCurl::post(
+        Shareaholic::URL . '/publisher_tools/anonymous',
+        $data,
+        'json'
+      );
 
       if ($response && preg_match('/20*/', $response['response']['code'])) {
         self::update_options(array(
@@ -513,7 +567,38 @@ class ShareaholicUtilities {
         ));
 
         if (isset($response['body']['location_name_ids']) && is_array($response['body']['location_name_ids'])) {
-          ShareaholicUtilities::turn_on_locations($response['body']['location_name_ids']);
+
+          $turned_on_share_buttons_keys = array();
+          foreach($turned_on_share_buttons_locations as $loc) {
+            $turned_on_share_buttons_keys[] = $loc['name'];
+          }
+
+          $turned_on_recommendations_keys = array();
+          foreach($turned_on_recommendations_locations as $loc) {
+            $turned_on_recommendations_keys[] = $loc['name'];
+          }
+
+          $turned_off_share_buttons_keys = array();
+          foreach($turned_off_share_buttons_locations as $loc) {
+            $turned_off_share_buttons_keys[] = $loc['name'];
+          }
+
+          $turned_off_recommendations_keys = array();
+          foreach($turned_off_recommendations_locations as $loc) {
+            $turned_off_recommendations_keys[] = $loc['name'];
+          }
+
+          $turn_on = array(
+            'share_buttons' => self::associative_array_slice($response['body']['location_name_ids']['share_buttons'], $turned_on_share_buttons_keys),
+            'recommendations' => self::associative_array_slice($response['body']['location_name_ids']['recommendations'], $turned_on_recommendations_keys)
+          );
+
+          $turn_off = array(
+            'share_buttons' => self::associative_array_slice($response['body']['location_name_ids']['share_buttons'], $turned_off_share_buttons_keys),
+            'recommendations' => self::associative_array_slice($response['body']['location_name_ids']['recommendations'], $turned_off_recommendations_keys)
+          );
+
+          ShareaholicUtilities::turn_on_locations($turn_on, $turn_off);
         } else {
           ShareaholicUtilities::log_bad_response('FailedToCreateApiKey', $response);
         }
@@ -573,7 +658,7 @@ class ShareaholicUtilities {
    */
   public static function site_language() {
     $site_language = strtolower(get_bloginfo('language'));
-    
+
     if (strpos($site_language, 'en-') !== false) {
       $language_id = 9; // English
     } elseif (strpos($site_language, 'da-') !== false) {
@@ -615,7 +700,7 @@ class ShareaholicUtilities {
     }
     return $language_id;
   }
-    
+
   /**
    * Shockingly the built in PHP array_merge_recursive function is stupid.
    * this is stolen from the PHP docs and will overwrite existing keys instead
@@ -682,13 +767,11 @@ class ShareaholicUtilities {
    * @return bool
    */
   public static function should_notify_cm() {
-    $settings = array();
-    $recommendations_settings = array();
     $settings = ShareaholicUtilities::get_settings();
-    if (isset($settings["recommendations"])){
-      $recommendations_settings = $settings["recommendations"];
-    }
-        
+    $recommendations_settings = isset($settings['recommendations']) ?
+      $settings["recommendations"] :
+      null;
+
     if (is_array($recommendations_settings)) {
       if (in_array("on", $recommendations_settings)) {
         return true;
@@ -699,15 +782,15 @@ class ShareaholicUtilities {
       return false;
     }
   }
-  
+
   /**
    * This is a wrapper for Shareaholic Content Manager API's
    *
    * @param string $post_id
    */
-   public static function notify_content_manager($post_id = NULL) {   
+   public static function notify_content_manager($post_id = NULL) {
      $post_permalink = get_permalink($post_id);
-     
+
      if ($post_permalink != NULL) {
        $cm_single_page_job_url = Shareaholic::URL_CM . '/jobs/uber_single_page';
        $payload = array (
@@ -719,7 +802,7 @@ class ShareaholicUtilities {
       $response = ShareaholicCurl::post($cm_single_page_job_url, $payload, 'json');
      }
    }
-  
+
   /**
    * This is a wrapper for the Event API
    *
@@ -763,7 +846,7 @@ class ShareaholicUtilities {
 
     $response = ShareaholicCurl::post($event_api_url, $event_params, '', true);
   }
-  
+
   /**
    * This loads the locales
    *
@@ -771,7 +854,7 @@ class ShareaholicUtilities {
   public static function localize() {
     load_plugin_textdomain('shareaholic', false, basename(dirname(__FILE__)) . '/languages/');
   }
-  
+
   /*
    * Adds a xua response header
    *
@@ -784,16 +867,16 @@ class ShareaholicUtilities {
       }
       return $headers;
   }
-  
+
   /*
    * Draws xua meta tag
    *
    */
   public function draw_meta_xua()
-  {    
+  {
     echo '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">';
   }
-  
+
   /**
    * Server Connectivity check
    *

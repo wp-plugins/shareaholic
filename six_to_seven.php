@@ -60,7 +60,13 @@ class ShareaholicSixToSeven {
       );
     }
 
+    $new_recommendations_configuration = isset($new_recommendations_configuration) ?
+      $new_recommendations_configuration :
+      null;
+
     $verification_key = md5(mt_rand());
+    list($turned_on_share_buttons_locations, $turned_off_share_buttons_locations) = self::pad_locations($new_share_buttons_configuration);
+    list($turned_on_recommendations_locations, $turned_off_recommendations_locations) = self::pad_locations($new_recommendations_configuration);
     $new_configuration = array(
       'configuration_publisher' => array(
         'share_buttons_attributes' => $new_share_buttons_configuration,
@@ -73,11 +79,15 @@ class ShareaholicSixToSeven {
       ),
     );
 
+    ShareaholicUtilities::log($turned_off_share_buttons_locations);
+    ShareaholicUtilities::log($turned_off_recommendations_locations);
+
     $shortener_configuration = (isset($sexybookmarks_configuration['shorty']) ?
       self::transform_shortener_configuration($sexybookmarks_configuration) : array());
     $new_configuration = array_merge($new_configuration, $shortener_configuration);
 
     $response = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', $new_configuration, 'json');
+
     if ($response && preg_match('/20*/', $response['response']['code'])) {
       ShareaholicUtilities::log_event('6To7ConversionSuccess', array(
         'the_posted_json' => $new_configuration,
@@ -94,7 +104,10 @@ class ShareaholicSixToSeven {
         'location_name_ids' => $response['body']['location_name_ids']
       ));
 
-      ShareaholicUtilities::turn_on_locations($response['body']['location_name_ids']);
+      ShareaholicUtilities::turn_on_locations(
+        array('share_buttons' => $turned_on_share_buttons_locations, 'recommendations' => $turned_on_recommendations_locations),
+        array('share_buttons' => $turned_off_share_buttons_locations, 'recommendations' => $turned_off_recommendations_locations)
+      );
 
       self::transform_wordpress_specific_settings();
     } else {
@@ -104,6 +117,33 @@ class ShareaholicSixToSeven {
         'ShareaholicClassicBookmarks' => $classicbookmarks_configuration,
         'ShareaholicRecommendations' => $recommendations_configuration
       ));
+    }
+  }
+
+  private static function pad_locations(&$configuration) {
+    $all_names = array();
+    foreach (array('post', 'page', 'index', 'category') as $page_type) {
+      foreach (array('above', 'below') as $location) {
+        $all_names[] = "{$page_type}_{$location}_content";
+      }
+    }
+
+    $already_set_names = array();
+    foreach($configuration['locations_attributes'] as $attrs) {
+      $already_set_names[] = $attrs['name'];
+    }
+
+    $names_to_pad = array_diff($all_names, $already_set_names);
+    foreach($names_to_pad as $name) {
+      $configuration['locations_attributes'][] = array('name' => $name);
+    }
+    if (isset($configuration['location_name_ids'])) {
+      return array(
+        ShareaholicUtilities::associative_array_slice($configuration['location_name_ids'], $already_set_names),
+        ShareaholicUtilities::associative_array_slice($configuration['location_name_ids'], $names_to_pad)
+      );
+    } else {
+      return array();
     }
   }
 
@@ -364,6 +404,11 @@ class ShareaholicSixToSeven {
       // it's stored as googleplus in wordpress, but
       // now we use google_plus
       return 'google_plus';
+    }
+    if (preg_match('/googlebookmarks/', $value)) {
+      // it's stored as googlebookmarks in wordpress, but
+      // now we use google_bookmarks
+      return 'google_bookmarks';
     }
     if (preg_match('/mail/', $value)) {
       // it's stored as mail in wordpress, but

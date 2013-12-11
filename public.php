@@ -93,6 +93,7 @@ class ShareaholicPublic {
     self::draw_url_meta_tag();
     self::draw_keywords_meta_tag();
     self::draw_article_meta_tag();
+    self::draw_site_id_meta_tag();
     self::draw_plugin_version_meta_tag();
     self::draw_image_meta_tag();
     echo "\n<!-- Shareaholic Content Tags End -->\n";
@@ -241,6 +242,16 @@ class ShareaholicPublic {
     }
   }
 
+  /**
+   * Draws Shareaholic site_id meta tag.
+   */
+  private static function draw_site_id_meta_tag() {
+    $site_id = ShareaholicUtilities::get_option('api_key');
+    if (!empty($site_id)) {
+      echo "<meta name='shareaholic:site_id' content='" . $site_id . "' />\n";
+    }
+  }
+  
   /**
    * Draws Shareaholic image tag. Will only run on pages or posts.
    */
