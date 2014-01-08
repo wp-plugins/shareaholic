@@ -8,8 +8,8 @@
       shr.onload = shr.onreadystatechange = function() {
         var rs = this.readyState;
         if (rs && rs != 'complete' && rs != 'loaded') return;
-        var apikey = '<?php echo $api_key; ?>';
-        try { Shareaholic.init(apikey); } catch (e) {}
+        var site_id = '<?php echo $api_key; ?>';
+        try { Shareaholic.init(site_id); } catch (e) {}
       };
       var s = document.getElementsByTagName('script')[0];
       s.parentNode.insertBefore(shr, s);

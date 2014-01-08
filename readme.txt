@@ -2,8 +2,8 @@
 Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 2.7
-Tested up to: 3.7.1
-Stable tag: 7.0.8.0
+Tested up to: 3.8
+Stable tag: 7.0.9.0
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -147,6 +147,9 @@ Please see here: [Frequently Asked Questions](https://shareaholic.com/tools/word
 Please see here: [Usage & Installation Instructions](https://shareaholic.com/tools/wordpress/usage-installation)
 
 == Changelog ==
+
+= 7.0.9.0 =
+* Confirmed that Shareaholic works well with WordPress 3.8. Upgrade away! 
 
 = 7.0.8.0 =
 * Miscellaneous bug fixes and performance enhancements
@@ -984,6 +987,9 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.0.9.0 =
+Confirmed that Shareaholic works well with WordPress 3.8. Upgrade away!
 
 = 7.0.8.0 =
 Miscellaneous bug fixes and performance enhancements
