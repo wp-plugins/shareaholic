@@ -307,11 +307,11 @@ class ShareaholicUtilities {
    */
   public static function asset_url($asset) {
     if (preg_match('/spreadaholic/', Shareaholic::URL)) {
-      return "http://spreadaholic.com:8080/assets-development/" . $asset;
-    } elseif (preg_match('/staging\.shareaholic/', Shareaholic::URL)) {
-      return 'https://dsms0mj1bbhn4.cloudfront.net/assets-staging/' . $asset;
+      return "http://spreadaholic.com:8080/assets/" . $asset;
+    } elseif (preg_match('/stageaholic/', Shareaholic::URL)) {
+      return '//d2062rwknz205x.cloudfront.net/assets/' . $asset;
     } else {
-      return 'https://dsms0mj1bbhn4.cloudfront.net/assets/' . $asset;
+      return '//dsms0mj1bbhn4.cloudfront.net/assets/' . $asset;
     }
   }
 
@@ -334,7 +334,7 @@ class ShareaholicUtilities {
       return false;
     }
 
-    $response = ShareaholicCurl::get(Shareaholic::URL . '/publisher_tools/' . $api_key . '/verified');
+    $response = ShareaholicCurl::get(Shareaholic::API_URL . '/publisher_tools/' . $api_key . '/verified');
     $result = $response['body'];
 
     if ($result == 'true') {
@@ -370,7 +370,7 @@ class ShareaholicUtilities {
    * @param string $api_key
    */
   public static function get_new_location_name_ids($api_key) {
-    $response = ShareaholicCurl::get(Shareaholic::URL . "/publisher_tools/{$api_key}.json");
+    $response = ShareaholicCurl::get(Shareaholic::API_URL . "/publisher_tools/{$api_key}.json");
     $publisher_configuration = $response['body'];
     $result = array();
 
@@ -554,7 +554,7 @@ class ShareaholicUtilities {
       );
 
       $response = ShareaholicCurl::post(
-        Shareaholic::URL . '/publisher_tools/anonymous',
+        Shareaholic::API_URL . '/publisher_tools/anonymous',
         $data,
         'json'
       );
@@ -792,7 +792,7 @@ class ShareaholicUtilities {
      $post_permalink = get_permalink($post_id);
 
      if ($post_permalink != NULL) {
-       $cm_single_page_job_url = Shareaholic::URL_CM . '/jobs/uber_single_page';
+       $cm_single_page_job_url = Shareaholic::CM_API_URL . '/jobs/uber_single_page';
        $payload = array (
          'args' => array (
            $post_permalink,
@@ -841,7 +841,7 @@ class ShareaholicUtilities {
   	   $event_metadata = array_merge($event_metadata, $extra_params);
   	 }
 
-  	$event_api_url = Shareaholic::URL . '/api/events';
+  	$event_api_url = Shareaholic::API_URL . '/api/events';
   	$event_params = array('name' => "WordPress:".$event_name, 'data' => json_encode($event_metadata) );
 
     $response = ShareaholicCurl::post($event_api_url, $event_params, '', true);
@@ -882,7 +882,7 @@ class ShareaholicUtilities {
    *
    */
    public static function connectivity_check() {
-  	$health_check_url = Shareaholic::URL . "/haproxy_health_check";
+  	$health_check_url = Shareaholic::API_URL . "/haproxy_health_check";
     $response = ShareaholicCurl::get($health_check_url);
     $body = $response['body'];
     if(is_array($response) && array_key_exists('body', $response)) {
@@ -901,7 +901,7 @@ class ShareaholicUtilities {
    *
    */
    public static function recommendations_status_check() {
-  	$recommendations_status_api_url = Shareaholic::URL . "/v2/recommendations/status?url=" . get_bloginfo('url');
+  	$recommendations_status_api_url = Shareaholic::API_URL . "/v2/recommendations/status?url=" . get_bloginfo('url');
     $response = ShareaholicCurl::get($recommendations_status_api_url);
     if(is_array($response) && array_key_exists('body', $response)) {
       $body = $response['body'];

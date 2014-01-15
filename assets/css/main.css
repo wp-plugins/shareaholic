@@ -302,38 +302,41 @@ input[type='text'] {
 }
 
 .signuppromo{
-  border: 1px solid #1E8520;
-	background: #45A147;
+  border: 1px solid #d8d8d8;
 	border-radius: 6px;
 	padding: 20px 20px;
-	color: white;
+	color: #45A147;
 	font-size: 14px;
 	float: right;
-	margin: 30px;
+	margin: 25px 0 0 20px;
 	min-width: 250px;
-	box-shadow: 0px 1px 5px rgba(0,0,0,0.27);
+}
+
+.signuppromo_note{
+	font: 300 12px/20px "open sans","helvetica neue",helvetica,arial,sans-serif;
+	color: #555;
 }
 
 .promoh1{
-	font-size: 24px;
-	line-height: 28px;
-	margin: 10px 0 0 0;
+	font: 400 16px/22px "open sans","helvetica neue",helvetica,arial,sans-serif;
+	margin: 0;
 	padding: 0;
-	text-shadow: 0px 1px 0px rgba(0,0,0,0.4);
-}
-
-.promosub{
-	color: black;
-	margin: 10px 0 0 0;
-	font-weight: bold;
 }
 
 .signuppromo ul{
-margin: 24px 0px;
+  margin: 24px 0px;
 }
 
 .signuppromo ul li{
-margin: 10px 0px;
+  background: url(../img/bolt.png) 0 2px no-repeat;
+  background-size: 22px 22px;
+  color: #555;
+  float: left;
+  font: 400 13px/20px "open sans","helvetica neue",helvetica,arial,sans-serif;
+  list-style: none;
+  padding: 2px 0 2px 32px;
+  margin: 0 0 18px 0;
+  text-align: left;
 }
 
 .signuppromo a,.signuppromo a:active {
@@ -375,6 +378,29 @@ margin: 10px 0px;
   background-color:#f6f6f6;
 }
 
+.help_links{
+  border: 1px solid #d8d8d8;
+	border-radius: 6px;
+	padding: 20px 20px;
+	color: #45A147;
+	font-size: 14px;
+	float: right;
+	margin: 25px 0 0 20px;
+	min-width: 250px;
+}
+
+.help_links ul{
+  margin: 0px 0px 0px 15px;
+  list-style-type: square;
+}
+
+.help_links ul li{
+  color: #555;
+  float: left;
+  font: 400 12px/18px "open sans","helvetica neue",helvetica,arial,sans-serif;
+  margin: 0 0 4px 0;
+  text-align: left;
+}
 
 .key-status {
   padding: 0.4em 1em;

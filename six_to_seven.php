@@ -86,7 +86,7 @@ class ShareaholicSixToSeven {
       self::transform_shortener_configuration($sexybookmarks_configuration) : array());
     $new_configuration = array_merge($new_configuration, $shortener_configuration);
 
-    $response = ShareaholicCurl::post(Shareaholic::URL . '/publisher_tools/anonymous', $new_configuration, 'json');
+    $response = ShareaholicCurl::post(Shareaholic::API_URL . '/publisher_tools/anonymous', $new_configuration, 'json');
 
     if ($response && preg_match('/20*/', $response['response']['code'])) {
       ShareaholicUtilities::log_event('6To7ConversionSuccess', array(

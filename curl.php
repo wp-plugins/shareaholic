@@ -63,9 +63,10 @@ class ShareaholicCurl {
     ShareaholicUtilities::log($data_type);
     ShareaholicUtilities::log($method);
     ShareaholicUtilities::log('-----------------');
-    $timeout = 10;
+    $timeout = 15;	  
+    $useragent = 'WordPress/' . get_bloginfo('version') . '; '. 'PHP/' . phpversion() . '; ' . 'SHR_WP/' . Shareaholic::VERSION . '; ' . get_bloginfo( 'url' );
     if ($method == 'GET') {
-      $response = wp_remote_get($url, array('body' => $data, 'sslverify'=>false, 'timeout'=> $timeout));
+      $response = wp_remote_get($url, array('body' => $data, 'sslverify'=>false, 'user-agent'=>$useragent, 'timeout'=>$timeout));
     } elseif ($method == 'POST') {
       $request = array();
       if ($data_type == 'json') {

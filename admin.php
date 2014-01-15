@@ -166,7 +166,7 @@ class ShareaholicAdmin {
   public static function enqueue_scripts() {
     if (isset($_GET['page']) && preg_match('/shareaholic/', $_GET['page'])) {
       wp_enqueue_style('shareaholic_application_css', ShareaholicUtilities::asset_url('application.css'), false,  ShareaholicUtilities::get_version());
-      wp_enqueue_style('shareaholic_bootstrap_css', plugins_url('assets/css/bootstrap.min.css', __FILE__), false,  ShareaholicUtilities::get_version());
+      wp_enqueue_style('shareaholic_bootstrap_css', plugins_url('assets/css/bootstrap.css', __FILE__), false,  ShareaholicUtilities::get_version());
       wp_enqueue_style('shareaholic_main_css', plugins_url('assets/css/main.css', __FILE__), false,  ShareaholicUtilities::get_version());
       wp_enqueue_style('shareaholic_open_sans_css', '//fonts.googleapis.com/css?family=Open+Sans:400,300,700');
 
@@ -188,7 +188,7 @@ class ShareaholicAdmin {
       'manage_options',
       'shareaholic-settings',
       array('ShareaholicAdmin', 'admin'),
-      SHAREAHOLIC_ASSET_DIR . 'img/shareaholic_16x16.png'
+      SHAREAHOLIC_ASSET_DIR . 'img/shareaholic_16x16_2.png'
     );
     add_submenu_page('shareaholic-settings',
       'Available Apps',
