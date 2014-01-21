@@ -1,6 +1,6 @@
 <div class='wrap'>
 <div id="icon-options-general" class="icon32"></div>
-<h2><?php echo sprintf(__('Shareaholic: Available Apps', 'shareaholic')); ?></h2>
+<h2><?php echo sprintf(__('Shareaholic: App Manager', 'shareaholic')); ?></h2>
 
 <div class='reveal-modal' id='editing_modal'>
   <div id='iframe_container' class='bg-loading-img' allowtransparency='true'></div>
@@ -76,7 +76,7 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
 
     <div class='clear'></div>
 
-    <strong><?php echo sprintf(__('Data Status:', 'shareaholic')); ?></strong>
+    <strong><?php echo sprintf(__('Related Content:', 'shareaholic')); ?></strong>
     <?php
 	    $status = ShareaholicUtilities::recommendations_status_check();
 	    if ($status == "processing" || $status == 'unknown'){

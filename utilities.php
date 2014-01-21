@@ -92,6 +92,49 @@ class ShareaholicUtilities {
   	$links[] = '<a href="admin.php?page=shareaholic-settings">'.__('Settings', 'shareaholic').'</a>';
   	return $links;
   }
+  
+  /**
+   * Extend the admin bar
+   *
+   */
+   
+   function admin_bar_extended() {
+   	global $wp_admin_bar;
+   	
+   	if(!current_user_can('update_plugins') || !is_admin_bar_showing())
+   		return;
+    
+   	$wp_admin_bar->add_menu(array(
+   		'id' => 'wp_shareaholic_adminbar_menu',
+   		'title' => __('Shareaholic', 'shareaholic'),
+   		'href' => admin_url('admin.php?page=shareaholic-settings'),
+   	));
+   	
+   	/*
+   	$wp_admin_bar->add_menu(array(
+   		'parent' => 'wp_shareaholic_adminbar_menu',
+   		'id' => 'wp_shareaholic_adminbar_submenu-analytics',
+   		'title' => __('Social Analytics', 'shareaholic'),
+   		'href' => 'https://shareaholic.com/publishers/analytics/'. ShareaholicUtilities::get_host(),
+   		'meta' => Array( 'target' => '_blank' )
+   	));
+   	*/
+   	
+   	$wp_admin_bar->add_menu(array(
+   		'parent' => 'wp_shareaholic_adminbar_menu',
+   		'id' => 'wp_shareaholic_adminbar_submenu-settings',
+   		'title' => __('App Manager', 'shareaholic'),
+   		'href' => admin_url('admin.php?page=shareaholic-settings'),
+   	));
+   	
+   	$wp_admin_bar->add_menu(array(
+   		'parent' => 'wp_shareaholic_adminbar_menu',
+   		'id' => 'wp_shareaholic_adminbar_submenu-general',
+   		'title' => __('General Settings', 'shareaholic'),
+   		'href' => 'https://shareaholic.com/publisher_tools/'.self::get_option('api_key').'/edit?verification_key='.self::get_option('verification_key'),
+   		'meta' => Array( 'target' => '_blank' )
+   	));
+   }
 
   /**
    * Returns whether the user has accepted our terms of service.
@@ -784,13 +827,13 @@ class ShareaholicUtilities {
   }
 
   /**
-   * This is a wrapper for Shareaholic Content Manager API's
+   * Wrapper for the Shareaholic Content Manager Single Page worker API
    *
    * @param string $post_id
    */
-   public static function notify_content_manager($post_id = NULL) {
+   public static function notify_content_manager_singlepage($post_id = NULL) {
      $post_permalink = get_permalink($post_id);
-
+     
      if ($post_permalink != NULL) {
        $cm_single_page_job_url = Shareaholic::CM_API_URL . '/jobs/uber_single_page';
        $payload = array (
@@ -803,6 +846,28 @@ class ShareaholicUtilities {
      }
    }
 
+   /**
+    * Wrapper for the Shareaholic Content Manager Single Domain worker API
+    *
+    * @param string $domain
+    */
+    public static function notify_content_manager_singledomain($domain = NULL) {
+      if ($domain == NULL) {
+        $domain = get_bloginfo('url');
+      }
+      
+      if ($domain != NULL) {
+        $cm_single_domain_job_url = Shareaholic::CM_API_URL . '/jobs/single_domain';
+        $payload = array (
+          'args' => array (
+            $domain,
+            array ('force' => true)
+           )
+         );
+       $response = ShareaholicCurl::post($cm_single_domain_job_url, $payload, 'json');
+      }
+    }
+    
   /**
    * This is a wrapper for the Event API
    *

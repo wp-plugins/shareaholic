@@ -191,8 +191,8 @@ class ShareaholicAdmin {
       SHAREAHOLIC_ASSET_DIR . 'img/shareaholic_16x16_2.png'
     );
     add_submenu_page('shareaholic-settings',
-      'Available Apps',
-      'Available Apps',
+      'App Manager',
+      'App Manager',
       'manage_options',
       'shareaholic-settings',
       array('ShareaholicAdmin', 'admin')

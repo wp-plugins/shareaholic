@@ -43,7 +43,18 @@
       <?php } ?>
     </fieldset>
     
-    <div class='clear'></div>  
+    <div class='clear'></div>
+    
+    <fieldset class="app">
+      <legend><h2><?php _e('Shareaholic Site ID', 'shareaholic'); ?></h2></legend>
+      <?php if (ShareaholicUtilities::get_option('api_key')){
+        echo '<code>'.ShareaholicUtilities::get_option('api_key').'</code>';
+      } else {
+        _e('Not set.', 'shareaholic');
+      } ?>
+    </fieldset>
+    
+    <div class='clear'></div>
     
     <form name='reset_settings' method='post' action='<?php echo $action ?>'>
       <?php wp_nonce_field($action, 'nonce_field') ?>

@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.1.0.0
+ * @version 7.2.0.0
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.1.0.0
+Version: 7.2.0.0
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -55,7 +55,7 @@ class Shareaholic {
   const URL = 'https://shareaholic.com';
   const API_URL = 'https://web.shareaholic.com'; // uses static IPs for firewall whitelisting
   const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
-  const VERSION = '7.1.0.0';
+  const VERSION = '7.2.0.0';
 
   /**
    * Starts off as false so that ::get_instance() returns
@@ -93,14 +93,15 @@ class Shareaholic {
 
     // Check if at least one Related Content location is enabled, if so, notify CM when a new post is published
     if (ShareaholicUtilities::should_notify_cm()) {
-      add_action('publish_post', array('ShareaholicUtilities', 'notify_content_manager'));
-      add_action('publish_page', array('ShareaholicUtilities', 'notify_content_manager'));
+      add_action('publish_post', array('ShareaholicUtilities', 'notify_content_manager_singlepage'));
+      add_action('publish_page', array('ShareaholicUtilities', 'notify_content_manager_singlepage'));
     }
-    add_action('trashed_post', array('ShareaholicUtilities', 'notify_content_manager'));
+    add_action('trashed_post', array('ShareaholicUtilities', 'notify_content_manager_singlepage'));
     register_activation_hook(__FILE__, array($this, 'after_activation'));
     register_deactivation_hook( __FILE__, array($this, 'deactivate'));
     register_uninstall_hook(__FILE__, array('Shareaholic', 'uninstall'));
-
+    
+    add_action('wp_before_admin_bar_render', array('ShareaholicUtilities', 'admin_bar_extended'));
     add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'ShareaholicUtilities::admin_plugin_action_links', -10);
   }
 
@@ -137,7 +138,6 @@ class Shareaholic {
     ShareaholicUtilities::localize();
   }
 
-
   /**
    * Runs any update code if the version is different from what's
    * stored in the settings. This will only run if we are on the
@@ -152,7 +152,7 @@ class Shareaholic {
           ShareaholicUtilities::log_event("Upgrade", array ('previous_plugin_version' => ShareaholicUtilities::get_version()));
           ShareaholicUtilities::perform_update();
           ShareaholicUtilities::set_version(self::VERSION);
-          ShareaholicUtilities::recommendations_status_check();
+          ShareaholicUtilities::notify_content_manager_singledomain();
         }
       }
     }
@@ -175,7 +175,10 @@ class Shareaholic {
   public function after_activation() {
     $this->terms_of_service();
     ShareaholicUtilities::log_event("Activate");
-    ShareaholicUtilities::recommendations_status_check();
+
+    if (ShareaholicUtilities::has_accepted_terms_of_service() && ShareaholicUtilities::get_option('api_key') != NULL){
+      ShareaholicUtilities::notify_content_manager_singledomain();
+    }
 
     if (!ShareaholicUtilities::get_version()) {
       ShareaholicUtilities::log_event("Install_Fresh");

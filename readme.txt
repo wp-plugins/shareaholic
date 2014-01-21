@@ -3,25 +3,28 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 2.7
 Tested up to: 3.8
-Stable tag: 7.1.0.0
+Stable tag: 7.2.0.0
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
 == Description ==
 
-Shareaholic has proven time and time again to be an extremely useful and successful tool in getting your readers to actually **discover** and **submit your articles** to numerous social bookmarking sites.
-
-Our sole aim was to stray away from the "in the box" thinking behind most social bookmarking plugins, and add a little flair that would entice your readers, rather than deterring them with microscopic icons that get lost in pages heavy laden with content.
+Three powerful apps to amplify your content and create conversations, across the web. Shareaholic has proven time and time again to be an extremely useful and successful tool in getting your readers to actually **discover** and **submit your articles** to numerous social bookmarking sites.
 
 = Recent Updates =
-
-* Recommendations & Related Content - Increase reader engagement and pageviews by highlighting related content from across your site
-* Social Analytics - Actionable and easy to understand
+* [Shareable Images](https://blog.shareaholic.com/image-share-buttons/) (share buttons for images)
+* Recommendations & Related Content - Increases engagement and time on site by highlighting relevant content that may not otherwise be discovered from across your site.
+* Social Analytics - Provides you with important actionable metrics including insights into how your content is performing, who's sharing it, and through which channels.
 * Full support for Facebook, Twitter, Google Plus, Pinterest, etc
 * Share Counters for Twitter, Facebook, LinkedIn, etc
 * Official support for Google's URL shortener (goo.gl) and Google Analytics
-* Utilizes the [Share API](https://shareaholic.com/api/)
 * Localized in 15+ languages
+
+= Share Buttons =
+
+Our aim was to stray away from the "in the box" thinking behind most social bookmarking plugins, and add a little flair that would entice your readers, rather than deterring them with microscopic icons that get lost in pages heavy laden with content.
+
+[Share Buttons](https://shareaholic.com/publishers/sharing/) (demo)
 
 = Recommendations / Related Content =
 
@@ -147,6 +150,10 @@ Please see here: [Frequently Asked Questions](https://shareaholic.com/tools/word
 Please see here: [Usage & Installation Instructions](https://shareaholic.com/tools/wordpress/usage-installation)
 
 == Changelog ==
+
+= 7.2.0.0 =
+* Miscellaneous bug fixes and performance enhancements to Related Content
+* New Admin Bar options!
 
 = 7.1.0.0 =
 * Shareaholic API's now use endpoints with static IP's. [Instruction on allowing Shareaholic to work with your firewall](https://blog.shareaholic.com/shareaholic-hosting-faq/).
@@ -990,6 +997,9 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.2.0.0 =
+New Admin Bar options + miscellaneous bug fixes and performance enhancements to Related Content
 
 = 7.1.0.0 =
 Shareaholic API's now use endpoints with static IP's. [Instruction on allowing Shareaholic to work with your firewall](https://blog.shareaholic.com/shareaholic-hosting-faq/).
