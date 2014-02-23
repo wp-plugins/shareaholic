@@ -1,3 +1,4 @@
+<!-- This site is powered by Shareaholic - https://shareaholic.com -->
 <script type='text/javascript' data-cfasync='false'>
   //<![CDATA[
     (function() {

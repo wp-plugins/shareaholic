@@ -69,7 +69,7 @@ class ShareaholicUtilities {
   }
 
   /**
-   * Returns the defaults we want becuase PHP does not allow
+   * Returns the defaults we want because PHP does not allow
    * arrays in class constants.
    *
    * @return array
@@ -77,6 +77,7 @@ class ShareaholicUtilities {
   private static function defaults() {
     return array(
       'disable_tracking' => 'off',
+      'disable_admin_bar_menu' => 'off',
       'api_key' => '',
       'verification_key' => '',
     );
@@ -98,10 +99,10 @@ class ShareaholicUtilities {
    *
    */
    
-   function admin_bar_extended() {
+   public static function admin_bar_extended() {
    	global $wp_admin_bar;
    	
-   	if(!current_user_can('update_plugins') || !is_admin_bar_showing())
+   	if(!current_user_can('update_plugins') || !is_admin_bar_showing() || self::get_option('disable_admin_bar_menu') == "on")
    		return;
     
    	$wp_admin_bar->add_menu(array(
@@ -342,8 +343,7 @@ class ShareaholicUtilities {
   }
 
   /**
-   * Returns the appropriate asset path for something from our
-   * rails app.
+   * Returns the appropriate asset path for environment
    *
    * @param string $asset
    * @return string
@@ -447,19 +447,28 @@ class ShareaholicUtilities {
    * @param array $array
    */
   public static function turn_on_locations($array, $turn_off_array = array()) {
-    foreach($array as $app => $ids) {
-      foreach($ids as $name => $id) {
-        self::update_options(array(
-          $app => array($name => 'on')
-        ));
+   
+   if (is_array($array)) {
+      foreach($array as $app => $ids) {
+        if (is_array($ids)) {
+          foreach($ids as $name => $id) {
+            self::update_options(array(
+              $app => array($name => 'on')
+            ));
+          }
+        }
       }
     }
-
-    foreach($turn_off_array as $app => $ids) {
-      foreach($ids as $name => $id) {
-        self::update_options(array(
-          $app => array($name => 'off')
-        ));
+    
+    if (is_array($turn_off_array)) {
+      foreach($turn_off_array as $app => $ids) {
+        if (is_array($ids)) {
+          foreach($ids as $name => $id) {
+            self::update_options(array(
+              $app => array($name => 'off')
+            ));
+          }
+        }
       }
     }
   }
@@ -555,6 +564,7 @@ class ShareaholicUtilities {
       delete_option('shareaholic_settings');
 
       $verification_key = md5(mt_rand());
+      
       $turned_on_share_buttons_locations = array(
         array('name' => 'post_below_content', 'counter' => 'badge-counter'),
         array('name' => 'page_below_content', 'counter' => 'badge-counter'),
@@ -925,7 +935,7 @@ class ShareaholicUtilities {
    *
    * @return array Where header => header value
    */
-  public function add_header_xua($headers)
+  public static function add_header_xua($headers)
   {
       if(!isset($headers['X-UA-Compatible'])) {
         $headers['X-UA-Compatible'] = 'IE=edge,chrome=1';
@@ -937,7 +947,7 @@ class ShareaholicUtilities {
    * Draws xua meta tag
    *
    */
-  public function draw_meta_xua()
+  public static function draw_meta_xua()
   {
     echo '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">';
   }
@@ -962,25 +972,24 @@ class ShareaholicUtilities {
    }
 
   /**
-   * This is a wrapper for the Recommendations Status API
+   * This is a wrapper for the Recommendations API
    *
    */
    public static function recommendations_status_check() {
-  	$recommendations_status_api_url = Shareaholic::API_URL . "/v2/recommendations/status?url=" . get_bloginfo('url');
-    $response = ShareaholicCurl::get($recommendations_status_api_url);
-    if(is_array($response) && array_key_exists('body', $response)) {
-      $body = $response['body'];
-      if (is_array($body) && $body['code'] == 200) {
-        if ($body['data'][0]['status_code'] < 3) {
-          return "processing";
-        } else {
+    if (self::get_option('api_key') != NULL){
+    	$recommendations_url = Shareaholic::REC_API_URL . "/v3/recommend?url=" . urlencode(get_bloginfo('url')) . "&internal=6&sponsored=3&apiKey=" . self::get_option('api_key');
+      $response = ShareaholicCurl::get($recommendations_url);
+      if(is_array($response) && array_key_exists('response', $response)) {
+        $body = $response['response'];
+        if (is_array($body) && $body['code'] == 200) {
           return "ready";
+        } else {
+          return "processing";
         }
       } else {
         return "unknown";
       }
     }
    }
-
 }
 ?>

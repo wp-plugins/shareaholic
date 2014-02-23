@@ -114,15 +114,16 @@ class ShareaholicPublic {
       }
       
       // Get post tags
-      $keywords = implode(', ', wp_get_post_tags( $id, array('fields' => 'names') ) );
-       
+      $keywords = implode(', ', wp_get_post_tags( $id, array('fields' => 'names') ) );      
+             
       // Get post categories
-      $categories = get_the_category($id);
+      $categories_array = get_the_category($id);
+      $categories = '';
       $separator = ', ';
       $output = '';
       
-      if($categories) {
-      	foreach($categories as $category) {
+      if($categories_array) {
+      	foreach($categories_array as $category) {
       	  if ($category->cat_name != "Uncategorized") {
       		  $output .= $separator.$category->cat_name;
     		  }
@@ -137,10 +138,30 @@ class ShareaholicPublic {
         $keywords .= $categories;
       }
       
-      // Support for All in One SEO Pack keywords
-      $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_aioseop_keywords', true));
+      // Support for "All in One SEO Pack" plugin keywords
+      if (get_post_meta($post->ID, '_aioseop_keywords') != NULL){
+        $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_aioseop_keywords', true));
+      }
       
-      // Encode & trim appropriately
+      // Support for "WordPress SEO by Yoast" plugin keywords
+      if (get_post_meta($post->ID, '_yoast_wpseo_focuskw') != NULL){
+        $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_yoast_wpseo_focuskw', true));
+      }
+      
+      if (get_post_meta($post->ID, '_yoast_wpseo_metakeywords') != NULL){
+        $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_yoast_wpseo_metakeywords', true));
+      }
+      
+      // Support for "Add Meta Tags" plugin keywords
+      if (get_post_meta($post->ID, '_amt_keywords') != NULL){
+        $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_amt_keywords', true));
+      }
+ 
+      if (get_post_meta($post->ID, '_amt_news_keywords') != NULL){
+        $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_amt_news_keywords', true));
+      }     
+      
+      // Encode, lowercase & trim appropriately
       $keywords = trim(trim(strtolower(trim(htmlspecialchars(htmlspecialchars_decode($keywords), ENT_QUOTES))), ","));
 
       // Unique keywords

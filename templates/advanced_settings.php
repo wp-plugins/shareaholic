@@ -22,8 +22,14 @@
             <?php if (isset($settings['disable_og_tags'])) { ?>
               <?php echo ($settings['disable_og_tags'] == 'on' ? 'checked' : '') ?>
               <?php } ?>>
-            <label style="display: inline-block; font-size:12px;" for="og_tags"><?php echo sprintf(__('Do not automatically include <code>Open Graph</code> tags', 'shareaholic')); ?> <?php echo sprintf(__('(it is recommended NOT to disable open graph tags)', 'shareaholic')); ?></label>
-            
+            <label style="display: inline-block; font-size:12px;" for="og_tags"><?php echo sprintf(__('Disable <code>Open Graph</code> tags', 'shareaholic')); ?> <?php echo sprintf(__('(it is recommended NOT to disable open graph tags)', 'shareaholic')); ?></label>
+            <br />
+          <input type='checkbox' id='admin_bar' name='shareaholic[disable_admin_bar_menu]' class='check'
+            <?php if (isset($settings['disable_admin_bar_menu'])) { ?>
+              <?php echo ($settings['disable_admin_bar_menu'] == 'on' ? 'checked' : '') ?>
+              <?php } ?>>
+            <label style="display: inline-block; font-size:12px;" for="admin_bar"><?php echo sprintf(__('Disable Admin Bar Menu', 'shareaholic')); ?></label>
+
           <div class='clear' style="padding-top:10px;"></div>
           <input type='submit' onclick="this.value='<?php echo sprintf(__('Saving Changes...', 'shareaholic')); ?>';" value='<?php echo sprintf(__('Save Changes', 'shareaholic')); ?>'>
         </fieldset>
@@ -46,7 +52,7 @@
     <div class='clear'></div>
     
     <fieldset class="app">
-      <legend><h2><?php _e('Shareaholic Site ID', 'shareaholic'); ?></h2></legend>
+      <legend><h2><?php _e('Your Shareaholic Site ID', 'shareaholic'); ?></h2></legend>
       <?php if (ShareaholicUtilities::get_option('api_key')){
         echo '<code>'.ShareaholicUtilities::get_option('api_key').'</code>';
       } else {

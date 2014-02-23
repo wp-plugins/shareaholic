@@ -283,7 +283,7 @@ class ShareaholicAdmin {
     if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y' &&
         check_admin_referer($action, 'nonce_field')) {
       echo "<div class='updated settings_updated'><p><strong>". sprintf(__('Settings successfully saved', 'shareaholic')) . "</strong></p></div>";
-      foreach (array('disable_tracking', 'disable_og_tags') as $setting) {
+      foreach (array('disable_tracking', 'disable_og_tags', 'disable_admin_bar_menu') as $setting) {
         if (isset($settings[$setting]) &&
             !isset($_POST['shareaholic'][$setting]) &&
             $settings[$setting] == 'on') {
@@ -307,6 +307,10 @@ class ShareaholicAdmin {
 
       if (isset($_POST['shareaholic']['disable_og_tags'])) {
         ShareaholicUtilities::update_options(array('disable_og_tags' => $_POST['shareaholic']['disable_og_tags']));
+      }
+      
+      if (isset($_POST['shareaholic']['disable_admin_bar_menu'])) {
+        ShareaholicUtilities::update_options(array('disable_admin_bar_menu' => $_POST['shareaholic']['disable_admin_bar_menu']));
       }
     }
 

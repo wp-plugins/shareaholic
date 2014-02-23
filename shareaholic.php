@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.2.0.0
+ * @version 7.2.1.0
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.2.0.0
+Version: 7.2.1.0
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -55,7 +55,9 @@ class Shareaholic {
   const URL = 'https://shareaholic.com';
   const API_URL = 'https://web.shareaholic.com'; // uses static IPs for firewall whitelisting
   const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
-  const VERSION = '7.2.0.0';
+  const REC_API_URL = 'http://recommendations.shareaholic.com';
+  
+  const VERSION = '7.2.1.0';
 
   /**
    * Starts off as false so that ::get_instance() returns
@@ -71,7 +73,7 @@ class Shareaholic {
 
     add_action('init',            array('ShareaholicPublic', 'init'));
     add_action('the_content',     array('ShareaholicPublic', 'draw_canvases'));
-    add_action('wp_head',         array('ShareaholicPublic', 'wp_head'));
+    add_action('wp_head',         array('ShareaholicPublic', 'wp_head'), 5);
     add_shortcode('shareaholic',  array('ShareaholicPublic', 'shortcode'));
 
     add_action('plugins_loaded',  array($this, 'shareaholic_init'));
