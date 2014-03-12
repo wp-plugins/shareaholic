@@ -31,7 +31,7 @@ class ShareaholicNotifier {
 
     $categories = array_map(array('ShareaholicNotifier', 'post_notify_iterator'), get_the_category($post_id));
 
-    if (has_post_thumbnail($post_id)) {
+    if (function_exists('has_post_thumbnail') && has_post_thumbnail($post_id)) {
       $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
     } else {
       $featured_image = ShareaholicPublic::post_first_image();

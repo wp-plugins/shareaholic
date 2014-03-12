@@ -1,8 +1,8 @@
 <div class="help_links unit size1of5">  
   <ul>
-    <li><a href="http://support.shareaholic.com/" target="_blank"><?php _e('Installation &amp; Usage Guides', 'shrsb'); ?></a></li>
-    <li><a href="https://shareaholic.com/tools/wordpress/translations" target="_blank"><?php _e('Submit a Translation', 'shrsb'); ?></a></li>
-    <li><a href="https://shareaholic.com/tools/browser/" target="_blank"><?php _e('Get the Shareaholic Browser Add-on', 'shrsb'); ?></a></li>
+    <li><a href="http://support.shareaholic.com/" target="_blank"><?php _e('Installation &amp; Usage Guides', 'shareaholic'); ?></a></li>
+    <li><a href="https://shareaholic.com/tools/wordpress/translations" target="_blank"><?php _e('Submit a Translation', 'shareaholic'); ?></a></li>
+    <li><a href="https://shareaholic.com/tools/browser/" target="_blank"><?php _e('Get the Shareaholic Browser Add-on', 'shareaholic'); ?></a></li>
   </ul>
 </div>
 

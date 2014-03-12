@@ -274,75 +274,72 @@ class ShareaholicPublic {
   }
   
   /**
-   * Draws Shareaholic image tag. Will only run on pages or posts.
+   * Draws Shareaholic image meta tag. Will only run on pages or posts.
    */
   private static function draw_image_meta_tag() {
-    global $post;
-    if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
-      if (has_post_thumbnail($post->ID)) {
-        $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
-        echo "<meta name='shareaholic:image' content='" . esc_attr($thumbnail_src[0]) . "' />";
-      } else {
-        if ($first_image = self::post_first_image()) {
-          echo "<meta name='shareaholic:image' content='" . $first_image . "' />";
-        }
-      }
-    }
-  }
-
-  /**
-   * Draws og image tags if they are enabled and exist. Will only run on pages or posts.
-   */
-  private static function draw_og_tags() {
-    $settings = ShareaholicUtilities::get_settings();
-
     if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
       global $post;
+      $thumbnail_src = '';
+      
+      if (function_exists('has_post_thumbnail') && has_post_thumbnail($post->ID)) {
+        $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
+        $thumbnail_src = esc_attr($thumbnail[0]);
+      } 
+      if ($thumbnail_src == NULL) {
+        $thumbnail_src = self::post_first_image();
+      }
+      if ($thumbnail_src != NULL) {
+        echo "<meta name='shareaholic:image' content='" . $thumbnail_src . "' />";
+      }
+    }
+  }
 
-      if (!get_post_meta($post->ID, 'shareaholic_disable_open_graph_tags', true) && (isset($settings['disable_og_tags']) && $settings['disable_og_tags'] == "off")) {
-        if (has_post_thumbnail($post->ID)) {
-          $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
+  /**
+   * Draws an open graph image meta tag if they are enabled and exist. Will only run on pages or posts.
+   */
+  private static function draw_og_tags() {
+    if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
+      global $post;
+      $thumbnail_src = '';
+      $settings = ShareaholicUtilities::get_settings();
+      if (!get_post_meta($post->ID, 'shareaholic_disable_open_graph_tags', true) && (isset($settings['disable_og_tags']) && $settings['disable_og_tags'] == "off")) {        
+        if (function_exists('has_post_thumbnail') && has_post_thumbnail($post->ID)) {
+          $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
+          $thumbnail_src = esc_attr($thumbnail[0]);
+        } 
+        if ($thumbnail_src == NULL) {
+          $thumbnail_src = self::post_first_image();
+        }
+        if ($thumbnail_src != NULL) {
           echo "\n<!-- Shareaholic Open Graph Tags -->\n";
-          echo "<meta property='og:image' content='" . esc_attr($thumbnail_src[0]) . "' />";
+          echo "<meta property='og:image' content='" . $thumbnail_src . "' />";
           echo "\n<!-- Shareaholic Open Graph Tags End -->\n";
-        } else {
-          $first_image = self::post_first_image();
-          if ($first_image) {
-            echo "\n<!-- Shareaholic Open Graph Tags -->\n";
-            echo "<meta property='og:image' content='" . $first_image . "' />";
-            echo "\n<!-- Shareaholic Open Graph Tags End -->\n";
-          }
         }
       }
     }
   }
 
   /**
-   * Copied straight out of the old wordpress version, this will grab the
-   * first image in a post. Not sure why the output buffering is needed,
-   * should probably be removed.
+   * This will grab the URL of the first image in a given post
    *
-   * @return mixed either returns `false` or a string of the image src
+   * @return returns `false` or a string of the image src
    */
   public static function post_first_image() {
-    global $post, $posts;
-    $og_first_img = '';
-    ob_start();
-    ob_end_clean();
-    if ($post == null)
+    global $post;
+    $first_img = '';
+    if ($post == NULL)
       return false;
-    else {
-      $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
-      if(isset($matches) && isset($matches[1]) && isset($matches[1][0]) ){
-          $og_first_img = $matches[1][0];
-      }
-      if(empty($og_first_img)){ // return false if nothing there, makes life easier
+    else {      
+      $output = preg_match_all('/<img[^>]+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
+      if(isset($matches[1][0]) ){
+          $first_img = $matches[1][0];
+      } else {
         return false;
       }
-      return $og_first_img;
+      return $first_img;
     }
   }
-
+	
   /**
    * This static function inserts the shareaholic canvas at the end of the post
    *
