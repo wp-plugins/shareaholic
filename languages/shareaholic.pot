@@ -1,23 +1,23 @@
-# Copyright (C) 2013 Shareaholic | share buttons, analytics, related content
+# Copyright (C) 2014 Shareaholic | share buttons, analytics, related content
 # This file is distributed under the same license as the Shareaholic | share buttons, analytics, related content package.
 msgid ""
 msgstr ""
 "Project-Id-Version: Shareaholic | share buttons, analytics, related content "
-"7.0.6.0\n"
+"7.2.2.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/shareaholic\n"
-"POT-Creation-Date: 2013-11-11 23:30:28+00:00\n"
+"POT-Creation-Date: 2014-03-12 20:11:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: admin.php:217 admin.php:284
+#: admin.php:217 admin.php:285
 msgid "Settings successfully saved"
 msgstr ""
 
-#: admin.php:278
+#: admin.php:279
 msgid "Settings successfully reset. Refresh this page to complete the reset."
 msgstr ""
 
@@ -49,50 +49,54 @@ msgid "(it is recommended NOT to disable analytics)"
 msgstr ""
 
 #: templates/advanced_settings.php:25
-msgid "Do not automatically include <code>Open Graph</code> tags"
+msgid "Disable <code>Open Graph</code> tags"
 msgstr ""
 
 #: templates/advanced_settings.php:25
 msgid "(it is recommended NOT to disable open graph tags)"
 msgstr ""
 
-#: templates/advanced_settings.php:28 templates/settings.php:94
+#: templates/advanced_settings.php:31
+msgid "Disable Admin Bar Menu"
+msgstr ""
+
+#: templates/advanced_settings.php:34 templates/settings.php:94
 msgid "Saving Changes..."
 msgstr ""
 
-#: templates/advanced_settings.php:28 templates/settings.php:94
+#: templates/advanced_settings.php:34 templates/settings.php:94
 msgid "Save Changes"
 msgstr ""
 
-#: templates/advanced_settings.php:36
+#: templates/advanced_settings.php:42
 msgid "Server Connectivity"
 msgstr ""
 
-#: templates/advanced_settings.php:38
+#: templates/advanced_settings.php:44
 msgid "All Shareaholic servers are reachable"
 msgstr ""
 
-#: templates/advanced_settings.php:39
+#: templates/advanced_settings.php:45
 msgid "Shareaholic should be working correctly."
 msgstr ""
 
-#: templates/advanced_settings.php:39
+#: templates/advanced_settings.php:45
 msgid "All Shareaholic servers are accessible."
 msgstr ""
 
-#: templates/advanced_settings.php:41
+#: templates/advanced_settings.php:47
 msgid "Unable to reach any Shareaholic server"
 msgstr ""
 
-#: templates/advanced_settings.php:41
+#: templates/advanced_settings.php:47
 msgid "Checking..."
 msgstr ""
 
-#: templates/advanced_settings.php:41
+#: templates/advanced_settings.php:47
 msgid "Re-check"
 msgstr ""
 
-#: templates/advanced_settings.php:42
+#: templates/advanced_settings.php:48
 msgid ""
 "A network problem or firewall is blocking all connections from your web "
 "server to Shareaholic.com.  <strong>Shareaholic cannot work correctly until "
@@ -102,21 +106,29 @@ msgid ""
 "onclick=\"%s\">know</a> too, so we can follow up!"
 msgstr ""
 
-#: templates/advanced_settings.php:52
+#: templates/advanced_settings.php:55
+msgid "Your Shareaholic Site ID"
+msgstr ""
+
+#: templates/advanced_settings.php:59
+msgid "Not set."
+msgstr ""
+
+#: templates/advanced_settings.php:69
 msgid "Reset"
 msgstr ""
 
-#: templates/advanced_settings.php:53
+#: templates/advanced_settings.php:70
 msgid ""
 "This will reset all of your settings and start you from scratch. This can "
 "not be undone."
 msgstr ""
 
-#: templates/advanced_settings.php:55
+#: templates/advanced_settings.php:72
 msgid "Resetting Plugin..."
 msgstr ""
 
-#: templates/advanced_settings.php:55
+#: templates/advanced_settings.php:72
 msgid "Reset Plugin"
 msgstr ""
 
@@ -186,7 +198,7 @@ msgid "Do not include Open Graph tags"
 msgstr ""
 
 #: templates/settings.php:3
-msgid "Shareaholic: Available Apps"
+msgid "Shareaholic: App Manager"
 msgstr ""
 
 #: templates/settings.php:22
@@ -227,7 +239,7 @@ msgid ""
 msgstr ""
 
 #: templates/settings.php:79
-msgid "Data Status:"
+msgid "Related Content:"
 msgstr ""
 
 #: templates/settings.php:83
@@ -272,40 +284,73 @@ msgid ""
 "and %sPrivacy Policy%s."
 msgstr ""
 
-#: templates/why_to_sign_up.php:2
-msgid "Customize even more with a FREE Shareaholic account."
+#: templates/why_to_sign_up.php:3
+msgid "Installation &amp; Usage Guides"
 msgstr ""
 
-#: templates/why_to_sign_up.php:3
-msgid "Such as:"
+#: templates/why_to_sign_up.php:4
+msgid "Submit a Translation"
 msgstr ""
 
 #: templates/why_to_sign_up.php:5
-msgid "Customize tweets coming from your website."
+msgid "Get the Shareaholic Browser Add-on"
 msgstr ""
 
-#: templates/why_to_sign_up.php:6
-msgid "Choose your URL Shortener, or use your own."
+#: templates/why_to_sign_up.php:10
+msgid ""
+"Unlock additional customization options when you connect this  plugin to "
+"your FREE Shareaholic account."
 msgstr ""
 
-#: templates/why_to_sign_up.php:7
-msgid "Choose from various themes and styles."
+#: templates/why_to_sign_up.php:12
+msgid ""
+"Brand your social shares. For example, you can make all Twitter shares say "
+"\"by @Twitterhandle\""
 msgstr ""
 
-#: templates/why_to_sign_up.php:8
-msgid "Exclude pages from Recommendations engine."
+#: templates/why_to_sign_up.php:13
+msgid ""
+"Pick your favorite URL shortener, including support for branded bitly short "
+"links."
 msgstr ""
 
-#: templates/why_to_sign_up.php:9
-msgid "Plus tons of great features and customization options."
+#: templates/why_to_sign_up.php:14
+msgid ""
+"Additional themes for share buttons, related content, etc to match your site."
 msgstr ""
 
-#: templates/why_to_sign_up.php:11
+#: templates/why_to_sign_up.php:15
+msgid "Opportunities to make money with your site, plus lots more!"
+msgstr ""
+
+#: templates/why_to_sign_up.php:17
 msgid "Edit General Website Settings"
 msgstr ""
 
-#: utilities.php:92
+#: templates/why_to_sign_up.php:18
+msgid ""
+"Connecting is simple. Simply click the button above and sign in to your "
+"Shareaholic account to connect this plugin to your account. If you don't "
+"have an account already, simply create a new account — it takes just seconds "
+"and it's free!"
+msgstr ""
+
+#: utilities.php:93
 msgid "Settings"
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (Shareaholic | share buttons, analytics, related content 7.2.2.0)  #-#-#-#-#
+#. Author of the plugin/theme
+#: utilities.php:110
+msgid "Shareaholic"
+msgstr ""
+
+#: utilities.php:127
+msgid "App Manager"
+msgstr ""
+
+#: utilities.php:134
+msgid "General Settings"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
@@ -322,10 +367,6 @@ msgid ""
 "who's reading your content, Shareaholic will help you get it done. See <a "
 "href=\"admin.php?page=shareaholic-settings\">configuration panel</a> for "
 "more settings."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "Shareaholic"
 msgstr ""
 
 #. Author URI of the plugin/theme

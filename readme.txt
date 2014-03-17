@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 3.0
 Tested up to: 3.8.1
-Stable tag: 7.2.2.0
+Stable tag: 7.3.0.0
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -12,6 +12,7 @@ Adds an attractive social bookmarking menu and related content widget to your po
 Three powerful apps to amplify your content and create conversations, across the web. Shareaholic has proven time and time again to be an extremely useful and successful tool in getting your readers to actually **discover** and **submit your articles** to numerous social bookmarking sites.
 
 = Recent Updates =
+* Floating Share Buttons!
 * [Shareable Images](https://blog.shareaholic.com/image-share-buttons/) (share buttons for images)
 * Recommendations & Related Content - Increases engagement and time on site by highlighting relevant content that may not otherwise be discovered from across your site.
 * Social Analytics - Provides you with important actionable metrics including insights into how your content is performing, who's sharing it, and through which channels.
@@ -152,13 +153,27 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Changelog ==
 
+= 7.3.0.0 =
+* Share Buttons App
+  * New alignment options - you can now pick whether you want your text to wrap around your buttons
+  * Multishare toggle for Twitter
+  * New services:
+    * VK (the 2nd largest social network service in Europe after Facebook)
+    * Fancy (recommended for e-commerce sites)
+    * Wanelo (recommended for e-commerce sites)
+  * New Share Counts library  
+* Floating Share Buttons App (NEW!)
+  * To enable, click on "Edit General Settings" -> Sign In -> Click on "Site Tools" -> Turn on the "Floated Share Buttons" App
+* Shareable Images App (NEW!) [learn more](https://blog.shareaholic.com/image-share-buttons/)
+  * To enable, click on "Edit General Settings" -> Sign In -> Turn on "Shareable Images"
+
 = 7.2.2.0 =
-* Miscellaneous performance enhancements and big fixes
+* Miscellaneous performance enhancements and bug fixes
 * New / updated translations:
-  -> French (by Rozenn Dagorn)
-  -> German (by Oliver Heinrich)
-  -> Dutch (by Patrick Ruers)
-  -> Greek (by Takis Bouyouris)
+  * French (by Rozenn Dagorn)
+  * German (by Oliver Heinrich)
+  * Dutch (by Patrick Ruers)
+  * Greek (by Takis Bouyouris)
 
 = 7.2.1.0 =
 * Admin Bar is now configurable
@@ -1019,7 +1034,11 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Upgrade Notice ==
 
+= 7.3.0.0 =
+Lots of new features - including Floating Share Buttons and Shareable Images!
+
 = 7.2.2.0 =
+New / updated translations for French (by Rozenn Dagorn), German (by Oliver Heinrich), Dutch (by Patrick Ruers) and Greek (by Takis Bouyouris)
 
 = 7.2.1.0 =
 The Admin Bar is now configurable and we also fixed the Related Content data processing status indicator. Also includes miscellaneous plugin  performance enhancements.

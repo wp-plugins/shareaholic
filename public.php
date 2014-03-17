@@ -5,6 +5,11 @@
  * @package shareaholic
  */
 
+// Get the required libraries for the Share Counts API
+require_once(SHAREAHOLIC_DIR . '/lib/social-share-counts/wordpress_http.php');
+require_once(SHAREAHOLIC_DIR . '/lib/social-share-counts/seq_share_count.php');
+require_once(SHAREAHOLIC_DIR . '/lib/social-share-counts/curl_multi_share_count.php');
+
 /**
  * This class is all about drawing the stuff in publishers'
  * templates that visitors can see.
@@ -400,6 +405,39 @@ class ShareaholicPublic {
       data-summary='$data_summary'></div>";
 
     return trim(preg_replace('/\s+/', ' ', $canvas));
+  }
+
+
+  /**
+   * Function to handle the share count API requests
+   *
+   */
+  public static function share_counts_api() {
+    $url = isset($_GET['url']) ? $_GET['url'] : NULL;
+    $services = isset($_GET['services']) ? $_GET['services'] : NULL;
+    $result = array();
+
+    if(is_array($services) && count($services) > 0 && !empty($url)) {
+      if(self::has_curl()) {
+        $shares = new ShareaholicCurlMultiShareCount($url, $services);
+      } else {
+        $shares = new ShareaholicSeqShareCount($url, $services);
+      }
+      $result = $shares->get_counts();
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($result);
+    exit;
+  }
+
+  /**
+   * Checks to see if curl is installed
+   *
+   * @return bool true or false that curl is installed
+   */
+  public static function has_curl() {
+    return function_exists('curl_version') && function_exists('curl_multi_init') && function_exists('curl_multi_add_handle') && function_exists('curl_multi_exec');
   }
 }
 

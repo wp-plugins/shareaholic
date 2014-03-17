@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.2.2.0
+ * @version 7.3.0.0
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.2.2.0
+Version: 7.3.0.0
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -57,7 +57,7 @@ class Shareaholic {
   const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
   const REC_API_URL = 'http://recommendations.shareaholic.com';
   
-  const VERSION = '7.2.2.0';
+  const VERSION = '7.3.0.0';
 
   /**
    * Starts off as false so that ::get_instance() returns
@@ -105,6 +105,10 @@ class Shareaholic {
     
     add_action('wp_before_admin_bar_render', array('ShareaholicUtilities', 'admin_bar_extended'));
     add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'ShareaholicUtilities::admin_plugin_action_links', -10);
+
+    // add action for share counts API call
+    add_action('wp_ajax_nopriv_shareaholic_share_counts_api', array($this, 'shareaholic_share_counts_api'));
+    add_action('wp_ajax_shareaholic_share_counts_api', array($this, 'shareaholic_share_counts_api'));
   }
 
   /**
@@ -155,6 +159,9 @@ class Shareaholic {
           ShareaholicUtilities::perform_update();
           ShareaholicUtilities::set_version(self::VERSION);
           ShareaholicUtilities::notify_content_manager_singledomain();
+          if(has_action('wp_ajax_nopriv_shareaholic_share_counts_api') && has_action('wp_ajax_shareaholic_share_counts_api')) {
+            $result = ShareaholicCurl::get(admin_url('admin-ajax.php') . '?action=shareaholic_share_counts_api&url=http%3A%2F%2Fwww.odnoklassniki.ru%2F&services[]=twitter');
+          }
         }
       }
     }
@@ -200,6 +207,13 @@ class Shareaholic {
   public function uninstall() {
     ShareaholicUtilities::log_event("Uninstall");
     delete_option('shareaholic_settings');
+  }
+
+  /**
+   * This function handles the API request to get the share counts
+   */
+  public function shareaholic_share_counts_api() {
+    ShareaholicPublic::share_counts_api();
   }
 }
 
