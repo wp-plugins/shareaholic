@@ -14,6 +14,6 @@
   <li><?php echo sprintf(__('Additional themes for share buttons, related content, etc to match your site.', 'shareaholic')); ?></li>
   <li><?php echo sprintf(__('Opportunities to make money with your site, plus lots more!', 'shareaholic')); ?></li>
 </ul>
-<button data-href='edit' id='general_settings' class="btn btn-large"><?php echo sprintf(__('Edit General Website Settings', 'shareaholic')); ?></button>
+<button data-href='edit' id='general_settings' class="btn btn-large btn-success"><?php echo sprintf(__('Edit General Website Settings', 'shareaholic')); ?></button>
 <p class="signuppromo_note"><?php echo sprintf(__("Connecting is simple. Simply click the button above and sign in to your Shareaholic account to connect this plugin to your account. If you don't have an account already, simply create a new account — it takes just seconds and it's free!", 'shareaholic')); ?></p>
 </div>

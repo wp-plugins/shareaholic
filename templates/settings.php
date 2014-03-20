@@ -54,23 +54,25 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
   <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>img/related_content@2x.png" height=32 width=32 /> <?php echo sprintf(__('Related Content / Recommendations', 'shareaholic')); ?></h2></legend>
   <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want Related Content to be displayed. Click "Customize" to customize look & feel, themes, block lists, etc.', 'shareaholic')); ?></span>
     <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
-      <?php if (isset($settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"])) { ?>
-        <?php $location_id = $settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"] ?>
-      <?php } else { $location_id = ''; } ?>
-      <fieldset id='recommendations'>
-        <legend><?php echo ucfirst($page_type) ?></legend>
-          <div>
-            <input type="checkbox" id="recommendations_<?php echo "{$page_type}_below_content" ?>" name="recommendations[<?php echo "{$page_type}_below_content" ?>]" class="check"
-            <?php if (isset($recommendations["{$page_type}_below_content"])) { ?>
-              <?php echo ($recommendations["{$page_type}_below_content"] == 'on' ? 'checked' : '') ?>
-            <?php } ?>>
-            <label for="recommendations_<?php echo "{$page_type}_below_content" ?>"><?php echo ucfirst($position) ?> Content</label>
-            <button data-app='recommendations'
-                    data-location_id='<?php echo $location_id ?>'
-                    data-href="recommendations/locations/{{id}}/edit"
-                    class="btn btn-success">
-            <?php _e('Customize', 'shareaholic'); ?></button>
-          </div>
+      <?php foreach(array('below') as $position) { ?>
+        <?php if (isset($settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"])) { ?>
+          <?php $location_id = $settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"] ?>
+        <?php } else { $location_id = ''; } ?>
+        <fieldset id='recommendations'>
+          <legend><?php echo ucfirst($page_type) ?></legend>
+            <div>
+              <input type="checkbox" id="recommendations_<?php echo "{$page_type}_below_content" ?>" name="recommendations[<?php echo "{$page_type}_below_content" ?>]" class="check"
+              <?php if (isset($recommendations["{$page_type}_below_content"])) { ?>
+                <?php echo ($recommendations["{$page_type}_below_content"] == 'on' ? 'checked' : '') ?>
+              <?php } ?>>
+              <label for="recommendations_<?php echo "{$page_type}_below_content" ?>"><?php echo ucfirst($position) ?> Content</label>
+              <button data-app='recommendations'
+                      data-location_id='<?php echo $location_id ?>'
+                      data-href="recommendations/locations/{{id}}/edit"
+                      class="btn btn-success">
+              <?php _e('Customize', 'shareaholic'); ?></button>
+            </div>
+          <?php } ?>
       </fieldset>
     <?php } ?>
 

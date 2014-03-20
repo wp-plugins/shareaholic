@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.3.0.0
+ * @version 7.3.0.1
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.3.0.0
+Version: 7.3.0.1
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -56,8 +56,8 @@ class Shareaholic {
   const API_URL = 'https://web.shareaholic.com'; // uses static IPs for firewall whitelisting
   const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
   const REC_API_URL = 'http://recommendations.shareaholic.com';
-  
-  const VERSION = '7.3.0.0';
+
+  const VERSION = '7.3.0.1';
 
   /**
    * Starts off as false so that ::get_instance() returns
@@ -73,7 +73,7 @@ class Shareaholic {
 
     add_action('init',            array('ShareaholicPublic', 'init'));
     add_action('the_content',     array('ShareaholicPublic', 'draw_canvases'));
-    add_action('wp_head',         array('ShareaholicPublic', 'wp_head'), 5);
+    add_action('wp_head',         array('ShareaholicPublic', 'wp_head'), 6);
     add_shortcode('shareaholic',  array('ShareaholicPublic', 'shortcode'));
 
     add_action('plugins_loaded',  array($this, 'shareaholic_init'));
@@ -102,7 +102,7 @@ class Shareaholic {
     register_activation_hook(__FILE__, array($this, 'after_activation'));
     register_deactivation_hook( __FILE__, array($this, 'deactivate'));
     register_uninstall_hook(__FILE__, array('Shareaholic', 'uninstall'));
-    
+
     add_action('wp_before_admin_bar_render', array('ShareaholicUtilities', 'admin_bar_extended'));
     add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'ShareaholicUtilities::admin_plugin_action_links', -10);
 
@@ -159,9 +159,6 @@ class Shareaholic {
           ShareaholicUtilities::perform_update();
           ShareaholicUtilities::set_version(self::VERSION);
           ShareaholicUtilities::notify_content_manager_singledomain();
-          if(has_action('wp_ajax_nopriv_shareaholic_share_counts_api') && has_action('wp_ajax_shareaholic_share_counts_api')) {
-            $result = ShareaholicCurl::get(admin_url('admin-ajax.php') . '?action=shareaholic_share_counts_api&url=http%3A%2F%2Fwww.odnoklassniki.ru%2F&services[]=twitter');
-          }
         }
       }
     }

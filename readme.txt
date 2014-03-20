@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 3.0
 Tested up to: 3.8.1
-Stable tag: 7.3.0.0
+Stable tag: 7.3.0.1
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -130,11 +130,13 @@ In your PHP / theme template code, you would add:
 
 `<?php echo do_shortcode ('[shareaholic app="share_buttons" id="<insert shareaholic app ID here>"]'); ?>`
 `<?php echo do_shortcode ('[shareaholic app="recommendations" id="<insert shareaholic app ID here>"]'); ?>`
+`<?php echo do_shortcode ('[shareaholic app="ad_spaces" id="<insert shareaholic app ID here>"]'); ?>`
 
 Grab the corresponding App ID from your Shareaholic Dashboard for the App you want to manually insert into your theme. If use double quotes ("'s) in your title or summary, make sure to encode them properly as `&quot;`
 
 Shareaholic Shortcode's are full featured and support all available configuration options available. Enjoy!
 
+[General information about shortcodes and WordPress](https://codex.wordpress.org/Shortcode)
 
 Old legacy methods (not officially supported as of version 7.0.0.0):
 
@@ -146,21 +148,21 @@ Old legacy methods (not officially supported as of version 7.0.0.0):
 == Frequently Asked Questions ==
 
 = Where can I find a detailed FAQ? =
-Please see here: [Frequently Asked Questions](https://shareaholic.com/tools/wordpress/faq)
+Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 
 = Where can I get detailed Usage & Installation instructions? =
-Please see here: [Usage & Installation Instructions](https://shareaholic.com/tools/wordpress/usage-installation)
+Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
 == Changelog ==
+
+= 7.3.0.1 =
+* Miscellaneous bug fixes and performance enhancements
 
 = 7.3.0.0 =
 * Share Buttons App
   * New alignment options - you can now pick whether you want your text to wrap around your buttons
   * Multishare toggle for Twitter
-  * New services:
-    * VK (the 2nd largest social network service in Europe after Facebook)
-    * Fancy (recommended for e-commerce sites)
-    * Wanelo (recommended for e-commerce sites)
+  * New services: VK (the 2nd largest social network service in Europe after Facebook), Fancy (recommended for e-commerce sites), Wanelo (recommended for e-commerce sites)
   * New Share Counts library  
 * Floating Share Buttons App (NEW!)
   * To enable, click on "Edit General Settings" -> Sign In -> Click on "Site Tools" -> Turn on the "Floated Share Buttons" App
@@ -1034,6 +1036,9 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 
 == Upgrade Notice ==
 
+= 7.3.0.1 =
+Miscellaneous bug fixes and performance enhancements
+ 
 = 7.3.0.0 =
 Lots of new features - including Floating Share Buttons and Shareable Images!
 

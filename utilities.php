@@ -93,24 +93,24 @@ class ShareaholicUtilities {
   	$links[] = '<a href="admin.php?page=shareaholic-settings">'.__('Settings', 'shareaholic').'</a>';
   	return $links;
   }
-  
+
   /**
    * Extend the admin bar
    *
    */
-   
+
    public static function admin_bar_extended() {
    	global $wp_admin_bar;
-   	
+
    	if(!current_user_can('update_plugins') || !is_admin_bar_showing() || self::get_option('disable_admin_bar_menu') == "on")
    		return;
-    
+
    	$wp_admin_bar->add_menu(array(
    		'id' => 'wp_shareaholic_adminbar_menu',
    		'title' => __('Shareaholic', 'shareaholic'),
    		'href' => admin_url('admin.php?page=shareaholic-settings'),
    	));
-   	
+
    	/*
    	$wp_admin_bar->add_menu(array(
    		'parent' => 'wp_shareaholic_adminbar_menu',
@@ -120,14 +120,14 @@ class ShareaholicUtilities {
    		'meta' => Array( 'target' => '_blank' )
    	));
    	*/
-   	
+
    	$wp_admin_bar->add_menu(array(
    		'parent' => 'wp_shareaholic_adminbar_menu',
    		'id' => 'wp_shareaholic_adminbar_submenu-settings',
    		'title' => __('App Manager', 'shareaholic'),
    		'href' => admin_url('admin.php?page=shareaholic-settings'),
    	));
-   	
+
    	$wp_admin_bar->add_menu(array(
    		'parent' => 'wp_shareaholic_adminbar_menu',
    		'id' => 'wp_shareaholic_adminbar_submenu-general',
@@ -447,7 +447,7 @@ class ShareaholicUtilities {
    * @param array $array
    */
   public static function turn_on_locations($array, $turn_off_array = array()) {
-   
+
    if (is_array($array)) {
       foreach($array as $app => $ids) {
         if (is_array($ids)) {
@@ -459,7 +459,7 @@ class ShareaholicUtilities {
         }
       }
     }
-    
+
     if (is_array($turn_off_array)) {
       foreach($turn_off_array as $app => $ids) {
         if (is_array($ids)) {
@@ -564,7 +564,7 @@ class ShareaholicUtilities {
       delete_option('shareaholic_settings');
 
       $verification_key = md5(mt_rand());
-      
+
       $turned_on_share_buttons_locations = array(
         array('name' => 'post_below_content', 'counter' => 'badge-counter'),
         array('name' => 'page_below_content', 'counter' => 'badge-counter'),
@@ -843,7 +843,7 @@ class ShareaholicUtilities {
    */
    public static function notify_content_manager_singlepage($post_id = NULL) {
      $post_permalink = get_permalink($post_id);
-     
+
      if ($post_permalink != NULL) {
        $cm_single_page_job_url = Shareaholic::CM_API_URL . '/jobs/uber_single_page';
        $payload = array (
@@ -865,7 +865,7 @@ class ShareaholicUtilities {
       if ($domain == NULL) {
         $domain = get_bloginfo('url');
       }
-      
+
       if ($domain != NULL) {
         $cm_single_domain_job_url = Shareaholic::CM_API_URL . '/jobs/single_domain';
         $payload = array (
@@ -877,7 +877,7 @@ class ShareaholicUtilities {
        $response = ShareaholicCurl::post($cm_single_domain_job_url, $payload, 'json');
       }
     }
-    
+
   /**
    * This is a wrapper for the Event API
    *
