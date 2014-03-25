@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.3.0.1
+ * @version 7.4.0.0
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.3.0.1
+Version: 7.4.0.0
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -36,6 +36,10 @@ Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
 define('SHAREAHOLIC_DIR', dirname(__FILE__));
 define('SHAREAHOLIC_ASSET_DIR', plugins_url( '/assets/' , __FILE__ ));
 
+// Caching
+if( !defined( 'SHARE_COUNTS_CHECK_CACHE_LENGTH' ) ) define( 'SHARE_COUNTS_CHECK_CACHE_LENGTH', 60 ); // 60 seconds
+if( !defined( 'RECOMMENDATIONS_STATUS_CHECK_CACHE_LENGTH' ) ) define( 'RECOMMENDATIONS_STATUS_CHECK_CACHE_LENGTH', 60 ); // 60 seconds
+
 // because define can use function returns and const can't
 define('SHAREAHOLIC_DEBUG', getenv('SHAREAHOLIC_DEBUG'));
 
@@ -57,7 +61,7 @@ class Shareaholic {
   const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
   const REC_API_URL = 'http://recommendations.shareaholic.com';
 
-  const VERSION = '7.3.0.1';
+  const VERSION = '7.4.0.0';
 
   /**
    * Starts off as false so that ::get_instance() returns
@@ -70,6 +74,10 @@ class Shareaholic {
    */
   private function __construct() {
     add_action('wp_ajax_shareaholic_accept_terms_of_service', array('ShareaholicUtilities', 'accept_terms_of_service'));
+    
+    // Share Counts API
+    add_action('wp_ajax_nopriv_shareaholic_share_counts_api', array('ShareaholicPublic', 'share_counts_api'));
+    add_action('wp_ajax_shareaholic_share_counts_api', array('ShareaholicPublic', 'share_counts_api'));
 
     add_action('init',            array('ShareaholicPublic', 'init'));
     add_action('the_content',     array('ShareaholicPublic', 'draw_canvases'));
@@ -85,7 +93,7 @@ class Shareaholic {
     add_action('save_post',                         array('ShareaholicAdmin', 'save_post'));
     add_action('admin_enqueue_scripts',             array('ShareaholicAdmin', 'enqueue_scripts'));
     add_action('admin_menu',                        array('ShareaholicAdmin', 'admin_menu'));
-
+    
     if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
       add_action('admin_notices',                   array('ShareaholicAdmin', 'show_terms_of_service'));
     }
@@ -99,16 +107,13 @@ class Shareaholic {
       add_action('publish_page', array('ShareaholicUtilities', 'notify_content_manager_singlepage'));
     }
     add_action('trashed_post', array('ShareaholicUtilities', 'notify_content_manager_singlepage'));
+    
     register_activation_hook(__FILE__, array($this, 'after_activation'));
     register_deactivation_hook( __FILE__, array($this, 'deactivate'));
     register_uninstall_hook(__FILE__, array('Shareaholic', 'uninstall'));
 
     add_action('wp_before_admin_bar_render', array('ShareaholicUtilities', 'admin_bar_extended'));
     add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'ShareaholicUtilities::admin_plugin_action_links', -10);
-
-    // add action for share counts API call
-    add_action('wp_ajax_nopriv_shareaholic_share_counts_api', array($this, 'shareaholic_share_counts_api'));
-    add_action('wp_ajax_shareaholic_share_counts_api', array($this, 'shareaholic_share_counts_api'));
   }
 
   /**
@@ -159,6 +164,10 @@ class Shareaholic {
           ShareaholicUtilities::perform_update();
           ShareaholicUtilities::set_version(self::VERSION);
           ShareaholicUtilities::notify_content_manager_singledomain();
+          // Call the share counts api to check for connectivity on update
+          if (has_action('wp_ajax_nopriv_shareaholic_share_counts_api') && has_action('wp_ajax_shareaholic_share_counts_api')) {
+            ShareaholicUtilities::share_counts_api_connectivity_check();
+          }
         }
       }
     }
@@ -181,7 +190,10 @@ class Shareaholic {
   public function after_activation() {
     $this->terms_of_service();
     ShareaholicUtilities::log_event("Activate");
-
+    
+    // workaround: http://codex.wordpress.org/Function_Reference/register_activation_hook
+    add_option( 'Activated_Plugin_Shareaholic', 'shareaholic' );
+    
     if (ShareaholicUtilities::has_accepted_terms_of_service() && ShareaholicUtilities::get_option('api_key') != NULL){
       ShareaholicUtilities::notify_content_manager_singledomain();
     }
@@ -204,13 +216,6 @@ class Shareaholic {
   public function uninstall() {
     ShareaholicUtilities::log_event("Uninstall");
     delete_option('shareaholic_settings');
-  }
-
-  /**
-   * This function handles the API request to get the share counts
-   */
-  public function shareaholic_share_counts_api() {
-    ShareaholicPublic::share_counts_api();
   }
 }
 

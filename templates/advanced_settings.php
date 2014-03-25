@@ -29,7 +29,12 @@
               <?php echo ($settings['disable_admin_bar_menu'] == 'on' ? 'checked' : '') ?>
               <?php } ?>>
             <label style="display: inline-block; font-size:12px;" for="admin_bar"><?php echo sprintf(__('Disable Admin Bar Menu', 'shareaholic')); ?></label>
-
+          <br/>
+          <input type='checkbox' id='share_counts' name='shareaholic[disable_internal_share_counts_api]' class='check'
+            <?php if (isset($settings['disable_internal_share_counts_api'])) { ?>
+              <?php echo ($settings['disable_internal_share_counts_api'] == 'on' ? 'checked' : '') ?>
+              <?php } ?>>
+            <label style="display: inline-block; font-size:12px;" for="share_counts"><?php echo sprintf(__('Disable server-side Share Counts API', 'shareaholic')); ?> <?php echo sprintf(__('(unless there are issues with calling the service, it is recommended NOT to disable this API)', 'shareaholic')); ?></label>
           <div class='clear' style="padding-top:10px;"></div>
           <input type='submit' onclick="this.value='<?php echo sprintf(__('Saving Changes...', 'shareaholic')); ?>';" value='<?php echo sprintf(__('Save Changes', 'shareaholic')); ?>'>
         </fieldset>
@@ -46,6 +51,13 @@
       <?php } else { // can't connect to any server ?>
         <span class="key-status failed"><?php _e('Unable to reach any Shareaholic server', 'shareaholic'); ?></span> <a href="#" onClick="window.location.reload(); this.innerHTML='<?php _e('Checking...', 'shareaholic'); ?>';"><?php _e('Re-check', 'shareaholic'); ?></a>
         <div class="key-description"><?php echo sprintf( __('A network problem or firewall is blocking all connections from your web server to Shareaholic.com.  <strong>Shareaholic cannot work correctly until this is fixed.</strong>  Please contact your web host or firewall administrator and give them <a href="%s" target="_blank">this information about Shareaholic and firewalls</a>. Let us <a href="#" onclick="%s">know</a> too, so we can follow up!'), 'http://blog.shareaholic.com/shareaholic-hosting-faq/', 'SnapEngage.startLink();','</a>'); ?></div>
+      <?php } ?>
+      <?php if (ShareaholicUtilities::share_counts_api_connectivity_check() == 'SUCCESS') { ?>
+        <span class="key-status passed"><?php  _e('Server-side Share Counts API is reachable', 'shareaholic'); ?></span>
+        <div class="key-description"><?php _e('The server-side Share Counts API should be working correctly.', 'shareaholic'); ?> <?php _e('All servers and services needed by the API are accessible.', 'shareaholic'); ?></div>
+      <?php } else { // can't connect to any server ?>
+        <span class="key-status failed"><?php _e('Unable to reach the server-side Share Count API', 'shareaholic'); ?></span> <a href="#" onClick="window.location.reload(); this.innerHTML='<?php _e('Checking...', 'shareaholic'); ?>';"><?php _e('Re-check', 'shareaholic'); ?></a>
+        <div class="key-description"><?php echo sprintf( __('A network problem or firewall is blocking connections from your web server to various Share Count APIs.  <strong>The API cannot work correctly until this is fixed.</strong>  If you continue to face this issue, please contact <a href="#" onclick="%s">us</a> and we will follow up! In the meantime, if you disable the server-side Share Counts API from the Advanced options above, Shareaholic will default to using client-side APIs for share counts successfully -- so nothing to worry about!'), 'SnapEngage.startLink();'); ?></div>
       <?php } ?>
     </fieldset>
     

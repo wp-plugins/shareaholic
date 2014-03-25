@@ -7,6 +7,7 @@
 
 require_once(SHAREAHOLIC_DIR . '/curl.php');
 require_once(SHAREAHOLIC_DIR . '/six_to_seven.php');
+require_once(SHAREAHOLIC_DIR . '/lib/social-share-counts/seq_share_count.php');
 
 /**
  * This class is just a holder for general functions that have
@@ -78,6 +79,7 @@ class ShareaholicUtilities {
     return array(
       'disable_tracking' => 'off',
       'disable_admin_bar_menu' => 'off',
+      'disable_internal_share_counts_api' => 'off',
       'api_key' => '',
       'verification_key' => '',
     );
@@ -561,7 +563,16 @@ class ShareaholicUtilities {
     if (!self::is_locked('get_or_create_api_key')) {
       self::set_lock('get_or_create_api_key');
 
+      $old_settings = self::get_settings();
+
       delete_option('shareaholic_settings');
+
+      // restore any old settings that should be preserved between resets
+      if (isset($old_settings['share_counts_connect_check'])) {
+        self::update_options(array(
+          'share_counts_connect_check' => $old_settings['share_counts_connect_check'],
+        ));
+      }
 
       $verification_key = md5(mt_rand());
 
@@ -652,6 +663,7 @@ class ShareaholicUtilities {
           );
 
           ShareaholicUtilities::turn_on_locations($turn_on, $turn_off);
+
         } else {
           ShareaholicUtilities::log_bad_response('FailedToCreateApiKey', $response);
         }
@@ -972,13 +984,85 @@ class ShareaholicUtilities {
    }
 
   /**
+   * Share Counts API Connectivity check
+   *
+   */
+   public static function share_counts_api_connectivity_check() {
+      
+    // if we already checked and it is successful, then do not call the API again
+    $share_counts_connect_check = self::get_option('share_counts_connect_check');
+    if (isset($share_counts_connect_check) && $share_counts_connect_check == 'SUCCESS') {
+      return $share_counts_connect_check;
+    }
+    
+    $services_config = ShareaholicSeqShareCount::get_services_config();
+    $services = array_keys($services_config);
+    $param_string = implode('&services[]=', $services);
+    $share_counts_api_url = admin_url('admin-ajax.php') . '?action=shareaholic_share_counts_api&url=https%3A%2F%2Fblog.shareaholic.com%2F&services[]=' . $param_string;
+    $cache_key = 'share_counts_api_connectivity_check';
+    
+    $response = get_transient($cache_key);
+    if (!$response) {
+      $response = ShareaholicCurl::get($share_counts_api_url);
+    }
+
+    $response_status = self::get_share_counts_api_status($response);
+    // if this was the first time we are doing this and it failed, disable
+    // the share counts API
+    if (empty($share_counts_connect_check) && $response_status == 'FAIL') {
+      self::update_options(array('disable_internal_share_counts_api' => 'on'));
+    }
+
+    if ($response_status == 'SUCCESS') {
+      set_transient( $cache_key, $response, SHARE_COUNTS_CHECK_CACHE_LENGTH );
+    }
+
+    self::update_options(array('share_counts_connect_check' => $response_status));
+    return $response_status;
+   }
+
+  /**
+   * Check the share counts API for empty response or missing services
+   */
+  public static function get_share_counts_api_status($response) {
+    if (!$response || !isset($response['body']) || !is_array($response['body']) || !isset($response['body']['data'])) {
+      return 'FAIL';
+    }
+
+    // Did it return at least 8 services?
+    $has_majority_services = count(array_keys($response['body']['data'])) >= 8 ? true : false;
+    $has_important_services = true;
+    // Does it have counts for twtr, fb, linkedin, pinterest, and delicious?
+    foreach (array('twitter', 'facebook', 'linkedin', 'pinterest', 'delicious') as $service) {
+      if (!isset($response['body']['data'][$service]) || !is_numeric($response['body']['data'][$service])) {
+        $has_important_services = false;
+      }
+    }
+
+    if (!$has_majority_services || !$has_important_services) {
+      return 'FAIL';
+    }
+
+    return 'SUCCESS';
+  }
+
+  /**
    * This is a wrapper for the Recommendations API
    *
    */
    public static function recommendations_status_check() {
     if (self::get_option('api_key') != NULL){
     	$recommendations_url = Shareaholic::REC_API_URL . "/v3/recommend?url=" . urlencode(get_bloginfo('url')) . "&internal=6&sponsored=3&apiKey=" . self::get_option('api_key');
-      $response = ShareaholicCurl::get($recommendations_url);
+      $cache_key = 'recommendations_status_check-' . md5( $recommendations_url );
+      
+      $response = get_transient($cache_key);
+      if (!$response){
+        $response = ShareaholicCurl::get($recommendations_url);
+        if( !is_wp_error( $response ) ) {
+            set_transient( $cache_key, $response, RECOMMENDATIONS_STATUS_CHECK_CACHE_LENGTH );
+        }
+      }
+      
       if(is_array($response) && array_key_exists('response', $response)) {
         $body = $response['response'];
         if (is_array($body) && $body['code'] == 200) {
@@ -992,4 +1076,3 @@ class ShareaholicUtilities {
     }
    }
 }
-?>

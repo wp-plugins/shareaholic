@@ -10,7 +10,8 @@
         var rs = this.readyState;
         if (rs && rs != 'complete' && rs != 'loaded') return;
         var site_id = '<?php echo $api_key; ?>';
-        try { Shareaholic.init(site_id); } catch (e) {}
+        var page_config = <?php echo $page_config; ?>;
+        try { Shareaholic.init(site_id, page_config); } catch (e) {}
       };
       var s = document.getElementsByTagName('script')[0];
       s.parentNode.insertBefore(shr, s);

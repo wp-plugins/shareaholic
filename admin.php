@@ -17,6 +17,15 @@ class ShareaholicAdmin {
    */
   public static function admin_init() {        
     ShareaholicUtilities::check_for_other_plugin();
+    
+    // workaround: http://codex.wordpress.org/Function_Reference/register_activation_hook
+    if ( is_admin() && get_option( 'Activated_Plugin_Shareaholic' ) == 'shareaholic' ) {
+      delete_option( 'Activated_Plugin_Shareaholic' );
+       /* do stuff once right after activation */
+       if (has_action('wp_ajax_nopriv_shareaholic_share_counts_api') && has_action('wp_ajax_shareaholic_share_counts_api')) {
+         ShareaholicUtilities::share_counts_api_connectivity_check();
+       }
+    }
   }
   
   /**
@@ -283,7 +292,7 @@ class ShareaholicAdmin {
     if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y' &&
         check_admin_referer($action, 'nonce_field')) {
       echo "<div class='updated settings_updated'><p><strong>". sprintf(__('Settings successfully saved', 'shareaholic')) . "</strong></p></div>";
-      foreach (array('disable_tracking', 'disable_og_tags', 'disable_admin_bar_menu') as $setting) {
+      foreach (array('disable_tracking', 'disable_og_tags', 'disable_admin_bar_menu', 'disable_internal_share_counts_api') as $setting) {
         if (isset($settings[$setting]) &&
             !isset($_POST['shareaholic'][$setting]) &&
             $settings[$setting] == 'on') {
@@ -311,6 +320,10 @@ class ShareaholicAdmin {
       
       if (isset($_POST['shareaholic']['disable_admin_bar_menu'])) {
         ShareaholicUtilities::update_options(array('disable_admin_bar_menu' => $_POST['shareaholic']['disable_admin_bar_menu']));
+      }
+
+      if (isset($_POST['shareaholic']['disable_internal_share_counts_api'])) {
+        ShareaholicUtilities::update_options(array('disable_internal_share_counts_api' => $_POST['shareaholic']['disable_internal_share_counts_api']));
       }
     }
 
@@ -373,4 +386,3 @@ class ShareaholicAdmin {
     }
   }
 }
-?>

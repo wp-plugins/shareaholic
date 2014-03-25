@@ -32,7 +32,7 @@ class ShareaholicSeqShareCount extends ShareaholicShareCount {
    */
   public function get_counts() {
     $services_length = count($this->services);
-    $config = $this->get_services_config();
+    $config = self::get_services_config();
     $response = array();
     $response['status'] = 200;
 
@@ -54,12 +54,15 @@ class ShareaholicSeqShareCount extends ShareaholicShareCount {
         'body' => isset($config[$service]['body']) ? $config[$service]['body'] : NULL,
       );
 
-      $result = ShareaholicHttp::send(sprintf($config[$service]['url'], $this->url), $options);
+      $result = ShareaholicHttp::send(str_replace('%s', $this->url, $config[$service]['url']), $options);
       if(!$result) {
         $response['status'] = 500;
       }
       $callback = $config[$service]['callback'];
-      $response['data'][$service] = $this->$callback($result);
+      $counts = $this->$callback($result);
+      if(is_numeric($counts)) {
+        $response['data'][$service] = $counts;
+      }
     }
     return $response;
   }
