@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.4.0.0
+ * @version 7.4.0.1
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.4.0.0
+Version: 7.4.0.1
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -37,7 +37,7 @@ define('SHAREAHOLIC_DIR', dirname(__FILE__));
 define('SHAREAHOLIC_ASSET_DIR', plugins_url( '/assets/' , __FILE__ ));
 
 // Caching
-if( !defined( 'SHARE_COUNTS_CHECK_CACHE_LENGTH' ) ) define( 'SHARE_COUNTS_CHECK_CACHE_LENGTH', 60 ); // 60 seconds
+if( !defined( 'SHARE_COUNTS_CHECK_CACHE_LENGTH' ) ) define( 'SHARE_COUNTS_CHECK_CACHE_LENGTH', 180 ); // 180 seconds
 if( !defined( 'RECOMMENDATIONS_STATUS_CHECK_CACHE_LENGTH' ) ) define( 'RECOMMENDATIONS_STATUS_CHECK_CACHE_LENGTH', 60 ); // 60 seconds
 
 // because define can use function returns and const can't
@@ -61,7 +61,7 @@ class Shareaholic {
   const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
   const REC_API_URL = 'http://recommendations.shareaholic.com';
 
-  const VERSION = '7.4.0.0';
+  const VERSION = '7.4.0.1';
 
   /**
    * Starts off as false so that ::get_instance() returns

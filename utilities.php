@@ -998,7 +998,7 @@ class ShareaholicUtilities {
     $services_config = ShareaholicSeqShareCount::get_services_config();
     $services = array_keys($services_config);
     $param_string = implode('&services[]=', $services);
-    $share_counts_api_url = admin_url('admin-ajax.php') . '?action=shareaholic_share_counts_api&url=https%3A%2F%2Fblog.shareaholic.com%2F&services[]=' . $param_string;
+    $share_counts_api_url = admin_url('admin-ajax.php') . '?action=shareaholic_share_counts_api&url=https%3A%2F%2Fwww.google.com%2F&services[]=' . $param_string;
     $cache_key = 'share_counts_api_connectivity_check';
     
     $response = get_transient($cache_key);

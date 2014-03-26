@@ -46,7 +46,7 @@ abstract class ShareaholicShareCount {
       'google_plus' => array(
         'url' => 'https://clients6.google.com/rpc',
         'method' => 'POST',
-        'timeout' => 1,
+        'timeout' => 2,
         'headers' => array('Content-Type' => 'application/json'),
         'body' => NULL,
         'prepare' => 'google_plus_prepare_request',
