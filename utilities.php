@@ -1003,7 +1003,7 @@ class ShareaholicUtilities {
     
     $response = get_transient($cache_key);
     if (!$response) {
-      $response = ShareaholicCurl::get($share_counts_api_url);
+      $response = ShareaholicCurl::get($share_counts_api_url, array(), '', true);
     }
 
     $response_status = self::get_share_counts_api_status($response);
