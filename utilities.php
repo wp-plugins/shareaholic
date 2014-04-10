@@ -1034,7 +1034,7 @@ class ShareaholicUtilities {
     $has_important_services = true;
     // Does it have counts for twtr, fb, linkedin, pinterest, and delicious?
     foreach (array('twitter', 'facebook', 'linkedin', 'pinterest', 'delicious') as $service) {
-      if (!isset($response['body']['data'][$service]) || !is_numeric($response['body']['data'][$service])) {
+      if (!isset($response['body']['data'][$service]) || !is_numeric($response['body']['data'][$service]) || $response['body']['data'][$service] <= 0) {
         $has_important_services = false;
       }
     }

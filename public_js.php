@@ -97,7 +97,7 @@ class ShareaholicPublicJS {
       data: { action: 'shareaholic_share_counts_api', url: url, services: services },
       success: function(res) {
         if(res && res.data) {
-          cb(res.data);
+          cb(res.data, true);
         }
       }
     })

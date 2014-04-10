@@ -19,6 +19,10 @@ abstract class ShareaholicShareCount {
   protected $services;
 
   public function __construct($url, $services) {
+    // encode the url if needed
+    if (!$this->is_url_encoded($url)) {
+      $url = urlencode($url);
+    }
     $this->url = $url;
     $this->services = $services;
   }
@@ -26,7 +30,7 @@ abstract class ShareaholicShareCount {
   public static function get_services_config() {
     return array(
       'facebook' => array(
-        'url' => 'https://graph.facebook.com/fql?q=SELECT%20url,normalized_url,total_count%20FROM%20link_stat%20WHERE%20url%20=%20"%s"',
+        'url' => 'https://graph.facebook.com/?id=%s',
         'method' => 'GET',
         'timeout' => 3,  // in number of seconds
         'callback' => 'facebook_count_callback',
@@ -98,6 +102,23 @@ abstract class ShareaholicShareCount {
   }
 
   /**
+   * Check if the url is encoded
+   *
+   * The check is very simple and will fail if the url is encoded
+   * more than once because the check only decodes once
+   *
+   * @param string $url the url to check if it is encoded
+   * @return boolean true if the url is encoded and false otherwise
+   */
+  public function is_url_encoded($url) {
+    $decoded = urldecode($url);
+    if (strcmp($url, $decoded) === 0) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
    * Check if calling the service returned any type of error
    *
    * @param object $response A response object
@@ -123,7 +144,7 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['data'][0]['total_count']) ? $body['data'][0]['total_count'] : 0;
+    return isset($body['shares']) ? intval($body['shares']) : false;
   }
 
 
@@ -139,7 +160,7 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['count']) ? $body['count'] : 0;
+    return isset($body['count']) ? intval($body['count']) : false;
   }
 
 
@@ -155,7 +176,7 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['count']) ? $body['count'] : 0;
+    return isset($body['count']) ? intval($body['count']) : false;
   }
 
 
@@ -172,6 +193,9 @@ abstract class ShareaholicShareCount {
    * @param $config The services configuration object to be updated
    */
   public function google_plus_prepare_request($url, &$config) {
+    if ($this->is_url_encoded($url)) {
+      $url = urldecode($url);
+    }
     $post_fields = array(
       array(
         'method' => 'pos.plusones.get',
@@ -205,6 +229,7 @@ abstract class ShareaholicShareCount {
        return false;
     }
     $body = json_decode($response['body'], true);
+    // special case: do not return false if the count is not set because the api can return without counts
     return isset($body[0]['result']['metadata']['globalCounts']['count']) ? intval($body[0]['result']['metadata']['globalCounts']['count']) : 0;
   }
 
@@ -221,7 +246,8 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body[0]['total_posts']) ? $body[0]['total_posts'] : 0;
+    // special case: do not return false if the count is set because the api can return without total posts
+    return isset($body[0]['total_posts']) ? intval($body[0]['total_posts']) : 0;
   }
 
 
@@ -238,7 +264,7 @@ abstract class ShareaholicShareCount {
     }
     $response['body'] = substr($response['body'], 2, strlen($response['body']) - 3);
     $body = json_decode($response['body'], true);
-    return isset($body['count']) ? $body['count'] : 0;
+    return isset($body['count']) ? intval($body['count']) : false;
   }
 
 
@@ -254,7 +280,7 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['shares']) ? $body['shares'] : 0;
+    return isset($body['shares']) ? intval($body['shares']) : false;
   }
 
 
@@ -270,7 +296,8 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['result']['views']) ? $body['result']['views'] : 0;
+    // special case: do not return false if views is not set because the api can return it not set
+    return isset($body['result']['views']) ? intval($body['result']['views']) : 0;
   }
 
 
@@ -286,7 +313,8 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['data']['children'][0]['data']['ups']) ? $body['data']['children'][0]['data']['ups'] : 0;
+    // special case: do not return false if the ups is not set because the api can return it not set
+    return isset($body['data']['children'][0]['data']['ups']) ? intval($body['data']['children'][0]['data']['ups']) : 0;
   }
 
 
@@ -307,7 +335,7 @@ abstract class ShareaholicShareCount {
     // From documentation, need to just grab the 2nd param: http://vk.com/developers.php?oid=-17680044&p=Share
     $matches = array();
     preg_match('/^VK\.Share\.count\(\d, (\d+)\);$/i', $response['body'], $matches);
-    return isset($matches[1]) ? intval($matches[1]) : 0;
+    return isset($matches[1]) ? intval($matches[1]) : false;
   }
 
 
@@ -327,7 +355,7 @@ abstract class ShareaholicShareCount {
     // 'ODKL.updateCount('odklcnt0','14198');'
     $matches = array();
     preg_match('/^ODKL\.updateCount\(\'odklcnt0\',\'(\d+)\'\);$/i', $response['body'], $matches);
-    return isset($matches[1]) ? intval($matches[1]) : 0;
+    return isset($matches[1]) ? intval($matches[1]) : false;
   }
 
 
