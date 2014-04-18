@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.4.0.3
+ * @version 7.4.0.4
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.4.0.3
+Version: 7.4.0.4
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -61,7 +61,7 @@ class Shareaholic {
   const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
   const REC_API_URL = 'http://recommendations.shareaholic.com';
 
-  const VERSION = '7.4.0.3';
+  const VERSION = '7.4.0.4';
 
   /**
    * Starts off as false so that ::get_instance() returns
@@ -132,7 +132,7 @@ class Shareaholic {
 
   /**
    * This function initializes the plugin so that everything is scoped
-   * under the class and no varialbes leak outside.
+   * under the class and no variables leak outside.
    */
   public static function init() {
     self::update();
@@ -164,6 +164,7 @@ class Shareaholic {
           ShareaholicUtilities::perform_update();
           ShareaholicUtilities::set_version(self::VERSION);
           ShareaholicUtilities::notify_content_manager_singledomain();
+          
           // Call the share counts api to check for connectivity on update
           if (has_action('wp_ajax_nopriv_shareaholic_share_counts_api') && has_action('wp_ajax_shareaholic_share_counts_api')) {
             ShareaholicUtilities::share_counts_api_connectivity_check();
@@ -208,6 +209,7 @@ class Shareaholic {
    */
   public function deactivate() {
     ShareaholicUtilities::log_event("Deactivate");
+    ShareaholicUtilities::clear_cache();
   }
 
   /**

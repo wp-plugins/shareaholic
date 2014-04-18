@@ -105,7 +105,7 @@ class ShareaholicCurlMultiShareCount extends ShareaholicShareCount {
     curl_setopt_array($curl_handle, array(
       CURLOPT_HEADER => 0,
       CURLOPT_RETURNTRANSFER => 1,
-      CURLOPT_TIMEOUT => 5,
+      CURLOPT_TIMEOUT => 6,
       CURLOPT_SSL_VERIFYPEER => false,
       CURLOPT_SSL_VERIFYHOST => false,
     ));

@@ -250,6 +250,8 @@ class ShareaholicAdmin {
       ));
 
       ShareaholicUtilities::log_event("UpdatedSettings");
+      // clear cache after settings update
+      ShareaholicUtilities::clear_cache();
 
     }
 
@@ -325,6 +327,10 @@ class ShareaholicAdmin {
       if (isset($_POST['shareaholic']['disable_internal_share_counts_api'])) {
         ShareaholicUtilities::update_options(array('disable_internal_share_counts_api' => $_POST['shareaholic']['disable_internal_share_counts_api']));
       }
+
+      ShareaholicUtilities::log_event("UpdatedSettings");
+      // clear cache after settings update
+      ShareaholicUtilities::clear_cache();
     }
 
     ShareaholicUtilities::load_template('advanced_settings', array(

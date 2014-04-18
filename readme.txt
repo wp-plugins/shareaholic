@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 7.4.0.3
+Stable tag: 7.4.0.4
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -155,14 +155,18 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 
 == Changelog ==
 
+= 7.4.0.4 =
+* Bugfix: Removed an unneeded conditional check from the server side Share Counts API to make it more reliable
+* Clear W3 Total Cache for clean activation and deactivation
+
 = 7.4.0.3 =
 * Bugfix: Added url encoding for server side Share Counts API
 
 = 7.4.0.2 =
-* Miscellaneous performance enhancements for Share Counts
+* Miscellaneous performance enhancements for Share Counts API
 
 = 7.4.0.1 =
-* Miscellaneous performance enhancements for Share Counts
+* Miscellaneous performance enhancements for Share Counts API
 
 = 7.4.0.0 =
 * Share Buttons App
@@ -1049,6 +1053,10 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.4.0.4 =
+
+Reliability improvements to the server side Share Counts API
 
 = 7.4.0.3 =
 
