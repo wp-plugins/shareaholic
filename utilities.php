@@ -968,16 +968,26 @@ class ShareaholicUtilities {
   }
   
   /*
-   * Clear caching plugins
+   * Clears cache created by caching plugins like W3 Total Cache
    *
    */
   public static function clear_cache() {
     // W3 Total Cache plugin
   	if (function_exists('w3tc_pgcache_flush')) {
-  		w3tc_pgcache_flush();
+  		w3tc_pgcache_flush(); 
   	}
-  	
-  	//TODO: Quick Cache, WP Super Cache
+  	// WP Super Cache
+    if (function_exists('wp_cache_clear_cache')) {
+      wp_cache_clear_cache();
+    }
+	  // Hyper Cache
+	  if (function_exists('hyper_cache_invalidate')) {
+	    hyper_cache_invalidate();
+	  }
+	  // Quick Cache
+	  if (function_exists('auto_clear_cache')) {
+  	  auto_clear_cache();
+	  }
   }
 
   /**
