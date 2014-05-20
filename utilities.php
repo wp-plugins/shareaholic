@@ -858,9 +858,21 @@ class ShareaholicUtilities {
    *
    * @param string $post_id
    */
-   public static function notify_content_manager_singlepage($post_id = NULL) {
-     $post_permalink = get_permalink($post_id);
-
+   public static function notify_content_manager_singlepage($post = NULL) {
+     if ($post == NULL) {
+       return false;
+     }
+     
+     if (in_array($post->post_status, array('draft', 'pending', 'auto-draft'))) {
+       // Get the correct permalink for a draft
+       $my_post = clone $post;
+       $my_post->post_status = 'published';
+       $my_post->post_name = sanitize_title($my_post->post_name ? $my_post->post_name : $my_post->post_title, $my_post->ID);
+       $post_permalink = get_permalink($my_post);
+     } else {
+       $post_permalink = get_permalink($post->ID);
+     }
+     
      if ($post_permalink != NULL) {
        $cm_single_page_job_url = Shareaholic::CM_API_URL . '/jobs/uber_single_page';
        $payload = array (
@@ -988,6 +1000,32 @@ class ShareaholicUtilities {
 	  if (function_exists('auto_clear_cache')) {
   	  auto_clear_cache();
 	  }
+  }
+  
+  /**
+   * A post just transitioned state. Do something.
+   *
+   */
+  public static function post_transitioned($new_status, $old_status, $post) {
+    if ($new_status == 'publish') {
+      // Post was just published
+      ShareaholicUtilities::clear_fb_opengraph(get_permalink($post->ID));
+      ShareaholicUtilities::notify_content_manager_singlepage($post);
+    }
+    if ($old_status == 'publish' && $new_status != 'publish') {
+      // Notify CM that the post is no longer public
+      ShareaholicUtilities::notify_content_manager_singlepage($post);
+    }
+  }
+  
+  /**
+   * Clears Facebook Open Graph cache for provided URL
+   *
+   * @param string $url
+   */
+  public static function clear_fb_opengraph($url) {
+    $fb_graph_url = "https://graph.facebook.com/?id=". urlencode($url) ."&scrape=true";
+    $result = wp_remote_post ($fb_graph_url);
   }
 
   /**

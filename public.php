@@ -205,7 +205,7 @@ class ShareaholicPublic {
       $article_visibility = $post->post_status;
       $article_password = $post->post_password;
 
-      if ($article_visibility == 'draft' || $article_visibility == 'auto-draft'){
+      if ($article_visibility == 'draft' || $article_visibility == 'auto-draft' || $article_visibility == 'future' || $article_visibility == 'pending'){
         $article_visibility = 'draft';
       } else if ($article_visibility == 'private' || $post->post_password != '' || is_attachment()) {
         $article_visibility = 'private';
