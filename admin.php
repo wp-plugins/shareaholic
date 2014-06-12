@@ -174,17 +174,18 @@ class ShareaholicAdmin {
    */
   public static function enqueue_scripts() {
     if (isset($_GET['page']) && preg_match('/shareaholic/', $_GET['page'])) {
-      wp_enqueue_style('shareaholic_application_css', ShareaholicUtilities::asset_url('application.css'), false,  ShareaholicUtilities::get_version());
+      wp_enqueue_style('shareaholic_application_css', ShareaholicUtilities::asset_url_admin('assets/application.css'), false,  ShareaholicUtilities::get_version());
       wp_enqueue_style('shareaholic_bootstrap_css', plugins_url('assets/css/bootstrap.css', __FILE__), false,  ShareaholicUtilities::get_version());
       wp_enqueue_style('shareaholic_main_css', plugins_url('assets/css/main.css', __FILE__), false,  ShareaholicUtilities::get_version());
       wp_enqueue_style('shareaholic_open_sans_css', '//fonts.googleapis.com/css?family=Open+Sans:400,300,700');
 
-      wp_enqueue_script('shareholic_utilities_js', ShareaholicUtilities::asset_url('pub/utilities.js'), false, ShareaholicUtilities::get_version());
+      wp_enqueue_script('shareholic_utilities_js', ShareaholicUtilities::asset_url_admin('assets/pub/utilities.js'), false, ShareaholicUtilities::get_version());
       wp_enqueue_script('shareholic_bootstrap_js', plugins_url('assets/js/bootstrap.min.js', __FILE__), false,  ShareaholicUtilities::get_version());
       wp_enqueue_script('shareholic_jquery_custom_js', plugins_url('assets/js/jquery_custom.js', __FILE__), false,  ShareaholicUtilities::get_version());
       wp_enqueue_script('shareholic_jquery_ui_custom_js', plugins_url('assets/js/jquery_ui_custom.js', __FILE__), array('shareholic_jquery_custom_js'),  ShareaholicUtilities::get_version());
       wp_enqueue_script('shareholic_modified_reveal_js', plugins_url('assets/js/jquery.reveal.modified.js', __FILE__), array('shareholic_jquery_custom_js', 'shareholic_jquery_ui_custom_js'),  ShareaholicUtilities::get_version());
       wp_enqueue_script('shareholic_main_js', plugins_url('assets/js/main.js', __FILE__), false,  ShareaholicUtilities::get_version());
+      wp_enqueue_script('shareholic_admin_js', ShareaholicUtilities::asset_url_admin('media/js/platforms/wordpress/wordpress-admin.js'), false,  ShareaholicUtilities::get_version(), true);
     }
   }
 

@@ -357,11 +357,27 @@ class ShareaholicUtilities {
    */
   public static function asset_url($asset) {
     if (preg_match('/spreadaholic/', Shareaholic::URL)) {
-      return "http://spreadaholic.com:8080/assets/" . $asset;
+      return "http://spreadaholic.com:8080/" . $asset;
     } elseif (preg_match('/stageaholic/', Shareaholic::URL)) {
-      return '//d2062rwknz205x.cloudfront.net/assets/' . $asset;
+      return '//d2062rwknz205x.cloudfront.net/' . $asset;
     } else {
-      return '//dsms0mj1bbhn4.cloudfront.net/assets/' . $asset;
+      return '//dsms0mj1bbhn4.cloudfront.net/' . $asset;
+    }
+  }
+  
+  /**
+   * Returns the appropriate asset path for environment - admin
+   *
+   * @param string $asset
+   * @return string
+   */
+  public static function asset_url_admin($asset) {
+    if (preg_match('/spreadaholic/', Shareaholic::URL)) {
+      return "http://spreadaholic.com:8080/" . $asset;
+    } elseif (preg_match('/stageaholic/', Shareaholic::URL)) {
+      return 'https://d2062rwknz205x.cloudfront.net/' . $asset;
+    } else {
+      return 'https://dsms0mj1bbhn4.cloudfront.net/' . $asset;
     }
   }
 
@@ -1007,10 +1023,11 @@ class ShareaholicUtilities {
    *
    */
   public static function post_transitioned($new_status, $old_status, $post) {
-    if ($new_status == 'publish') {
+    $post_type = get_post_type($post);
+    if ($new_status == 'publish' && $post_type != 'nav_menu_item' && $post_type != 'attachment') {
       // Post was just published
-      ShareaholicUtilities::clear_fb_opengraph(get_permalink($post->ID));
-      ShareaholicUtilities::notify_content_manager_singlepage($post);
+     ShareaholicUtilities::clear_fb_opengraph(get_permalink($post->ID));
+     ShareaholicUtilities::notify_content_manager_singlepage($post);
     }
     if ($old_status == 'publish' && $new_status != 'publish') {
       // Notify CM that the post is no longer public

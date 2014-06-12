@@ -4,7 +4,7 @@
     (function() {
       var shr = document.createElement('script');
       shr.setAttribute('data-cfasync', 'false');
-      shr.src = '<?php echo ShareaholicUtilities::asset_url('pub/shareaholic.js') ?>';
+      shr.src = '<?php echo ShareaholicUtilities::asset_url('assets/pub/shareaholic.js') ?>';
       shr.type = 'text/javascript'; shr.async = 'true';
       shr.onload = shr.onreadystatechange = function() {
         var rs = this.readyState;
