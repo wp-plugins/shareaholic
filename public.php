@@ -443,6 +443,144 @@ class ShareaholicPublic {
   }
 
   /**
+   * Function to return relevant plugin debug info
+   *
+   * @return debug info in JSON
+   */
+  public static function debug_info() {
+    global $wpdb;
+        
+    if (ShareaholicUtilities::get_option('disable_tracking') == NULL || ShareaholicUtilities::get_option('disable_tracking') == "off"){
+      $analytics_status =  "on";
+    } else {
+      $analytics_status =  "off";
+    }
+    
+    if (ShareaholicUtilities::get_option('disable_internal_share_counts_api') == NULL || ShareaholicUtilities::get_option('disable_internal_share_counts_api') == "off"){
+      $server_side_share_count_status =  "on";
+    } else {
+      $server_side_share_count_status =  "off";
+    }
+    
+    if (ShareaholicUtilities::has_accepted_terms_of_service() == 1){
+      $tos_status = "accepted";
+    } else {
+      $tos_status = "pending";
+    }
+    
+    if (function_exists('curl_version')){
+      $curl_version = curl_version();
+    }
+    
+    $info = array(
+  	'plugin_version' => Shareaholic::VERSION,
+  	'site_id' => ShareaholicUtilities::get_option('api_key'),
+  	'domain' => get_bloginfo('url'),
+  	'language' => get_bloginfo('language'),
+  	'tos_status' => $tos_status,
+  	'stats' => array (
+  	  'posts_total' => $wpdb->get_var( "SELECT count(ID) FROM $wpdb->posts where post_type = 'post' AND post_status = 'publish'" ),
+  	  'pages_total' => $wpdb->get_var( "SELECT count(ID) FROM $wpdb->posts where post_type = 'page' AND post_status = 'publish'" ),
+  	  'comments_total' => wp_count_comments()->approved,
+  	  'users_total' => $wpdb->get_var("SELECT count(ID) FROM $wpdb->users"),
+      ),
+  	'diagnostics' => array (
+  	  'theme' => get_option('template'),
+    	'multisite' => is_multisite(),
+    	'shareaholic_server_reachable' => ShareaholicUtilities::connectivity_check(),
+    	'server_side_share_count_api_reachable' => ShareaholicUtilities::share_counts_api_connectivity_check(),
+  	  'php_version' => phpversion(),
+  	  'wp_version' => get_bloginfo('version'),
+  	  'curl' => array (
+  	    'status' => ShareaholicPublic::has_curl(),
+  	    'version' => $curl_version,
+  	  ),
+  	'plugins' => array (
+  	    'active' => get_option('active_plugins', array()),
+  	    'sitewide'  => get_site_option('active_sitewide_plugins', array()),
+	      ),
+  	  ),
+  	'app_locations' => array (
+  	  'share_buttons' => ShareaholicUtilities::get_option('share_buttons'),
+  	  'recommendations' => ShareaholicUtilities::get_option('recommendations'),
+	    ),
+  	'advanced_settings' => array (
+  	  'analytics' => $analytics_status,
+  	  'server_side_share_count_api' => $server_side_share_count_status,
+  	  )
+    );
+    
+    header('Content-Type: application/json');
+    echo json_encode($info);
+    exit;
+  }
+  
+  /**
+   * Function to return relevant info for a given page
+   *
+   * @return page info in JSON
+   */
+  public static function post_info() {    
+    global $wpdb;
+    $url = isset($_GET['url']) ? $_GET['url'] : NULL;
+    $post_id = url_to_postid($url);
+    $post = get_post($post_id);
+    $url = get_permalink($post_id);
+    $tags = wp_get_post_tags($post_id, array('fields' => 'names'));
+
+    // $categories = array_map(array('ShareaholicNotifier', 'post_notify_iterator'), get_the_category($post_id));
+
+    if (function_exists('has_post_thumbnail') && has_post_thumbnail($post_id)) {
+      $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
+    } else {
+      $featured_image = ShareaholicPublic::post_first_image();
+      if (!$featured_image) {
+        $featured_image = '';
+      }
+    }
+
+    if ($post->post_author) {
+      $author_data = get_userdata($post->post_author);
+      $author_name = $author_data->display_name;
+    }
+
+    $info = array(
+      'url' => $url,
+      'api_key' => ShareaholicUtilities::get_option('api_key'),
+      'content' => array(
+        'title' => $post->post_title,
+        'excerpt' => $post->post_excerpt,
+        'body' => $post->post_content,
+        'featured-image-url' => $featured_image,
+      ),
+      'metadata' => array(
+        'author_id' => $post->post_author,
+        'author_name' => $author_name,
+        'post_type' => $post->post_type,
+        'post_id' => $post_id,
+        'post_tags' => $tags,
+        // 'post_categories' => $categories,
+        'post_language' => get_bloginfo('language'),
+        'published' => $post->post_date_gmt,
+        'updated' => get_lastpostmodified('GMT'),
+        'visibility' => $post->post_status,
+      ),
+      'site_info' => array(
+        'platform' => 'wordpress',
+        'plugin_version' => Shareaholic::VERSION,
+        'posts_total' => $wpdb->get_var( "SELECT count(ID) FROM $wpdb->posts where post_type = 'post' AND post_status = 'publish'" ),
+        'posts_total' => $wpdb->get_var( "SELECT count(ID) FROM $wpdb->posts where post_type = 'page' AND post_status = 'publish'" ),
+        'comments_total' => wp_count_comments()->approved,
+        'users_total' => $wpdb->get_var("SELECT count(ID) FROM $wpdb->users"),
+      ));
+    
+    header('Content-Type: application/json');
+    echo json_encode($info);
+    exit;
+  }
+  
+  
+  /**
    * Checks to see if curl is installed
    *
    * @return bool true or false that curl is installed

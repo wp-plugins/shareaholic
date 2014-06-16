@@ -28,7 +28,7 @@
             <?php if (isset($settings['disable_admin_bar_menu'])) { ?>
               <?php echo ($settings['disable_admin_bar_menu'] == 'on' ? 'checked' : '') ?>
               <?php } ?>>
-            <label style="display: inline-block; font-size:12px;" for="admin_bar"><?php echo sprintf(__('Disable Admin Bar Menu', 'shareaholic')); ?></label>
+            <label style="display: inline-block; font-size:12px;" for="admin_bar"><?php echo sprintf(__('Disable Admin Bar Menu (requires page refresh)', 'shareaholic')); ?></label>
           <br/>
           <input type='checkbox' id='share_counts' name='shareaholic[disable_internal_share_counts_api]' class='check'
             <?php if (isset($settings['disable_internal_share_counts_api'])) { ?>
