@@ -44,6 +44,8 @@
                 return url;
             },
             callback: function(button) {
+                $modal = $('.reveal-modal');
+                $modal.addClass('has-shortcode')
                 id = $(button).data('location_id');
                 app = $(button).data('app');
                 text = 'You can also use this shortcode to place this {{app}} App anywhere.';
@@ -51,20 +53,29 @@
           <span id='shortcode_description'></span> \
           <textarea id='shortcode' name='widget_div' onclick='select();' readonly='readonly'></textarea> \
         </div>"
-                $(html).appendTo('.reveal-modal');
+                $(html).appendTo($modal);
                 $('#shortcode_description').text(text.replace(/{{app}}/, Shareaholic.titlecase(app)));
                 $('#shortcode').text('[shareaholic app="' + app + '" id="' + id + '"]');
             },
             close: function(button) {
                 $('#shortcode_container').remove();
+                $('.reveal-modal').removeClass('has-shortcode');
             }
         },
 
         'general_settings': {
             selector: '#general_settings',
             url: function(button) {
-                return first_part_of_url + 'edit'
+                return first_part_of_url + 'websites/edit/'
                     + '?verification_key=' + verification_key;
+            }
+        },
+        'app_wide_settings': {
+            selector: '.app_wide_settings',
+            url: function(button) {
+                url = first_part_of_url + $(button).data('href') + '?embedded=true&'
+                    + 'verification_key=' + verification_key;
+                return url
             }
         }
     }
@@ -86,7 +97,7 @@
 
     Shareaholic.disable_buttons = function() {
         $('#app_settings button').each(function() {
-            if (!$(this).data('location_id')) {
+            if (!$(this).data('location_id') && !this.id == 'app_wide_settings') {
                 $(this).attr('disabled', 'disabled');
             } else {
                 $(this).removeAttr('disabled');
@@ -158,6 +169,7 @@
 
         Shareaholic.bind_button_clicks(Shareaholic.click_objects['app_settings']);
         Shareaholic.bind_button_clicks(Shareaholic.click_objects['general_settings']);
+        Shareaholic.bind_button_clicks(Shareaholic.click_objects['app_wide_settings']);
         if (Shareaholic.click_objects['unverified_general_settings']) {
             Shareaholic.bind_button_clicks(Shareaholic.click_objects['unverified_general_settings'], true);
         }

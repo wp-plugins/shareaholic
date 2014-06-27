@@ -22,7 +22,49 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
   <fieldset class="app" style="line-height:18px;"><?php echo sprintf(__('First time here? Read %sUnderstanding the new Shareaholic for WordPress interface and configuration settings.%s', 'shareaholic'), '<a href="https://blog.shareaholic.com/understanding-the-new-shareaholic-for-wordpress-interface-and-configuration-settings/" target="_blank">','</a>'); ?> <?php echo sprintf(__('If you are upgrading from an earlier version of Shareaholic for WordPress and need help, have a question or have a bug to report, please %slet us know%s.', 'shareaholic'), '<a href="#" onclick="SnapEngage.startLink();">','</a>'); ?>
   </fieldset>
 
-  <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>img/sharebuttons@2x.png" height=32 width=32 /> <?php echo sprintf(__('Share Buttons', 'shareaholic')); ?></h2></legend>
+  <fieldset class="app"><legend><h2><i class="icon icon-recommendations"></i><?php echo sprintf(__('Related Content', 'shareaholic')); ?></h2></legend>
+  <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want Related Content to be displayed. Click "Customize" to customize look & feel, themes, block lists, etc.', 'shareaholic')); ?></span>
+    <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
+      <?php foreach(array('below') as $position) { ?>
+        <?php if (isset($settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"])) { ?>
+          <?php $location_id = $settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"] ?>
+        <?php } else { $location_id = ''; } ?>
+        <fieldset id='recommendations'>
+          <legend><?php echo ucfirst($page_type) ?></legend>
+            <div>
+              <input type="checkbox" id="recommendations_<?php echo "{$page_type}_below_content" ?>" name="recommendations[<?php echo "{$page_type}_below_content" ?>]" class="check"
+              <?php if (isset($recommendations["{$page_type}_below_content"])) { ?>
+                <?php echo ($recommendations["{$page_type}_below_content"] == 'on' ? 'checked' : '') ?>
+              <?php } ?>>
+              <label for="recommendations_<?php echo "{$page_type}_below_content" ?>"><?php echo ucfirst($position) ?> Content</label>
+              <button data-app='recommendations'
+                      data-location_id='<?php echo $location_id ?>'
+                      data-href="recommendations/locations/{{id}}/edit"
+                      class="mll btn btn-success">
+              <?php _e('Customize', 'shareaholic'); ?></button>
+            </div>
+          <?php } ?>
+      </fieldset>
+    <?php } ?>
+
+    <div class='fieldset-footer'>
+      <span class="helper_secondary"><i class="icon-star"></i> Re-crawl your content, exclude certain pages from being recommended, etc.</span>
+      <button class='app_wide_settings btn' data-href='recommendations/edit'><?php _e('Edit Related Content Settings', 'shareaholic'); ?></button>
+      <div class='app-status'>
+        &nbsp;&nbsp;&nbsp;&nbsp;<strong><?php echo sprintf(__('Status:', 'shareaholic')); ?></strong>
+        <?php
+          $status = ShareaholicUtilities::recommendations_status_check();
+          if ($status == "processing" || $status == 'unknown'){
+            echo '<img class="shrsb_health_icon" align="top" src="'.SHAREAHOLIC_ASSET_DIR.'img/circle_yellow.png" />'. sprintf(__('Processing', 'shareaholic'));
+          } else {
+            echo '<img class="shrsb_health_icon" align="top" src="'.SHAREAHOLIC_ASSET_DIR.'img/circle_green.png" />'. sprintf(__('Ready', 'shareaholic'));
+          }
+        ?>
+      </div>
+    </div>
+  </fieldset>
+  
+  <fieldset class="app"><legend><h2><i class="icon icon-share_buttons"></i><?php echo sprintf(__('Share Buttons', 'shareaholic')); ?></h2></legend>
   <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want your buttons to be displayed. Click "Customize" to customize look & feel, themes, share counters, alignment, etc.', 'shareaholic')); ?></span>
 
     <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
@@ -41,58 +83,21 @@ window.verification_key = '<?php echo $settings['verification_key'] ?>'
             <button data-app='share_buttons'
                     data-location_id='<?php echo $location_id ?>'
                     data-href='share_buttons/locations/{{id}}/edit'
-                    class="btn btn-success">
+                    class="mll btn btn-success">
             <?php _e('Customize', 'shareaholic'); ?></button>
           </div>
       <?php } ?>
     </fieldset>
     <?php } ?>
-  </fieldset>
-
-  <div class='clear'></div>
-
-  <fieldset class="app"><legend><h2><img src="<?php echo SHAREAHOLIC_ASSET_DIR; ?>img/related_content@2x.png" height=32 width=32 /> <?php echo sprintf(__('Related Content / Recommendations', 'shareaholic')); ?></h2></legend>
-  <span class="helper"><i class="icon-star"></i> <?php echo sprintf(__('Pick where you want Related Content to be displayed. Click "Customize" to customize look & feel, themes, block lists, etc.', 'shareaholic')); ?></span>
-    <?php foreach(array('post', 'page', 'index', 'category') as $page_type) { ?>
-      <?php foreach(array('below') as $position) { ?>
-        <?php if (isset($settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"])) { ?>
-          <?php $location_id = $settings['location_name_ids']['recommendations']["{$page_type}_{$position}_content"] ?>
-        <?php } else { $location_id = ''; } ?>
-        <fieldset id='recommendations'>
-          <legend><?php echo ucfirst($page_type) ?></legend>
-            <div>
-              <input type="checkbox" id="recommendations_<?php echo "{$page_type}_below_content" ?>" name="recommendations[<?php echo "{$page_type}_below_content" ?>]" class="check"
-              <?php if (isset($recommendations["{$page_type}_below_content"])) { ?>
-                <?php echo ($recommendations["{$page_type}_below_content"] == 'on' ? 'checked' : '') ?>
-              <?php } ?>>
-              <label for="recommendations_<?php echo "{$page_type}_below_content" ?>"><?php echo ucfirst($position) ?> Content</label>
-              <button data-app='recommendations'
-                      data-location_id='<?php echo $location_id ?>'
-                      data-href="recommendations/locations/{{id}}/edit"
-                      class="btn btn-success">
-              <?php _e('Customize', 'shareaholic'); ?></button>
-            </div>
-          <?php } ?>
-      </fieldset>
-    <?php } ?>
-
-    <div class='clear'></div>
-
-    <strong><?php echo sprintf(__('Related Content:', 'shareaholic')); ?></strong>
-    <?php
-	    $status = ShareaholicUtilities::recommendations_status_check();
-	    if ($status == "processing" || $status == 'unknown'){
-	      echo '<img class="shrsb_health_icon" align="top" src="'.SHAREAHOLIC_ASSET_DIR.'img/circle_yellow.png" />'. sprintf(__('Processing', 'shareaholic'));
-	    } else {
-	      echo '<img class="shrsb_health_icon" align="top" src="'.SHAREAHOLIC_ASSET_DIR.'img/circle_green.png" />'. sprintf(__('Ready', 'shareaholic'));
-	    }
-	  ?>
-
+    
+    <div class='fieldset-footer'>
+      <span class="helper_secondary"><i class="icon-star"></i> Brand your shares with your @Twitterhandle, pick your favorite URL shortener, share buttons for images, etc.</span>
+      <button class='app_wide_settings btn' data-href='share_buttons/edit'><?php _e('Edit Share Button Settings', 'shareaholic'); ?></button>
+    </div>
   </fieldset>
   </div>
 
-  <div class='clear'></div>
-  <div class="row" style="padding-top:20px; padding-bottom:35px;">
+  <div class="row" style="padding-top:20px; padding-bottom:35px; clear:both;">
     <div class="span2"><input type='submit' onclick="this.value='<?php echo sprintf(__('Saving Changes...', 'shareaholic')); ?>';" value='<?php echo sprintf(__('Save Changes', 'shareaholic')); ?>'></div>
   </div>
   </form>

@@ -134,7 +134,15 @@ class ShareaholicUtilities {
    		'parent' => 'wp_shareaholic_adminbar_menu',
    		'id' => 'wp_shareaholic_adminbar_submenu-general',
    		'title' => __('General Settings', 'shareaholic'),
-   		'href' => 'https://shareaholic.com/publisher_tools/'.self::get_option('api_key').'/edit?verification_key='.self::get_option('verification_key'),
+   		'href' => 'https://shareaholic.com/publisher_tools/'.self::get_option('api_key').'/websites/edit?verification_key='.self::get_option('verification_key'),
+   		'meta' => Array( 'target' => '_blank' )
+   	));
+   	
+   	$wp_admin_bar->add_menu(array(
+   		'parent' => 'wp_shareaholic_adminbar_menu',
+   		'id' => 'wp_shareaholic_adminbar_submenu-help',
+   		'title' => __('FAQ & Support', 'shareaholic'),
+   		'href' => 'http://support.shareaholic.com/',
    		'meta' => Array( 'target' => '_blank' )
    	));
    }
@@ -1133,7 +1141,7 @@ class ShareaholicUtilities {
    */
    public static function recommendations_status_check() {
     if (self::get_option('api_key') != NULL){
-    	$recommendations_url = Shareaholic::REC_API_URL . "/v3/recommend?url=" . urlencode(get_bloginfo('url')) . "&internal=6&sponsored=3&apiKey=" . self::get_option('api_key');
+    	$recommendations_url = Shareaholic::REC_API_URL . "/v4/recommend?url=" . urlencode(get_bloginfo('url')) . "&internal=6&sponsored=0&api_key=" . self::get_option('api_key');
       $cache_key = 'recommendations_status_check-' . md5( $recommendations_url );
       
       $response = get_transient($cache_key);
@@ -1145,8 +1153,8 @@ class ShareaholicUtilities {
       }
       
       if(is_array($response) && array_key_exists('response', $response)) {
-        $body = $response['response'];
-        if (is_array($body) && $body['code'] == 200) {
+        $body = $response['body'];
+        if (is_array($body) && array_key_exists('internal', $body) && !empty($body['internal'])) {
           return "ready";
         } else {
           return "processing";

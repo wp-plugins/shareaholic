@@ -206,13 +206,16 @@ class ShareaholicPublic {
       $article_password = $post->post_password;
 
       if ($article_visibility == 'draft' || $article_visibility == 'auto-draft' || $article_visibility == 'future' || $article_visibility == 'pending'){
+        echo "<meta name='shareaholic:shareable_page' content='false' />\n";
         $article_visibility = 'draft';
       } else if ($article_visibility == 'private' || $post->post_password != '' || is_attachment()) {
+        echo "<meta name='shareaholic:shareable_page' content='true' />\n";
         $article_visibility = 'private';
       } else {
+        echo "<meta name='shareaholic:shareable_page' content='true' />\n";
         $article_visibility = NULL;
       }
-      
+
       // Lookup Metabox value
       if (get_post_meta($post->ID, 'shareaholic_exclude_recommendations', true)) {
         $article_visibility = 'private';
@@ -221,7 +224,7 @@ class ShareaholicPublic {
       if (!empty($article_visibility)) {
         echo "<meta name='shareaholic:article_visibility' content='" . $article_visibility . "' />\n";
       }
-      
+            
       // Article Author Name      
       if ($post->post_author) {
         $article_author_data = get_userdata($post->post_author);
@@ -514,71 +517,6 @@ class ShareaholicPublic {
     echo json_encode($info);
     exit;
   }
-  
-  /**
-   * Function to return relevant info for a given page
-   *
-   * @return page info in JSON
-   */
-  public static function post_info() {    
-    global $wpdb;
-    $url = isset($_GET['url']) ? $_GET['url'] : NULL;
-    $post_id = url_to_postid($url);
-    $post = get_post($post_id);
-    $url = get_permalink($post_id);
-    $tags = wp_get_post_tags($post_id, array('fields' => 'names'));
-
-    // $categories = array_map(array('ShareaholicNotifier', 'post_notify_iterator'), get_the_category($post_id));
-
-    if (function_exists('has_post_thumbnail') && has_post_thumbnail($post_id)) {
-      $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
-    } else {
-      $featured_image = ShareaholicPublic::post_first_image();
-      if (!$featured_image) {
-        $featured_image = '';
-      }
-    }
-
-    if ($post->post_author) {
-      $author_data = get_userdata($post->post_author);
-      $author_name = $author_data->display_name;
-    }
-
-    $info = array(
-      'url' => $url,
-      'api_key' => ShareaholicUtilities::get_option('api_key'),
-      'content' => array(
-        'title' => $post->post_title,
-        'excerpt' => $post->post_excerpt,
-        'body' => $post->post_content,
-        'featured-image-url' => $featured_image,
-      ),
-      'metadata' => array(
-        'author_id' => $post->post_author,
-        'author_name' => $author_name,
-        'post_type' => $post->post_type,
-        'post_id' => $post_id,
-        'post_tags' => $tags,
-        // 'post_categories' => $categories,
-        'post_language' => get_bloginfo('language'),
-        'published' => $post->post_date_gmt,
-        'updated' => get_lastpostmodified('GMT'),
-        'visibility' => $post->post_status,
-      ),
-      'site_info' => array(
-        'platform' => 'wordpress',
-        'plugin_version' => Shareaholic::VERSION,
-        'posts_total' => $wpdb->get_var( "SELECT count(ID) FROM $wpdb->posts where post_type = 'post' AND post_status = 'publish'" ),
-        'posts_total' => $wpdb->get_var( "SELECT count(ID) FROM $wpdb->posts where post_type = 'page' AND post_status = 'publish'" ),
-        'comments_total' => wp_count_comments()->approved,
-        'users_total' => $wpdb->get_var("SELECT count(ID) FROM $wpdb->users"),
-      ));
-    
-    header('Content-Type: application/json');
-    echo json_encode($info);
-    exit;
-  }
-  
   
   /**
    * Checks to see if curl is installed

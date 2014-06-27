@@ -3,9 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Shareaholic | share buttons, analytics, related content "
-"7.2.2.0\n"
+"7.4.0.8\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/shareaholic\n"
-"POT-Creation-Date: 2014-03-12 20:11:40+00:00\n"
+"POT-Creation-Date: 2014-06-26 19:48:48+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,11 +13,11 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: admin.php:217 admin.php:285
+#: admin.php:227 admin.php:297
 msgid "Settings successfully saved"
 msgstr ""
 
-#: admin.php:279
+#: admin.php:291
 msgid "Settings successfully reset. Refresh this page to complete the reset."
 msgstr ""
 
@@ -57,46 +57,56 @@ msgid "(it is recommended NOT to disable open graph tags)"
 msgstr ""
 
 #: templates/advanced_settings.php:31
-msgid "Disable Admin Bar Menu"
+msgid "Disable Admin Bar Menu (requires page refresh)"
 msgstr ""
 
-#: templates/advanced_settings.php:34 templates/settings.php:94
+#: templates/advanced_settings.php:37
+msgid "Disable server-side Share Counts API"
+msgstr ""
+
+#: templates/advanced_settings.php:37
+msgid ""
+"(unless there are issues with calling the service, it is recommended NOT to "
+"disable this API)"
+msgstr ""
+
+#: templates/advanced_settings.php:39 templates/settings.php:96
 msgid "Saving Changes..."
 msgstr ""
 
-#: templates/advanced_settings.php:34 templates/settings.php:94
+#: templates/advanced_settings.php:39 templates/settings.php:96
 msgid "Save Changes"
 msgstr ""
 
-#: templates/advanced_settings.php:42
+#: templates/advanced_settings.php:47
 msgid "Server Connectivity"
 msgstr ""
 
-#: templates/advanced_settings.php:44
+#: templates/advanced_settings.php:49
 msgid "All Shareaholic servers are reachable"
 msgstr ""
 
-#: templates/advanced_settings.php:45
+#: templates/advanced_settings.php:50
 msgid "Shareaholic should be working correctly."
 msgstr ""
 
-#: templates/advanced_settings.php:45
+#: templates/advanced_settings.php:50
 msgid "All Shareaholic servers are accessible."
 msgstr ""
 
-#: templates/advanced_settings.php:47
+#: templates/advanced_settings.php:52
 msgid "Unable to reach any Shareaholic server"
 msgstr ""
 
-#: templates/advanced_settings.php:47
+#: templates/advanced_settings.php:52 templates/advanced_settings.php:59
 msgid "Checking..."
 msgstr ""
 
-#: templates/advanced_settings.php:47
+#: templates/advanced_settings.php:52 templates/advanced_settings.php:59
 msgid "Re-check"
 msgstr ""
 
-#: templates/advanced_settings.php:48
+#: templates/advanced_settings.php:53
 msgid ""
 "A network problem or firewall is blocking all connections from your web "
 "server to Shareaholic.com.  <strong>Shareaholic cannot work correctly until "
@@ -106,29 +116,56 @@ msgid ""
 "onclick=\"%s\">know</a> too, so we can follow up!"
 msgstr ""
 
-#: templates/advanced_settings.php:55
-msgid "Your Shareaholic Site ID"
+#: templates/advanced_settings.php:56
+msgid "Server-side Share Counts API is reachable"
+msgstr ""
+
+#: templates/advanced_settings.php:57
+msgid "The server-side Share Counts API should be working correctly."
+msgstr ""
+
+#: templates/advanced_settings.php:57
+msgid "All servers and services needed by the API are accessible."
 msgstr ""
 
 #: templates/advanced_settings.php:59
+msgid "Unable to reach the server-side Share Count API"
+msgstr ""
+
+#: templates/advanced_settings.php:60
+msgid ""
+"A network problem or firewall is blocking connections from your web server "
+"to various Share Count APIs.  <strong>The API cannot work correctly until "
+"this is fixed.</strong>  If you continue to face this issue, please contact "
+"<a href=\"#\" onclick=\"%s\">us</a> and we will follow up! In the meantime, "
+"if you disable the server-side Share Counts API from the Advanced options "
+"above, Shareaholic will default to using client-side APIs for share counts "
+"successfully -- so nothing to worry about!"
+msgstr ""
+
+#: templates/advanced_settings.php:67
+msgid "Your Shareaholic Site ID"
+msgstr ""
+
+#: templates/advanced_settings.php:71
 msgid "Not set."
 msgstr ""
 
-#: templates/advanced_settings.php:69
+#: templates/advanced_settings.php:81
 msgid "Reset"
 msgstr ""
 
-#: templates/advanced_settings.php:70
+#: templates/advanced_settings.php:82
 msgid ""
 "This will reset all of your settings and start you from scratch. This can "
 "not be undone."
 msgstr ""
 
-#: templates/advanced_settings.php:72
+#: templates/advanced_settings.php:84
 msgid "Resetting Plugin..."
 msgstr ""
 
-#: templates/advanced_settings.php:72
+#: templates/advanced_settings.php:84
 msgid "Reset Plugin"
 msgstr ""
 
@@ -224,7 +261,7 @@ msgid ""
 "customize look & feel, themes, share counters, alignment, etc."
 msgstr ""
 
-#: templates/settings.php:45 templates/settings.php:72
+#: templates/settings.php:45 templates/settings.php:73
 msgid "Customize"
 msgstr ""
 
@@ -238,15 +275,15 @@ msgid ""
 "customize look & feel, themes, block lists, etc."
 msgstr ""
 
-#: templates/settings.php:79
+#: templates/settings.php:81
 msgid "Related Content:"
 msgstr ""
 
-#: templates/settings.php:83
+#: templates/settings.php:85
 msgid "Processing"
 msgstr ""
 
-#: templates/settings.php:85
+#: templates/settings.php:87
 msgid "Ready"
 msgstr ""
 
@@ -284,72 +321,61 @@ msgid ""
 "and %sPrivacy Policy%s."
 msgstr ""
 
-#: templates/why_to_sign_up.php:3
-msgid "Installation &amp; Usage Guides"
+#: templates/why_to_sign_up.php:2
+msgid "Sign up for a FREE Shareaholic account to unlock more features."
 msgstr ""
 
 #: templates/why_to_sign_up.php:4
-msgid "Submit a Translation"
+msgid "Brand your social shares with your @Twitterhandle"
 msgstr ""
 
 #: templates/why_to_sign_up.php:5
-msgid "Get the Shareaholic Browser Add-on"
-msgstr ""
-
-#: templates/why_to_sign_up.php:10
-msgid ""
-"Unlock additional customization options when you connect this  plugin to "
-"your FREE Shareaholic account."
-msgstr ""
-
-#: templates/why_to_sign_up.php:12
-msgid ""
-"Brand your social shares. For example, you can make all Twitter shares say "
-"\"by @Twitterhandle\""
-msgstr ""
-
-#: templates/why_to_sign_up.php:13
 msgid ""
 "Pick your favorite URL shortener, including support for branded bitly short "
 "links."
 msgstr ""
 
-#: templates/why_to_sign_up.php:14
-msgid ""
-"Additional themes for share buttons, related content, etc to match your site."
+#: templates/why_to_sign_up.php:6
+msgid "Monetize your site, plus lots more!"
 msgstr ""
 
-#: templates/why_to_sign_up.php:15
-msgid "Opportunities to make money with your site, plus lots more!"
-msgstr ""
-
-#: templates/why_to_sign_up.php:17
+#: templates/why_to_sign_up.php:8
 msgid "Edit General Website Settings"
 msgstr ""
 
-#: templates/why_to_sign_up.php:18
+#: templates/why_to_sign_up.php:10
 msgid ""
-"Connecting is simple. Simply click the button above and sign in to your "
-"Shareaholic account to connect this plugin to your account. If you don't "
-"have an account already, simply create a new account — it takes just seconds "
-"and it's free!"
+"Click the button above to sign up or log in to your free Shareaholic "
+"account. It takes just seconds to sign up and it's free!"
 msgstr ""
 
-#: utilities.php:93
+#: templates/why_to_sign_up.php:15
+msgid "Shareaholic Helpdesk"
+msgstr ""
+
+#: templates/why_to_sign_up.php:16
+msgid "Submit a Language Translation"
+msgstr ""
+
+#: templates/why_to_sign_up.php:17
+msgid "Get the Shareaholic Browser Add-on"
+msgstr ""
+
+#: utilities.php:95
 msgid "Settings"
 msgstr ""
 
-#. #-#-#-#-#  plugin.pot (Shareaholic | share buttons, analytics, related content 7.2.2.0)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (Shareaholic | share buttons, analytics, related content 7.4.0.8)  #-#-#-#-#
 #. Author of the plugin/theme
-#: utilities.php:110
+#: utilities.php:112
 msgid "Shareaholic"
 msgstr ""
 
-#: utilities.php:127
+#: utilities.php:129
 msgid "App Manager"
 msgstr ""
 
-#: utilities.php:134
+#: utilities.php:136
 msgid "General Settings"
 msgstr ""
 
