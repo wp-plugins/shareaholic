@@ -146,7 +146,7 @@ Old legacy methods (not officially supported as of version 7.0.0.0):
 `<?php if(function_exists('selfserv_shareaholic')) { selfserv_shareaholic(); } ?>`
 `<?php if(function_exists('get_shr_like_buttonset')) { get_shr_like_buttonset('Top'); } ?>`
 `<?php if(function_exists('get_shr_like_buttonset')) { get_shr_like_buttonset('Bottom'); } ?>`
-
+ 
 
 == Frequently Asked Questions ==
 
