@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 7.5.0.0
+Stable tag: 7.5.0.1
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -119,6 +119,8 @@ You can place Share Buttons, Related Content and any other Shareaholic app manua
 
 `[shareaholic app="share_buttons" id="<insert shareaholic app ID here>"]`
 `[shareaholic app="recommendations" id="<insert shareaholic app ID here>"]`
+`[shareaholic app="ad_spaces" id="<insert shareaholic app ID here>"]`
+`[shareaholic app="follow_buttons" id="<insert shareaholic app ID here>"]`
 
 Notes: optionally, you can also specify `title`, `link` or `summary` as Shareaholic shortcode parameters. If you don't specify these optional  parameters, the shortcode will automatically determine these values.
 
@@ -131,6 +133,7 @@ In your PHP / theme template code, you would add:
 `<?php echo do_shortcode ('[shareaholic app="share_buttons" id="<insert shareaholic app ID here>"]'); ?>`
 `<?php echo do_shortcode ('[shareaholic app="recommendations" id="<insert shareaholic app ID here>"]'); ?>`
 `<?php echo do_shortcode ('[shareaholic app="ad_spaces" id="<insert shareaholic app ID here>"]'); ?>`
+`<?php echo do_shortcode ('[shareaholic app="follow_buttons" id="<insert shareaholic app ID here>"]'); ?>`
 
 Grab the corresponding App ID from your Shareaholic Dashboard for the App you want to manually insert into your theme. If use double quotes ("'s) in your title or summary, make sure to encode them properly as `&quot;`
 
@@ -155,6 +158,13 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 
 == Changelog ==
 
+= 7.5.0.1 =
+* Ensure featured image theme support
+* Faster and more reliable Related Content on-boarding!
+* Welcome message for new users
+* Share Buttons
+  * Added support for Yummly (recommended for food & recipe content) and Houzz (recommended for home & garden content)
+  
 = 7.5.0.0 =
 * Several usability improvements to the admin UI!
 * Bugfix: Fixed missing Share Counts on pages that were excluded from Related Content
@@ -1078,6 +1088,10 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.5.0.1 =
+
+Many improvements to the Related Content app.
 
 = 7.5.0.0 =
 

@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.5.0.0
+ * @version 7.5.0.1
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.5.0.0
+Version: 7.5.0.1
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -61,7 +61,7 @@ class Shareaholic {
   const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
   const REC_API_URL = 'http://recommendations.shareaholic.com';
 
-  const VERSION = '7.5.0.0';
+  const VERSION = '7.5.0.1';
 
   /**
    * Starts off as false so that ::get_instance() returns
@@ -77,16 +77,21 @@ class Shareaholic {
     
     // Share Counts API
     add_action('wp_ajax_nopriv_shareaholic_share_counts_api', array('ShareaholicPublic', 'share_counts_api'));
-    add_action('wp_ajax_shareaholic_share_counts_api', array('ShareaholicPublic', 'share_counts_api'));
+    add_action('wp_ajax_shareaholic_share_counts_api',        array('ShareaholicPublic', 'share_counts_api'));
     
     // Debug info
-    add_action('wp_ajax_nopriv_shareaholic_debug_info', array('ShareaholicPublic', 'debug_info'));
-    add_action('wp_ajax_shareaholic_debug_info', array('ShareaholicPublic', 'debug_info'));
+    add_action('wp_ajax_nopriv_shareaholic_debug_info',       array('ShareaholicPublic', 'debug_info'));
+    add_action('wp_ajax_shareaholic_debug_info',              array('ShareaholicPublic', 'debug_info'));
+
+    // Permalink list for Related Content content index
+    add_action('wp_ajax_nopriv_shareaholic_permalink_list',   array('ShareaholicPublic', 'permalink_list'));
+    add_action('wp_ajax_shareaholic_permalink_list',          array('ShareaholicPublic', 'permalink_list'));
     
-    add_action('init',            array('ShareaholicPublic', 'init'));
-    add_action('the_content',     array('ShareaholicPublic', 'draw_canvases'));
-    add_action('wp_head',         array('ShareaholicPublic', 'wp_head'), 6);
-    add_shortcode('shareaholic',  array('ShareaholicPublic', 'shortcode'));
+    add_action('init',                array('ShareaholicPublic', 'init'));
+    add_action('after_setup_theme',   array('ShareaholicPublic', 'after_setup_theme'));
+    add_action('the_content',         array('ShareaholicPublic', 'draw_canvases'));
+    add_action('wp_head',             array('ShareaholicPublic', 'wp_head'), 6);
+    add_shortcode('shareaholic',      array('ShareaholicPublic', 'shortcode'));
 
     add_action('plugins_loaded',  array($this, 'shareaholic_init'));
 
@@ -146,6 +151,11 @@ class Shareaholic {
    */
   public function shareaholic_init() {
     ShareaholicUtilities::localize();
+    
+    // Send Welcome email if we haven't sent it already (check whenever a new site ID is set)
+    if (ShareaholicUtilities::get_option('api_key') != NULL) {
+      ShareaholicAdmin::welcome_email();
+    }
   }
 
   /**
@@ -162,6 +172,7 @@ class Shareaholic {
           ShareaholicUtilities::log_event("Upgrade", array ('previous_plugin_version' => ShareaholicUtilities::get_version()));
           ShareaholicUtilities::perform_update();
           ShareaholicUtilities::set_version(self::VERSION);
+          ShareaholicUtilities::notify_content_manager_sitemap();
           ShareaholicUtilities::notify_content_manager_singledomain();
           
           // Call the share counts api to check for connectivity on update
@@ -195,6 +206,7 @@ class Shareaholic {
     add_option( 'Activated_Plugin_Shareaholic', 'shareaholic' );
     
     if (ShareaholicUtilities::has_accepted_terms_of_service() && ShareaholicUtilities::get_option('api_key') != NULL){
+      ShareaholicUtilities::notify_content_manager_sitemap();
       ShareaholicUtilities::notify_content_manager_singledomain();
     }
 

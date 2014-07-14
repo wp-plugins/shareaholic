@@ -108,6 +108,7 @@ class ShareaholicSixToSeven {
       );
 
       self::transform_wordpress_specific_settings();
+      self::cleanup_v6_options();
     } else {
       ShareaholicUtilities::log_event('6To7ConversionFailed', array(
         'the_posted_json' => $new_configuration,
@@ -369,7 +370,7 @@ class ShareaholicSixToSeven {
         'headline_text' => 'You may also like:',
         // if they requested text, honor that,
         // otherwise give them the default style
-        'theme' => $recommendations_configuration['style'] == 'text' ? 'text-only' : 'default'
+        'theme' => $recommendations_configuration['style'] == 'text' ? 'text-only' : ''
       )
     );
 
@@ -442,7 +443,7 @@ class ShareaholicSixToSeven {
 
     return $result;
   }
-
+  
   /**
    * This function is for all settings that are specific to wordpress
    * and are not stored in a publisher configuration object. So far
@@ -455,6 +456,25 @@ class ShareaholicSixToSeven {
     $new_shareaholic_settings['disable_tracking'] = (bool)$analytics_settings['pubGaSocial'];
 
     ShareaholicUtilities::update_options($new_shareaholic_settings);
+  }
+  
+  /**
+   * This function cleans up options created by <= v6 of the plugin 
+   *
+   */
+  private static function cleanup_v6_options() {
+    delete_option('SexyBookmarks');
+    delete_option('ShareaholicTopbar');
+    delete_option('ShareaholicAnalytics');
+    delete_option('ShareaholicRecommendations');
+    delete_option('ShareaholicClassicBookmarks');
+    delete_option('shr_reportupgrade');
+    delete_option('SHRSBvNum');
+    delete_option('SHRSB_apikey');
+    delete_option('SEXY_SPONSORS');
+    delete_option('SHRSB_DefaultSprite');
+    delete_option('SHRSB_CustomSprite');
+    delete_option('SexyCustomSprite');
   }
 }
 

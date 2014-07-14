@@ -17,10 +17,9 @@ class ShareaholicAdmin {
    */
   public static function admin_init() {        
     ShareaholicUtilities::check_for_other_plugin();
-    
     // workaround: http://codex.wordpress.org/Function_Reference/register_activation_hook
-    if ( is_admin() && get_option( 'Activated_Plugin_Shareaholic' ) == 'shareaholic' ) {
-      delete_option( 'Activated_Plugin_Shareaholic' );
+    if (is_admin() && get_option( 'Activated_Plugin_Shareaholic') == 'shareaholic') {
+      delete_option('Activated_Plugin_Shareaholic');
        /* do stuff once right after activation */
        if (has_action('wp_ajax_nopriv_shareaholic_share_counts_api') && has_action('wp_ajax_shareaholic_share_counts_api')) {
          ShareaholicUtilities::share_counts_api_connectivity_check();
@@ -253,7 +252,6 @@ class ShareaholicAdmin {
       ShareaholicUtilities::log_event("UpdatedSettings");
       // clear cache after settings update
       ShareaholicUtilities::clear_cache();
-
     }
 
     /*
@@ -390,6 +388,50 @@ class ShareaholicAdmin {
       ShareaholicUtilities::load_template('verify_api_key_js', array(
         'verification_key' => $verification_key
       ));
+    }
+  }
+  
+  /**
+   * This function is in charge of determining whether to send the "get started" email
+   */
+   public static function welcome_email() {
+     // check whether email has been sent
+     if (ShareaholicUtilities::get_option('welcome_email_sent') != true) {
+       ShareaholicAdmin::send_welcome_email();
+       // set flag that the email has been sent
+       ShareaholicUtilities::update_options(array('welcome_email_sent' => true));
+     }
+   }
+  
+  /**
+   * This function is in charge of sending the "get started" email
+   */
+  public static function send_welcome_email() {
+    $sign_up_link = 'https://shareaholic.com/publisher_tools/'.ShareaholicUtilities::get_option('api_key').'/verify?verification_key='.ShareaholicUtilities::get_option('verification_key').'&redirect_to='.'https://shareaholic.com/publisher_tools/'.ShareaholicUtilities::get_option('api_key').'/websites/edit?verification_key='.ShareaholicUtilities::get_option('verification_key');
+    
+    $to = get_bloginfo('admin_email');
+    $subject = 'Thank you for upgrading to Shareaholic for WordPress!';
+    $message = "
+    <p>Hi there,</p>
+    <p>Thank you for upgrading to Shareaholic for WordPress, my name is Mary Anne, and I'm going to help you get set-up!</p>
+    <p>To start, make sure you sign-up for a Shareaholic.com account, because it will give you access to analytics and more features like Follow Buttons and opportunities to earn revenue from your site. <a href=\"$sign_up_link\">Sign-up now</a> - it's free!</p>
+    <p>Next, reply to this email with any questions or problems you're having as you customize your Shareaholic settings. Consider me your personal assistant!</p>
+    <p>Last step? Sit back, and watch your visitors engage with your content.</p>
+    Enjoy the show :)<br />
+    <br />
+    Mary Anne<br />
+    Happiness Specialist<br />
+    <a href='http://support.shareaholic.com'>support.shareaholic.com</a><br /><br />
+    <img width='200' height='36' src='https://shareaholic.com/assets/layouts/shareaholic-logo.png' alt='Shareaholic' title='Shareaholic'>";
+
+    $headers = "From: Shareaholic <hello@shareaholic.com>\r\n";
+    $headers.= "Reply-To: Mary Anne <hello@shareaholic.com>\r\n";
+    $headers.= "X-Mailer: PHP/" . phpversion() . "\r\n";
+    $headers.= "MIME-Version: 1.0\r\n";
+    $headers.= "Content-type: text/html; charset=utf-8\r\n";
+    
+    if (function_exists('wp_mail')){
+      wp_mail($to, $subject, $message, $headers);
     }
   }
 }

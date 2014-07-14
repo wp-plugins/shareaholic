@@ -27,6 +27,16 @@ class ShareaholicPublic {
   }
 
   /**
+   * Loads before all else
+   */
+  public static function after_setup_theme() {
+    // Ensure thumbnail/featured image support
+    if(!current_theme_supports('post-thumbnails')){
+      add_theme_support('post-thumbnails');
+    }
+  }
+	
+  /**
    * The function called during the wp_head action. The
    * rest of the plugin doesn't need to know exactly what happens.
   */
@@ -518,12 +528,61 @@ class ShareaholicPublic {
     exit;
   }
   
+  
+  /**
+   * Function to return list of permalinks
+   *
+   * @return list of permalinks in JSON or plain text
+   */
+  public static function permalink_list(){
+    $post_type = isset($_GET['post_type']) ? $_GET['post_type'] : "any";
+    $n = isset($_GET['n']) ? $_GET['n'] : -1;
+    $format = isset($_GET['format']) ? $_GET['format'] : "json";
+    
+    $permalink_list = array();
+    $permalink_query = "post_type=$post_type&post_status=publish&posts_per_page=$n";
+    $posts = new WP_Query ($permalink_query);
+    $posts = $posts->posts;
+    foreach($posts as $post){
+      switch ($post->post_type){
+        case 'revision':
+        case 'nav_menu_item':
+          break;
+        case 'page':
+          $permalink = get_page_link($post->ID);
+          array_push($permalink_list, $permalink);
+          break;
+        case 'post':
+          $permalink = get_permalink($post->ID);
+          array_push($permalink_list, $permalink);
+          break;
+        case 'attachment':
+          break;
+        default:
+          $permalink = get_post_permalink($post->ID);
+          array_push($permalink_list, $permalink);
+          break;
+        }
+      }
+      
+      if ($format == "text"){
+        header('Content-Type: text/plain; charset=utf-8');
+        foreach($permalink_list as $link) {
+          echo $link. "\r\n";
+        }
+      } elseif ($format == "json"){
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($permalink_list);
+      }
+      exit;
+  }
+  
   /**
    * Checks to see if curl is installed
    *
    * @return bool true or false that curl is installed
    */
-  public static function has_curl() {
+  public static function has_curl(){
     return function_exists('curl_version') && function_exists('curl_multi_init') && function_exists('curl_multi_add_handle') && function_exists('curl_multi_exec');
   }
 }

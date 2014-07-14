@@ -134,10 +134,9 @@ class ShareaholicUtilities {
    		'parent' => 'wp_shareaholic_adminbar_menu',
    		'id' => 'wp_shareaholic_adminbar_submenu-general',
    		'title' => __('General Settings', 'shareaholic'),
-   		'href' => 'https://shareaholic.com/publisher_tools/'.self::get_option('api_key').'/websites/edit?verification_key='.self::get_option('verification_key'),
+   		'href' => 'https://shareaholic.com/publisher_tools/'.self::get_option('api_key').'/verify?verification_key='.self::get_option('verification_key').'&redirect_to='.'https://shareaholic.com/publisher_tools/'.self::get_option('api_key').'/websites/edit?verification_key='.self::get_option('verification_key'),
    		'meta' => Array( 'target' => '_blank' )
    	));
-   	
    	$wp_admin_bar->add_menu(array(
    		'parent' => 'wp_shareaholic_adminbar_menu',
    		'id' => 'wp_shareaholic_adminbar_submenu-help',
@@ -909,6 +908,24 @@ class ShareaholicUtilities {
      }
    }
 
+   /**
+    * Wrapper for the Shareaholic Content Manager Single Domain worker API
+    *
+    * @param string $domain
+    */
+    public static function notify_content_manager_sitemap() {      
+      $text_sitemap_url = admin_url('admin-ajax.php') . '?action=shareaholic_permalink_list&n=500&format=text';
+      
+      $cm_sitemap_job_url = Shareaholic::CM_API_URL . '/jobs/sitemap';
+      $payload = array (
+        'args' => array (
+          $text_sitemap_url,
+          array ('force' => true)
+        )
+      );
+      $response = ShareaholicCurl::post($cm_sitemap_job_url, $payload, 'json');
+    }
+    
    /**
     * Wrapper for the Shareaholic Content Manager Single Domain worker API
     *
