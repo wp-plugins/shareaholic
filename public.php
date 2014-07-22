@@ -131,7 +131,7 @@ class ShareaholicPublic {
       }
       
       // Get post tags
-      $keywords = implode(', ', wp_get_post_tags( $id, array('fields' => 'names') ) );      
+      $keywords = implode(', ' , ShareaholicUtilities::permalink_keywords($id));
              
       // Get post categories
       $categories_array = get_the_category($id);
@@ -154,33 +154,10 @@ class ShareaholicPublic {
       } else {
         $keywords .= $categories;
       }
-      
-      // Support for "All in One SEO Pack" plugin keywords
-      if (get_post_meta($post->ID, '_aioseop_keywords') != NULL){
-        $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_aioseop_keywords', true));
-      }
-      
-      // Support for "WordPress SEO by Yoast" plugin keywords
-      if (get_post_meta($post->ID, '_yoast_wpseo_focuskw') != NULL){
-        $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_yoast_wpseo_focuskw', true));
-      }
-      
-      if (get_post_meta($post->ID, '_yoast_wpseo_metakeywords') != NULL){
-        $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_yoast_wpseo_metakeywords', true));
-      }
-      
-      // Support for "Add Meta Tags" plugin keywords
-      if (get_post_meta($post->ID, '_amt_keywords') != NULL){
-        $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_amt_keywords', true));
-      }
- 
-      if (get_post_meta($post->ID, '_amt_news_keywords') != NULL){
-        $keywords .= ', '.stripslashes(get_post_meta($post->ID, '_amt_news_keywords', true));
-      }     
-      
+            
       // Encode, lowercase & trim appropriately
-      $keywords = trim(trim(strtolower(trim(htmlspecialchars(htmlspecialchars_decode($keywords), ENT_QUOTES))), ","));
-
+      $keywords = ShareaholicUtilities::normalize_keywords($keywords);
+      
       // Unique keywords
       $keywords_array = array();
       $keywords_array = explode(', ', $keywords);
@@ -535,6 +512,8 @@ class ShareaholicPublic {
    * @return list of permalinks in JSON or plain text
    */
   public static function permalink_list(){
+    
+    // Input Params
     $post_type = isset($_GET['post_type']) ? $_GET['post_type'] : "any";
     $n = isset($_GET['n']) ? $_GET['n'] : -1;
     $format = isset($_GET['format']) ? $_GET['format'] : "json";
@@ -575,6 +554,141 @@ class ShareaholicPublic {
         echo json_encode($permalink_list);
       }
       exit;
+  }
+  
+  /**
+   * Function to return relevant info for a given permalink for the Related Content index
+   *
+   * @return page info in JSON
+   */
+  public static function permalink_info() {   
+    global $wpdb, $post;
+    
+    // Input Params
+    $permalink = isset($_GET['permalink']) ? $_GET['permalink'] : NULL;
+    $body_text = isset($_GET['body_text']) ? $_GET['body_text'] : "raw";
+    
+    if ($permalink == NULL){
+      return;
+    }
+    
+    // Get post ID
+    $post_id = url_to_postid($permalink);
+    
+    // for non-default paths - handle both https and http versions of the permalink
+    if ($post_id == 0){
+      $parse = parse_url($permalink);
+      if ($parse['scheme'] == "https"){
+        $permalink = str_replace("https", "http", $permalink);
+        $post_id = url_to_postid($permalink);
+      } else if ($parse['scheme'] == "http"){
+        $permalink = str_replace("http", "https", $permalink);
+        $post_id = url_to_postid($permalink);
+      }
+    }
+    
+    if ($post_id == 0){
+      return;
+    }
+    
+    // Get post for given ID
+    $post = get_post($post_id);
+    
+    if ($post->post_status != 'publish' || $post->post_password != ''){
+      return;
+    }
+    
+    // Post tags
+    $tags = ShareaholicUtilities::permalink_keywords($post_id);
+
+    // Post categories
+    $categories = array();
+    $categories_array = get_the_category($post_id);
+    
+    if($categories_array) {
+    	foreach($categories_array as $category) {
+    	  if ($category->cat_name != "Uncategorized") {
+    	    $category_name = ShareaholicUtilities::normalize_keywords($category->cat_name);
+          array_push($categories, $category_name);
+  		  }
+    	}
+    }
+    
+    // Post thumbnail		
+    $thumbnail_src = '';
+    if (function_exists('has_post_thumbnail') && has_post_thumbnail($post_id)) {
+      $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
+      $thumbnail_src = esc_attr($thumbnail[0]);
+    }
+    
+    if ($thumbnail_src == NULL) {
+      $thumbnail_src = ShareaholicPublic::post_first_image();
+    }
+    
+    // Post body
+    $order   = array("&nbsp;", "\r\n", "\n", "\r", "  ");
+    $post_body = str_replace($order, ' ', $post->post_content);
+    
+    if ($body_text == "clean"){
+      $post_body = strip_tags($post_body);
+    } elseif ($body_text == "raw" || $body_text == NULL) {
+      $post_body = $post_body;
+    }
+
+    // Get post author name
+    if ($post->post_author) {
+      $author_data = get_userdata($post->post_author);
+      $author_name = $author_data->display_name;
+    }
+    
+    // Term frequencies
+    // $term_frequency_title = array_count_values(str_word_count(strtolower(strip_tags($post->post_title)), 1));
+    $term_frequency_body = array_count_values(str_word_count(strtolower(strip_tags($post_body)), 1));
+    
+    $term_frequency = $term_frequency_body;
+    arsort($term_frequency);
+    
+    // Construct array
+    $info = array(
+      'permalink' => $permalink,
+      'domain' => get_bloginfo('url'),
+      'site_id' => ShareaholicUtilities::get_option('api_key'),
+      'content' => array(
+        'title' => $post->post_title,
+        'excerpt' => $post->post_excerpt,
+        'body' => $post_body,
+        'thumbnail' => $thumbnail_src,
+      ),
+      'post_metadata' => array(
+        'author_id' => $post->post_author,
+        'author_name' => $author_name,
+        'post_type' => $post->post_type,
+        'post_id' => $post_id,
+        'post_tags' => $tags,
+        'post_categories' => $categories,
+        'post_language' => get_bloginfo('language'),
+        'post_published' => date('c', strtotime($post->post_date_gmt)),
+        'post_updated' => date('c', strtotime(get_lastpostmodified('GMT'))),
+        'post_visibility' => $post->post_status,
+      ),
+      'post_stats' => array(
+        'post_comments_count' => get_comments_number($post_id),
+        'post_content_title_character_count' => strlen(trim(html_entity_decode($post->post_title))),
+        'post_content_title_word_count' => str_word_count(strip_tags($post->post_title)),
+        'post_content_body_character_count' => strlen(trim(html_entity_decode($post_body))),
+        'post_content_body_word_count' => str_word_count(strip_tags($post_body)),
+        'term_frequency' => $term_frequency,
+      ),
+      'diagnostics' => array(
+        'platform' => 'wp',
+        'platform_version' => get_bloginfo('version'),
+        'plugin_version' => Shareaholic::VERSION,
+      ),
+    );
+    
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($info);
+    exit;
   }
   
   /**

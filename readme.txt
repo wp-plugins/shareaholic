@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 7.5.0.1
+Stable tag: 7.5.0.2
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -146,7 +146,7 @@ Old legacy methods (not officially supported as of version 7.0.0.0):
 `<?php if(function_exists('selfserv_shareaholic')) { selfserv_shareaholic(); } ?>`
 `<?php if(function_exists('get_shr_like_buttonset')) { get_shr_like_buttonset('Top'); } ?>`
 `<?php if(function_exists('get_shr_like_buttonset')) { get_shr_like_buttonset('Bottom'); } ?>`
- 
+
 
 == Frequently Asked Questions ==
 
@@ -157,6 +157,9 @@ Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
 == Changelog ==
+
+= 7.5.0.2 =
+* Miscellaneous performance and on-boarding enhancements for the Related Content app
 
 = 7.5.0.1 =
 * Ensure featured image theme support
@@ -1088,6 +1091,10 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.5.0.2 =
+
+Many improvements to the Related Content app.
 
 = 7.5.0.1 =
 

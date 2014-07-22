@@ -1020,6 +1020,72 @@ class ShareaholicUtilities {
     echo '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">';
   }
   
+  /**
+   * Function to return a list of permalink keywords
+   *
+   * @return list of keywords for the given permalink in an array
+   */
+  public static function permalink_keywords($post_id = NULL){
+    global $post;
+    $keywords = '';
+        
+    if ($post_id != NULL) {
+      $id = $post_id;
+    } else {
+      $id = $post->ID;
+    }
+    
+    // Get post tags
+    $keywords = implode(', ', wp_get_post_tags( $id, array('fields' => 'names') ) );
+    
+    // Support for "All in One SEO Pack" plugin keywords
+     if (get_post_meta($id, '_aioseop_keywords') != NULL){
+       $keywords .= ', '.stripslashes(get_post_meta($id, '_aioseop_keywords', true));
+     }
+     
+     // Support for "WordPress SEO by Yoast" plugin keywords
+     if (get_post_meta($id, '_yoast_wpseo_focuskw') != NULL){
+       $keywords .= ', '.stripslashes(get_post_meta($id, '_yoast_wpseo_focuskw', true));
+     }
+     
+     if (get_post_meta($id, '_yoast_wpseo_metakeywords') != NULL){
+       $keywords .= ', '.stripslashes(get_post_meta($id, '_yoast_wpseo_metakeywords', true));
+     }
+     
+     // Support for "Add Meta Tags" plugin keywords
+     if (get_post_meta($id, '_amt_keywords') != NULL){
+       $keywords .= ', '.stripslashes(get_post_meta($id, '_amt_keywords', true));
+     }
+
+     if (get_post_meta($id, '_amt_news_keywords') != NULL){
+       $keywords .= ', '.stripslashes(get_post_meta($id, '_amt_news_keywords', true));
+     }
+     
+     // Encode, lowercase & trim appropriately
+     $keywords = ShareaholicUtilities::normalize_keywords($keywords);
+     
+     // Unique keywords
+     $keywords_array = array();
+     $keywords_array = explode(', ', $keywords);
+     $keywords_array = array_unique($keywords_array);
+
+     if (empty($keywords_array[0])){
+       return array();
+     } else {
+       return $keywords_array;
+     }
+  }
+  
+  /**
+   * Normalizes and cleans up a list of comma separated keywords ie. encode, lowercase & trim appropriately
+   *
+   * @param string $keywords
+   * @return string
+   */
+  public static function normalize_keywords($keywords) {
+    return trim(trim(strtolower(trim(htmlspecialchars(htmlspecialchars_decode($keywords), ENT_QUOTES))), ","));
+  }
+  
   /*
    * Clears cache created by caching plugins like W3 Total Cache
    *

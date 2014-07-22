@@ -407,13 +407,14 @@ class ShareaholicAdmin {
    * This function is in charge of sending the "get started" email
    */
   public static function send_welcome_email() {
+    $site_url = get_bloginfo('url');
     $sign_up_link = 'https://shareaholic.com/publisher_tools/'.ShareaholicUtilities::get_option('api_key').'/verify?verification_key='.ShareaholicUtilities::get_option('verification_key').'&redirect_to='.'https://shareaholic.com/publisher_tools/'.ShareaholicUtilities::get_option('api_key').'/websites/edit?verification_key='.ShareaholicUtilities::get_option('verification_key');
     
     $to = get_bloginfo('admin_email');
     $subject = 'Thank you for upgrading to Shareaholic for WordPress!';
     $message = "
     <p>Hi there,</p>
-    <p>Thank you for upgrading to Shareaholic for WordPress, my name is Mary Anne, and I'm going to help you get set-up!</p>
+    <p>Thank you for upgrading to Shareaholic for WordPress on $site_url, my name is Mary Anne, and I'm going to help you get set-up!</p>
     <p>To start, make sure you sign-up for a Shareaholic.com account, because it will give you access to analytics and more features like Follow Buttons and opportunities to earn revenue from your site. <a href=\"$sign_up_link\">Sign-up now</a> - it's free!</p>
     <p>Next, reply to this email with any questions or problems you're having as you customize your Shareaholic settings. Consider me your personal assistant!</p>
     <p>Last step? Sit back, and watch your visitors engage with your content.</p>
