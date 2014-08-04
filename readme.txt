@@ -161,11 +161,11 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 
 = 7.5.0.3 =
 * Related Content
-  * Faster on-boarding! (in seconds vs hours)
+ * Faster on-boarding! (in seconds vs hours)
 * Post-Share Follow Buttons
-  * Added support for Instagram, YouTube, Bloglovin, Vimeo, Flickr, Dribbble, FourSquare, Yelp, RSS
+ * Added support for Instagram, YouTube, Bloglovin, Vimeo, Flickr, Dribbble, FourSquare, Yelp, RSS
 * Share Buttons
-  * Added support for Meneame, Wykop
+ * Added support for Meneame, Wykop
 
 = 7.5.0.2 =
 * Miscellaneous performance and on-boarding enhancements for the Related Content app
