@@ -1086,6 +1086,50 @@ class ShareaholicUtilities {
     return trim(trim(strtolower(trim(htmlspecialchars(htmlspecialchars_decode($keywords), ENT_QUOTES))), ","));
   }
   
+  /**
+   * Function to return a thumbnail for a given permalink
+   *
+   * @return thumbnail URL
+   */
+   public static function permalink_thumbnail($post_id = NULL, $size = "large"){
+     $thumbnail_src = '';
+     // Get Featured Image
+     if (function_exists('has_post_thumbnail') && has_post_thumbnail($post_id)) {
+       $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), $size);
+       $thumbnail_src = esc_attr($thumbnail[0]);
+     }
+     // Get first image included in the post
+     if ($thumbnail_src == NULL) {
+       $thumbnail_src = ShareaholicUtilities::post_first_image();
+     }
+     if ($thumbnail_src == NULL){
+       return NULL;
+     } else {
+       return $thumbnail_src;
+     }
+   }
+  
+   /**
+    * This will grab the URL of the first image in a given post
+    *
+    * @return returns `false` or a string of the image src
+    */
+   public static function post_first_image() {
+     global $post;
+     $first_img = '';
+     if ($post == NULL)
+       return false;
+     else {      
+       $output = preg_match_all('/<img[^>]+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
+       if(isset($matches[1][0]) ){
+           $first_img = $matches[1][0];
+       } else {
+         return false;
+       }
+       return $first_img;
+     }
+   }
+   
   /*
    * Clears cache created by caching plugins like W3 Total Cache
    *

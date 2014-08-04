@@ -283,7 +283,7 @@ class ShareaholicPublic {
         $thumbnail_src = esc_attr($thumbnail[0]);
       } 
       if ($thumbnail_src == NULL) {
-        $thumbnail_src = self::post_first_image();
+        $thumbnail_src = ShareaholicUtilities::post_first_image();
       }
       if ($thumbnail_src != NULL) {
         echo "<meta name='shareaholic:image' content='" . $thumbnail_src . "' />";
@@ -305,7 +305,7 @@ class ShareaholicPublic {
           $thumbnail_src = esc_attr($thumbnail[0]);
         } 
         if ($thumbnail_src == NULL) {
-          $thumbnail_src = self::post_first_image();
+          $thumbnail_src = ShareaholicUtilities::post_first_image();
         }
         if ($thumbnail_src != NULL) {
           echo "\n<!-- Shareaholic Open Graph Tags -->\n";
@@ -313,27 +313,6 @@ class ShareaholicPublic {
           echo "\n<!-- Shareaholic Open Graph Tags End -->\n";
         }
       }
-    }
-  }
-
-  /**
-   * This will grab the URL of the first image in a given post
-   *
-   * @return returns `false` or a string of the image src
-   */
-  public static function post_first_image() {
-    global $post;
-    $first_img = '';
-    if ($post == NULL)
-      return false;
-    else {      
-      $output = preg_match_all('/<img[^>]+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
-      if(isset($matches[1][0]) ){
-          $first_img = $matches[1][0];
-      } else {
-        return false;
-      }
-      return $first_img;
     }
   }
 	
@@ -614,17 +593,6 @@ class ShareaholicPublic {
     	}
     }
     
-    // Post thumbnail		
-    $thumbnail_src = '';
-    if (function_exists('has_post_thumbnail') && has_post_thumbnail($post_id)) {
-      $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
-      $thumbnail_src = esc_attr($thumbnail[0]);
-    }
-    
-    if ($thumbnail_src == NULL) {
-      $thumbnail_src = ShareaholicPublic::post_first_image();
-    }
-    
     // Post body
     $order   = array("&nbsp;", "\r\n", "\n", "\r", "  ");
     $post_body = str_replace($order, ' ', $post->post_content);
@@ -657,7 +625,7 @@ class ShareaholicPublic {
         'title' => $post->post_title,
         'excerpt' => $post->post_excerpt,
         'body' => $post_body,
-        'thumbnail' => $thumbnail_src,
+        'thumbnail' => ShareaholicUtilities::permalink_thumbnail($post->ID, "large"),
       ),
       'post_metadata' => array(
         'author_id' => $post->post_author,
@@ -688,6 +656,74 @@ class ShareaholicPublic {
     
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($info);
+    exit;
+  }
+  
+  /**
+   * Function to return related permalinks for a given permalink to bootstrap the Related Content app until the off-line processing routines complete
+   *
+   * @return list of related permalinks in JSON
+   */
+  public static function permalink_related() {
+    global $post;
+    
+    // Input Params
+    $permalink = isset($_GET['permalink']) ? $_GET['permalink'] : NULL;
+    $match = isset($_GET['match']) ? $_GET['match'] : "random"; // match method
+    $n = isset($_GET['n']) ? $_GET['n'] : 10; // number of related permalinks to return
+    
+    $related_permalink_list = array();
+    
+    // Get post ID
+    if ($permalink == NULL){
+      // default to random match if no permalink is available
+      $match = "random";
+    } else {
+      $post_id = url_to_postid($permalink);
+      
+      // for non-default paths - handle both https and http versions of the permalink
+      if ($post_id == 0){
+        $parse = parse_url($permalink);
+        if ($parse['scheme'] == "https"){
+          $permalink = str_replace("https", "http", $permalink);
+          $post_id = url_to_postid($permalink);
+        } else if ($parse['scheme'] == "http"){
+          $permalink = str_replace("http", "https", $permalink);
+          $post_id = url_to_postid($permalink);
+        }
+      }
+    }
+    
+    if ($match == "random"){
+      $args = array( 'posts_per_page' => $n, 'orderby' => 'rand' );
+      $rand_posts = get_posts( $args );
+      foreach ( $rand_posts as $post ){
+        $related_link = array(
+          'page_id' => $post->ID,
+          'url' => get_permalink($post->ID),
+          'title' => $post->post_title,
+          'description' => $post->post_excerpt,
+          'image_url' => ShareaholicUtilities::permalink_thumbnail($post->ID, "medium"),
+          'score' => 1
+        );
+        array_push($related_permalink_list, $related_link);
+      }
+      wp_reset_postdata();
+    } else {
+      // other methods coming soon
+    }
+    
+    // Construct results array
+    $result = array(
+      'request' => array(
+        'api_key' => ShareaholicUtilities::get_option('api_key'),
+        'url' => $permalink,
+      ),
+      'internal' => $related_permalink_list
+    );
+    
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($result);
     exit;
   }
   

@@ -411,12 +411,20 @@ class ShareaholicAdmin {
     $sign_up_link = 'https://shareaholic.com/publisher_tools/'.ShareaholicUtilities::get_option('api_key').'/verify?verification_key='.ShareaholicUtilities::get_option('verification_key').'&redirect_to='.'https://shareaholic.com/publisher_tools/'.ShareaholicUtilities::get_option('api_key').'/websites/edit?verification_key='.ShareaholicUtilities::get_option('verification_key');
     
     $to = get_bloginfo('admin_email');
-    $subject = 'Thank you for upgrading to Shareaholic for WordPress!';
+    $subject = 'Thank you for using Shareaholic for WordPress!';
     $message = "
     <p>Hi there,</p>
-    <p>Thank you for upgrading to Shareaholic for WordPress on $site_url, my name is Mary Anne, and I'm going to help you get set-up!</p>
-    <p>To start, make sure you sign-up for a Shareaholic.com account, because it will give you access to analytics and more features like Follow Buttons and opportunities to earn revenue from your site. <a href=\"$sign_up_link\">Sign-up now</a> - it's free!</p>
-    <p>Next, reply to this email with any questions or problems you're having as you customize your Shareaholic settings. Consider me your personal assistant!</p>
+    
+    <p>Thank you so much for using Shareaholic on $site_url! My name is Mary Anne, and I'm going to help you get set-up! Just follow the steps below, and you'll have everything you need to make the most out of Shareaholic. (Need help with the new plugin interface? Click <a href='https://blog.shareaholic.com/shareaholic-wordpress-v75/' target='_blank'>here</a> for a tour.)</p>
+    
+    <p><strong>1. Unlock more features</strong><br /><br />
+    
+    Analytics, follow buttons and opportunities to earn revenue from your site (just to name a few) are waiting for you when you sign-up for a free Shareaholic account. <a href='$sign_up_link'>Click here to sign-up</a> (or <a href='$sign_up_link'>login to an existing Shareaholic account</a>) and we'll automatically sync the plugin settings with your account. It's easy and free!</p>
+    
+    <p><strong>2. Get personal (assistance)</strong><br /><br />
+      Reply to this email with any questions or problems you encounter as you customize your Shareaholic settings. Consider me your personal assistant!
+    </p>
+
     <p>Last step? Sit back, and watch your visitors engage with your content.</p>
     Enjoy the show :)<br />
     <br />

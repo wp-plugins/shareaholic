@@ -34,7 +34,7 @@ class ShareaholicNotifier {
     if (function_exists('has_post_thumbnail') && has_post_thumbnail($post_id)) {
       $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
     } else {
-      $featured_image = ShareaholicPublic::post_first_image();
+      $featured_image = ShareaholicUtilities::post_first_image();
       if (!$featured_image) {
         $featured_image = '';
       }
