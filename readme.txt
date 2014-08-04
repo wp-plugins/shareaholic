@@ -162,7 +162,7 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 = 7.5.0.3 =
 * Related Content
  * Faster on-boarding! (in seconds vs hours)
-* Post-Share Follow Buttons
+* Post-Share Follow Buttons [learn more](https://blog.shareaholic.com/floating-share-buttons/)
  * Added support for Instagram, YouTube, Bloglovin, Vimeo, Flickr, Dribbble, FourSquare, Yelp, RSS
 * Share Buttons
  * Added support for Meneame, Wykop
