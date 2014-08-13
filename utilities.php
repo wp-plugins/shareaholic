@@ -79,6 +79,7 @@ class ShareaholicUtilities {
     return array(
       'disable_tracking' => 'off',
       'disable_admin_bar_menu' => 'off',
+      'disable_debug_info' => 'off',
       'disable_internal_share_counts_api' => 'off',
       'api_key' => '',
       'verification_key' => '',
@@ -327,7 +328,6 @@ class ShareaholicUtilities {
       $results = $wpdb->query( "UPDATE $wpdb->postmeta SET `meta_key` = 'shareaholic_disable_open_graph_tags' WHERE `meta_key` = 'Hide OgTags'" );
       $results = $wpdb->query( "UPDATE $wpdb->postmeta SET `meta_key` = 'shareaholic_disable_share_buttons' WHERE `meta_key` = 'Hide SexyBookmarks'" );
       self::update_options(array('disable_tracking' => 'off'));
-      self::update_options(array('disable_og_tags' => 'off'));
       self::update_options(array('metakey_6to7_upgraded' => 'true'));
     }
     
@@ -561,14 +561,14 @@ class ShareaholicUtilities {
    * @param string $name
    */
   public static function check_for_other_plugin() {
-    if (is_plugin_active('sexybookmarks/sexy-bookmarks.php')) {
-      deactivate_plugins('sexybookmarks/sexy-bookmarks.php');
-    }
-    if (is_plugin_active('sexybookmarks/shareaholic.php')) {
+    if (is_plugin_active('shareaholic/shareaholic.php')) {
       deactivate_plugins('sexybookmarks/shareaholic.php');
     }
+    if (is_plugin_active('shareaholic/sexy-bookmarks.php')) {
+      deactivate_plugins('sexybookmarks/sexy-bookmarks.php');
+    }
   }
-
+  
   /**
    * Returns the api key or creates a new one.
    *

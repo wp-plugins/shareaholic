@@ -30,6 +30,12 @@
               <?php } ?>>
             <label style="display: inline-block; font-size:12px;" for="admin_bar"><?php echo sprintf(__('Disable Admin Bar Menu (requires page refresh)', 'shareaholic')); ?></label>
           <br/>
+          <input type='checkbox' id='debugger' name='shareaholic[disable_debug_info]' class='check'
+            <?php if (isset($settings['disable_debug_info'])) { ?>
+              <?php echo ($settings['disable_debug_info'] == 'on' ? 'checked' : '') ?>
+              <?php } ?>>
+            <label style="display: inline-block; font-size:12px;" for="debugger"><?php echo sprintf(__('Disable Debugger (it is recommended NOT to disable the debugger)', 'shareaholic')); ?></label>
+          <br/>
           <input type='checkbox' id='share_counts' name='shareaholic[disable_internal_share_counts_api]' class='check'
             <?php if (isset($settings['disable_internal_share_counts_api'])) { ?>
               <?php echo ($settings['disable_internal_share_counts_api'] == 'on' ? 'checked' : '') ?>

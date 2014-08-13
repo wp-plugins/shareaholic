@@ -18,7 +18,8 @@
   </div>
   <div class="pvl">
     <a id='get_started' class="btn_main"><?php echo sprintf(__('Get Started »', 'shareaholic')); ?></a>
-    <p><small><?php echo sprintf(__('By clicking "Get Started" you agree to Shareholic\'s %sTerms of Service%s and %sPrivacy Policy%s.', 'shareaholic'), '<a href="https://shareaholic.com/terms/?src=wp_admin" target="_new">', '</a>', '<a href="https://shareaholic.com/privacy/?src=wp_admin" target="_new">', '</a>'); ?></p>
+    <p><small><?php echo sprintf(__('By clicking "Get Started" you agree to Shareholic\'s %sTerms of Service%s and %sPrivacy Policy%s.', 'shareaholic'), '<a href="https://shareaholic.com/terms/?src=wp_admin" target="_new">', '</a>', '<a href="https://shareaholic.com/privacy/?src=wp_admin" target="_new">', '</a>'); ?></small>
+</p>
   </div>
   </div>
 </div>

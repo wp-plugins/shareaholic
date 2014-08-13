@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, sumome, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 7.5.0.3
+Stable tag: 7.5.0.4
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -43,7 +43,7 @@ We use industry best practices to make our code as fast and unobtrusive as possi
 
 Shareaholic is used and trusted by hundreds of thousands of websites like yours and touches almost 300 million people each month. Designed and built with all the love in the world in Boston, Massachusetts.
 
-Note: The analytics portion of Shareaholic may use trusted 3rd party services like Google Analytics and AppNexus to enhance its data. 
+Note: The analytics portion of Shareaholic may use trusted 3rd party services like Google Analytics and AppNexus to enhance its data.
 
 
 [Support](http://support.shareaholic.com/) | [Privacy](https://shareaholic.com/privacy/) | [Terms](https://shareaholic.com/terms/) | [API](https://shareaholic.com/api/) | [Social Analytics](https://shareaholic.com/publishers/analytics/)
@@ -159,13 +159,19 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 
 == Changelog ==
 
+= 7.5.0.4 =
+* Cache server side share counts for longer duration (5 minutes)
+* Bugfix: Fixed miscellaneous v6->v7 conversion bugs
+
 = 7.5.0.3 =
 * Related Content
  * Faster on-boarding! (in seconds vs hours)
-* Post-Share Follow Buttons [learn more](https://blog.shareaholic.com/floating-share-buttons/)
+* Post-Share Follow Buttons [learn more](https://blog.shareaholic.com/new-services-added-to-post-share-follow-buttons-including-youtube-and-instagram/)
  * Added support for Instagram, YouTube, Bloglovin, Vimeo, Flickr, Dribbble, FourSquare, Yelp, RSS
 * Share Buttons
  * Added support for Meneame, Wykop
+* Floated Share Buttons
+ * You can now "offset" its position from the top of the page [learn more](https://blog.shareaholic.com/offset-floated-share-buttons/)
 
 = 7.5.0.2 =
 * Miscellaneous performance and on-boarding enhancements for the Related Content app
@@ -381,6 +387,21 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Bugfix: URL Shortener is now being set properly when upgrading from v6 or earlier
 * More robust curl function, more robust plugin
 * Show Related Posts data status
+
+= 6.1.5.1 =
+* Recommendations / Related Content are now 100% responsive (aka "mobile-ready")! This means they will now adapt to the screen size or device (iPhone, iPad, Android, tablet, laptop, etc) of your visitors automagically for the best, most seamless discovery experience.
+
+= 6.1.5.0 =
+* Fix for Cross-Site Request Forgery vulnerability. Upgrade immediately. Credits for finding and reporting the vulnerability go to Charlie Eriksen via Secunia SVCRP.
+
+= 6.1.4.1 = 
+* Shareaholic is 100% compatible with WordPress 3.6! Yay!
+
+= 6.1.4.0 = 
+* Bugfix: Related Content settings page now loads for multisite install. Updated how Shareaholic reads user permissions. Now using in-built WordPress functions.
+* Bugfix: Facebook Debugger will no longer show "Parser Mismatched Metadata" warnings
+* Updated primary plugin file to "shareaholic.php"
+* Cleaned up assets directory, as a result the plugin install file is now a lot smaller
 
 = 6.1.3.8 =
 * Bugfix: fixed "Cannot use object of type WP_Error"
@@ -1100,6 +1121,10 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.5.0.4 =
+
+Improvements to share count caching.
 
 = 7.5.0.3 =
 

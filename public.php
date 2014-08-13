@@ -418,7 +418,11 @@ class ShareaholicPublic {
    */
   public static function debug_info() {
     global $wpdb;
-        
+    
+    if (ShareaholicUtilities::get_option('disable_debug_info') == "on"){
+      exit;
+    }
+    
     if (ShareaholicUtilities::get_option('disable_tracking') == NULL || ShareaholicUtilities::get_option('disable_tracking') == "off"){
       $analytics_status =  "on";
     } else {

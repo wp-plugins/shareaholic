@@ -192,23 +192,26 @@ class ShareaholicAdmin {
    * Puts a new menu item under Settings.
    */
   public static function admin_menu() {
-    add_menu_page('Shareaholic Settings',
-      'Shareaholic',
+    add_menu_page(
+      __('Shareaholic Settings', 'shareaholic'),
+      __('Shareaholic', 'shareaholic'),
       'manage_options',
       'shareaholic-settings',
       array('ShareaholicAdmin', 'admin'),
       SHAREAHOLIC_ASSET_DIR . 'img/shareaholic_16x16_2.png'
     );
-    add_submenu_page('shareaholic-settings',
-      'App Manager',
-      'App Manager',
+    add_submenu_page(
+      'shareaholic-settings',
+      __('App Manager', 'shareaholic'),
+      __('App Manager', 'shareaholic'),
       'manage_options',
       'shareaholic-settings',
       array('ShareaholicAdmin', 'admin')
     );
-    add_submenu_page('shareaholic-settings',
-      'Advanced Settings',
-      'Advanced Settings',
+    add_submenu_page(
+      'shareaholic-settings',
+      __('Advanced Settings', 'shareaholic'),
+      __('Advanced Settings', 'shareaholic'),
       'manage_options',
       'shareaholic-advanced',
       array('ShareaholicAdmin', 'advanced_admin')
@@ -293,7 +296,7 @@ class ShareaholicAdmin {
     if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y' &&
         check_admin_referer($action, 'nonce_field')) {
       echo "<div class='updated settings_updated'><p><strong>". sprintf(__('Settings successfully saved', 'shareaholic')) . "</strong></p></div>";
-      foreach (array('disable_tracking', 'disable_og_tags', 'disable_admin_bar_menu', 'disable_internal_share_counts_api') as $setting) {
+      foreach (array('disable_tracking', 'disable_og_tags', 'disable_admin_bar_menu', 'disable_debug_info', 'disable_internal_share_counts_api') as $setting) {
         if (isset($settings[$setting]) &&
             !isset($_POST['shareaholic'][$setting]) &&
             $settings[$setting] == 'on') {
@@ -323,6 +326,10 @@ class ShareaholicAdmin {
         ShareaholicUtilities::update_options(array('disable_admin_bar_menu' => $_POST['shareaholic']['disable_admin_bar_menu']));
       }
 
+      if (isset($_POST['shareaholic']['disable_debug_info'])) {
+        ShareaholicUtilities::update_options(array('disable_debug_info' => $_POST['shareaholic']['disable_debug_info']));
+      }
+      
       if (isset($_POST['shareaholic']['disable_internal_share_counts_api'])) {
         ShareaholicUtilities::update_options(array('disable_internal_share_counts_api' => $_POST['shareaholic']['disable_internal_share_counts_api']));
       }

@@ -46,18 +46,9 @@ class ShareaholicSixToSeven {
       );
     }
 
-    if ($recommendations_configuration['recommendations'] == '1') {
-      $new_recommendations_configuration = array(
-        'locations_attributes' => self::transform_recommendations_configuration($recommendations_configuration)
-      );
-    } elseif (ShareaholicUtilities::version_less_than_or_equal_to($version, '6.1.3.6')) {
-      $new_recommendations_configuration = array(
-        'locations_attributes' => array(
-          array('name' => 'post_below_content'),
-          array('name' => 'page_below_content'),
-        )
-      );
-    }
+    $new_recommendations_configuration = array(
+      'locations_attributes' => self::transform_recommendations_configuration($recommendations_configuration)
+    );
 
     $new_recommendations_configuration = isset($new_recommendations_configuration) ?
       $new_recommendations_configuration :
@@ -82,7 +73,7 @@ class ShareaholicSixToSeven {
 
     $shortener_configuration = (isset($sexybookmarks_configuration['shorty']) ?
       self::transform_shortener_configuration($sexybookmarks_configuration) : array());
-    $new_configuration = array_merge($new_configuration, $shortener_configuration);
+    $new_configuration['configuration_publisher'] = array_merge($new_configuration['configuration_publisher'], $shortener_configuration);
 
     $response = ShareaholicCurl::post(Shareaholic::API_URL . '/publisher_tools/anonymous', $new_configuration, 'json');
 
@@ -157,18 +148,42 @@ class ShareaholicSixToSeven {
    */
   private static function transform_sexybookmarks_configuration($share_buttons_configuration) {
     $result = array();
+    $headline_text = self::transform_headline_text_settings($share_buttons_configuration);
+    $counter = $share_buttons_configuration['showShareCount'] == '1' ? 'badge-counter' : '';
+    $alignment = $share_buttons_configuration['autocenter'] != '0' ? 'center-align' : '';
 
-    $result[$share_buttons_configuration['position']] = array(
-      'services' => self::services($share_buttons_configuration['bookmark']),
-      'theme' => 'diglett',
-      'counter' => 'badge-counter'
-    );
+    if ($share_buttons_configuration['position'] != 'both') {
+      $result[$share_buttons_configuration['position']] = array(
+        'services' => self::services($share_buttons_configuration['bookmark']),
+        'theme' => 'diglett',
+        'counter' => $counter,
+        'headline_text' => $headline_text,
+        'alignment' => $alignment
+      );
+    } else {
+      $result['above'] = array(
+        'services' => self::services($share_buttons_configuration['bookmark']),
+        'theme' => 'diglett',
+        'counter' => $counter,
+        'headline_text' => $headline_text,
+        'alignment' => $alignment
+      );
+      $result['below'] = array(
+        'services' => self::services($share_buttons_configuration['bookmark']),
+        'theme' => 'diglett',
+        'counter' => $counter,
+        'headline_text' => $headline_text,
+        'alignment' => $alignment
+      );
+    }
+
 
     if (!isset($result['above']) && $share_buttons_configuration['likeButtonSetTop']) {
       $result['above'] = array(
         'services' => self::like_button_set_services($share_buttons_configuration),
         'size' => 'rectangle',
         'counter' => 'top-counter',
+        'headline_text' => ''
       );
     }
 
@@ -178,6 +193,7 @@ class ShareaholicSixToSeven {
         // theme candybar
         'size' => 'rectangle',
         'counter' => 'top-counter',
+        'headline_text' => ''
       );
     }
 
@@ -374,7 +390,13 @@ class ShareaholicSixToSeven {
       )
     );
 
-    return self::set_page_types($settings, $recommendations_configuration['pageorpost']);
+    $page_types = 'postpagecategory';
+
+    if ($recommendations_configuration['recommendations'] == '1') {
+      $page_types = $recommendations_configuration['pageorpost'] . 'postpagecategory';
+    }
+
+    return self::set_page_types($settings, $page_types);
   }
 
   /**
@@ -405,6 +427,45 @@ class ShareaholicSixToSeven {
       // it's stored as googlebookmarks in wordpress, but
       // now we use google_bookmarks
       return 'google_bookmarks';
+    }
+    if (preg_match('/scriptstyle/', $value)) {
+      return 'script_and_style';
+    }
+    if (preg_match('/designfloat/', $value)) {
+      return 'design_float';
+    }
+    if (preg_match('/misterwong/', $value)) {
+      return 'mister_wong';
+    }
+    if (preg_match('/hackernews/', $value)) {
+      return 'yc_hacker_news';
+    }
+    if (preg_match('/designbump/', $value)) {
+      return 'design_bump';
+    }
+    if (preg_match('/globalgrind/', $value)) {
+      return 'global_grind';
+    }
+    if (preg_match('/pingfm/', $value)) {
+      return 'ping_fm';
+    }
+    if (preg_match('/webblend/', $value)) {
+      return 'web_blend';
+    }
+    if (preg_match('/shr-box/', $value)) {
+      return 'box_net';
+    }
+    if (preg_match('/plaxo/', $value)) {
+      return 'plaxo_pulse';
+    }
+    if (preg_match('/gmail/', $value)) {
+      return 'google_mail';
+    }
+    if (preg_match('/yahoomail/', $value)) {
+      return 'yahoo_mail';
+    }
+    if (preg_match('/fastmail/', $value)) {
+      return 'mail';
     }
     if (preg_match('/mail/', $value)) {
       // it's stored as mail in wordpress, but
@@ -452,8 +513,10 @@ class ShareaholicSixToSeven {
   private static function transform_wordpress_specific_settings() {
     $new_shareaholic_settings = array();
     $analytics_settings = get_option('ShareaholicAnalytics');
+    $sexybookmarks_settings = get_option('SexyBookmarks');
 
     $new_shareaholic_settings['disable_tracking'] = (bool)$analytics_settings['pubGaSocial'];
+    $new_shareaholic_settings['disable_og_tags'] = $sexybookmarks_settings['ogtags'] == '0' ? 'on' : 'off';
 
     ShareaholicUtilities::update_options($new_shareaholic_settings);
   }
@@ -475,6 +538,44 @@ class ShareaholicSixToSeven {
     delete_option('SHRSB_DefaultSprite');
     delete_option('SHRSB_CustomSprite');
     delete_option('SexyCustomSprite');
+  }
+
+  /**
+   * Transform headline text based on background image
+   *
+   */
+  private static function transform_headline_text_settings($sexybookmarks_configuration) {
+    $headline_text = '';
+
+    if ($sexybookmarks_configuration['bgimg-yes'] != 'yes') {
+      return $headline_text;
+    }
+
+    switch ($sexybookmarks_configuration['bgimg']) {
+      case 'shr':
+        $headline_text = 'Sharing is sexy!';
+        break;
+      case 'caring':
+        $headline_text = 'Sharing is caring.';
+        break;
+      case 'love':
+        $headline_text = 'Share the love!';
+        break;
+      case 'wealth':
+        $headline_text = 'Share the wealth!';
+        break;
+      case 'enjoy':
+        $headline_text = 'Share and enjoy!';
+        break;
+      case 'knowledge':
+        $headline_text = 'Share the knowledge!';
+        break;
+      case 'german':
+      case 'care-old':
+      default:
+        $headline_text = 'Sharing is caring!';
+    }
+    return $headline_text;
   }
 }
 
