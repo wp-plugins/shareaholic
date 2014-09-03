@@ -34,6 +34,8 @@ class ShareaholicPublic {
     if(!current_theme_supports('post-thumbnails')){
       add_theme_support('post-thumbnails');
     }
+    
+    add_image_size('shareaholic-thumbnail', 300); // 300 pixels wide (and unlimited height)
   }
 	
   /**
@@ -407,6 +409,7 @@ class ShareaholicPublic {
     }
 
     header('Content-Type: application/json');
+    header('Cache-Control: max-age=180'); // 3 minutes
     echo json_encode($result);
     exit;
   }
@@ -727,6 +730,7 @@ class ShareaholicPublic {
     );
     
     header('Content-Type: application/json; charset=utf-8');
+    header('Cache-Control: max-age=180'); // 3 minutes
     echo json_encode($result);
     exit;
   }

@@ -11,9 +11,10 @@
 
 <div class="help_links unit size1of5">  
   <ul>
-    <li><a href="http://support.shareaholic.com/" target="_blank"><?php _e('Shareaholic Helpdesk', 'shareaholic'); ?></a></li>
-    <li><a href="https://shareaholic.com/tools/wordpress/translations" target="_blank"><?php _e('Submit a Language Translation', 'shareaholic'); ?></a></li>
-    <li><a href="https://shareaholic.com/tools/browser/" target="_blank"><?php _e('Get the Shareaholic Browser Add-on', 'shareaholic'); ?></a></li>
+    <li><a href="http://support.shareaholic.com/" target="_blank"><?php _e('Need help? Visit the Shareaholic Helpdesk', 'shareaholic'); ?></a></li>
+    <li><a href="https://shareaholic.com/tools/wordpress/translations" target="_blank"><?php _e('Submit a new or updated language translation', 'shareaholic'); ?></a></li>
+    <li><a href="https://shareaholic.com/tools/browser/" target="_blank"><?php _e('Get the Shareaholic Browser Extension to share content from anywhere on the web', 'shareaholic'); ?></a></li>
+    <li><a href="http://support.shareaholic.com/hc/en-us/articles/201770175?utm_source=wp_plugin&utm_medium=appsett&utm_campaign=psa_faq" target="_blank"><?php _e('Why am I seeing ads?', 'shareaholic'); ?></a></li>
   </ul>
 </div>
 

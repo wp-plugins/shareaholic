@@ -2,8 +2,8 @@
 Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, sumome, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 3.0
-Tested up to: 3.9.1
-Stable tag: 7.5.0.4
+Tested up to: 4.0
+Stable tag: 7.5.1.0
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
@@ -159,9 +159,24 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 
 == Changelog ==
 
+= 7.5.1.0 =
+* Tweak: Added Cache-Control headers to Related Content and Share Count API's (3 minutes)
+* New: Affiliate Linking App - Now you can earn money from your existing product links with zero additional effort. ([learn more](https://blog.shareaholic.com/introducing-shareaholic-affiliate-links/)) 
+* Post-Share Window
+  * Added support for Shareaholic ads. ([learn more](http://support.shareaholic.com/hc/en-us/articles/201770175?utm_source=wp_plugin&utm_medium=changelog&utm_campaign=psa_faq))
+* Localization
+  * Added Português (pt_PT)
+  * Added Afrikaans (af_AF)
+  * Added Italian (it_IT)
+  * Added Turkish (tr_TR)
+  * Added Spanish - Mexico (es_MX) by [Luis Jared Pardo ](http://www.clickseguro.net)
+  * Updated French (fr_FR)
+  * Updated German (de_DE)
+  * Updated Simplified Chinese (zh_CN)
+  
 = 7.5.0.4 =
-* Cache server side share counts for longer duration (5 minutes)
-* Bugfix: Fixed miscellaneous v6->v7 conversion bugs
+* Tweak: Cache server side share counts for longer duration (5 minutes)
+* Fix: Fixed miscellaneous v6->v7 conversion bugs
 
 = 7.5.0.3 =
 * Related Content
@@ -1122,6 +1137,10 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 
 == Upgrade Notice ==
 
+= 7.5.1.0 =
+
+Caching improvements, new affiliate linking app, post share window and localization updates!
+  
 = 7.5.0.4 =
 
 Improvements to share count caching.
