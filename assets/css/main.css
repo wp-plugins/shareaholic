@@ -183,7 +183,7 @@ s,m,l,n = small(5px),medium(10px),large(20px),none(0px)
 .prn,.phn,.pan{padding-right:0px !important}
 .prs,.phs,.pas{padding-right:5px !important}
 .prm,.phm,.pam{padding-right:10px !important}
-.prl,.phl,.pal{padding-right:20px !important}
+.prl,.phl,.pal{padding-right:10px !important}
 .pbn,.pvn,.pan{padding-bottom:0px !important}
 .pbs,.pvs,.pas{padding-bottom:5px !important}
 .pbm,.pvm,.pam{padding-bottom:10px !important}
@@ -191,7 +191,7 @@ s,m,l,n = small(5px),medium(10px),large(20px),none(0px)
 .pln,.phn,.pan{padding-left:0px !important}
 .pls,.phs,.pas{padding-left:5px !important}
 .plm,.phm,.pam{padding-left:10px !important}
-.pll,.phl,.pal{padding-left:20px !important}
+.pll,.phl,.pal{padding-left:10px !important}
 .mtn,.mvn,.man{margin-top:0px !important}
 .mts,.mvs,.mas{margin-top:5px !important}
 .mtm,.mvm,.mam{margin-top:10px !important}
@@ -232,7 +232,7 @@ s,m,l,n = small(5px),medium(10px),large(20px),none(0px)
   line-height: 16pt;
   box-shadow: 0px 0px 52px rgba(0,0,0,0.32);
   padding: 0;
-  height: 470px;
+  height: 510px;
 }
 
 .api-key-modal{

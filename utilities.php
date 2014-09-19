@@ -351,7 +351,7 @@ class ShareaholicUtilities {
       return 'page';
     } elseif (is_single()) {
       return 'post';
-    } elseif (is_category() || is_author() || is_tag() || is_date()) {
+    } elseif (is_category() || is_author() || is_tag() || is_date() || is_product_category() || is_product_tag()) {
       return 'category';
     }
   }
