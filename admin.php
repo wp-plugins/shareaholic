@@ -61,13 +61,14 @@ class ShareaholicAdmin {
    * Adds meta boxes for post and page options
    */
   public static function add_meta_boxes() {
-    $screens = array( 'post', 'page', 'product' );
-    foreach ($screens as $screen) {
+    $post_types = get_post_types();
+    // $post_types = array( 'post', 'page', 'product' );
+    foreach ($post_types as $post_type) {
       add_meta_box(
         'shareaholic',
         'Shareaholic',
         array('ShareaholicAdmin', 'meta_box'),
-        $screen,
+        $post_type,
         'side',
         'low'
       );
