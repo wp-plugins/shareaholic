@@ -171,9 +171,6 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 
 == Changelog ==
 
-= 7.6.0.2 =
-* Added "Affiliate Links" app section right under the App Manager
-
 = 7.6.0.1 =
 * Universal metabox options support
 * [Bugfix](https://wordpress.org/support/topic/page-of-error-404-does-not-work-with-version-7600): 404 page fix
@@ -1158,10 +1155,6 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Initial release!
 
 == Upgrade Notice ==
-
-= 7.6.0.2 =
-
-New "Affiliate Links" app section in the App Manager
 
 = 7.6.0.1 =
 
