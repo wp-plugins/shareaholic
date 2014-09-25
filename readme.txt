@@ -5,7 +5,7 @@ Requires at least: 3.0
 Tested up to: 4.0
 Stable tag: 7.6.0.1
 
-The easiest, most effective way to grow your website traffic, effectively engage your audience, monetize your site, and gain insights for free.
+The easiest, most effective way to grow your website traffic, effectively engage your audience, monetize, and gain insights for free.
 
 == Description ==
 
