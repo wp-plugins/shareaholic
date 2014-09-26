@@ -160,7 +160,7 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 == Changelog ==
 
 = 7.6.0.1 =
-* Universal metabox options support
+* Universal metabox options support 
 * [Bugfix](https://wordpress.org/support/topic/page-of-error-404-does-not-work-with-version-7600): 404 page fix
 
 = 7.6.0.0 =
@@ -1146,7 +1146,8 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 
 = 7.6.0.1 =
 
-Bug fixes
+Bug fixes 
+
 
 = 7.6.0.0 =
 
