@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, houzz, yummly, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, sumome, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 7.6.0.6
+Stable tag: 7.6.0.7
 
 The easiest, most effective way to grow your website traffic, effectively engage your audience, monetize, and gain insights for free.
 
@@ -74,31 +74,25 @@ Listed here are credits and special thanks to some of you who have helped us out
 
  [Complete credits on Shareaholic.com](https://shareaholic.com/tools/wordpress/credits)
 
-= Translations =
-* Credit goes to [Maitre Mo](http://maitremo.fr) for translating to French
-* Credit goes to [Yuri Gribov](http://wp-ru.ru) for translating to Russian
-* Credit goes to [Ghenciu Ciprian](http://www.osn.ro) for translating to Romanian
-* Credit goes to [Carlo Veltri](http://chepelle.altervista.org/wordpress) for translating to Italian
-* Credit goes to [Damjan Gerli](http://www.damjan.net) for updating the Italian translation
-* Credit goes to [Joojen](http://www.keege.com) for translating to Chinese
-* Credit goes to [Javier Pimienta](http://cpcdisseny.net) for translating to Spanish
-* Credit goes to [Giovanni Zuccaro](http://www.giovannizuccaro.it) for updating the Italian translation
-* Credit goes to [Omer Taylan Tugut](http://www.tuguts.com) for translating to Turkish
-* Credit goes to [Gunther Wegner](http://gwegner.de) for translating to German
-* Credit goes to [Mads Floe](http://hardwareblog.dk) for translating to Danish
-* Credit goes to [Svend Olaf Olsen](http://www.mediaprod.no) for translating to Norwegian
-* Credit goes to [Martin van der Grond](www.gouwefoto.nl) for translating to Dutch
-* Credit goes to [Modar Soos](http://www.sada-sy.com) for translation to Arabic
-* Credit goes to [Magnus Th&ouml;rnblad](http://www.th&ouml;rnblad.se) for translating to Swedish
-* Credit goes to [Kerem Erkan](http://keremerkan.net) for updating the Turkish translation
-* Credit goes to [Nick Mouratidis](http://www.kepik.gr) for translating to Greek
-* Credit goes to [Manuel In&aacute;cio](http://minacio.com/blog) for translating to Portuguese
-* Credit goes to [Barukar](http://www.classinoiva.com.br) for translating to Portuguese (Brazil)
-* Credit goes to [Alexander Ovsov](http://www.webhostinggeeks.com) for translating to Belarusian
-* Credit goes to Bartosz Chojnacki for translating to Polish
-* Credit goes to Joan Jordi Berdullas Segura for translating to Catalan
-* Credit goes to [Nikolay Nikolov](http://en.chat4o.com/) for translating to Bulgarian
-* Credit goes to [Nata Strazda](http://www.webhostinghub.com/) for translating to Lithuanian
+= Shareaholic in Your Language =
+
+Shareaholic is used all over the world. Our goal is to support Shareaholic in the native language of all our users and people who want to use our products. Shareaholic for WordPress is currently localized in the following languages:
+
+* English (en)
+* Simplified Chinese (zh_CN) by [Larry Zhang](http://zhxl.me)
+* Greek (el_EL) by [Takis Bouyouris](http://www.nevma.gr)
+* Greek (el_GR) by [Takis Bouyouris](http://www.nevma.gr)
+* German (de_DE) by Oliver Heinrich
+* French (fr_FR) by Rozenn Dagorn
+* Dutch (nl_NL) by Patrick Ruers
+* Português (pt_PT)
+* Afrikaans (af_AF)
+* Italian (it_IT)
+* Turkish (tr_TR) by [Plantekno Bitki](http://plantekno.com)
+* Spanish - Mexico (es_MX) by [Luis Jared Pardo ](http://www.clickseguro.net)
+* Spanish - Spain (es_ES) by [Luis Jared Pardo ](http://www.clickseguro.net)
+* Romanian (ro_RO)
+* Contribute a translation! -- we would appreciate your help in translating Shareaholic into even more languages! It doesn’t take much to get started. Instructions: https://shareaholic.com/tools/wordpress/translate
 
 == Screenshots ==
 
@@ -174,6 +168,12 @@ Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
 == Changelog ==
+
+= 7.6.0.7 =
+* Enhancement: Improved welcome email copy
+* Localization
+  * Spanish (es_ES)
+  * Turkish (tr_TR) by [Plantekno Bitki](http://plantekno.com)
 
 = 7.6.0.6 =
 * Enhancement: Improved reliability of Related Content App for cases where the WordPress install is located in a subdirectory or subpath
@@ -1180,6 +1180,10 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.6.0.7 =
+
+Many improvements and bug fixes.
 
 = 7.6.0.6 =
 Improved reliability of Related Content App for cases where the WordPress install is located in a subdirectory or subpath
