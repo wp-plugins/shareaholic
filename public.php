@@ -64,6 +64,7 @@ class ShareaholicPublic {
         'shareaholic_url' => Shareaholic::URL,
         'api_key' => ShareaholicUtilities::get_option('api_key'),
         'page_config' => ShareaholicPublicJS::get_page_config(),
+        'base_settings' => ShareaholicPublicJS::get_base_settings()
       ));
     }
   }
