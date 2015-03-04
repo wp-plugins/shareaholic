@@ -51,6 +51,18 @@ class ShareaholicAdmin {
   }
 
   /**
+   * Renders footer
+   */
+  public static function show_header() {
+    $settings = ShareaholicUtilities::get_settings();
+    $settings['base_link'] = Shareaholic::URL . '/publisher_tools/' . $settings['api_key'] . '/';
+    $settings['website_settings_link'] = $settings['base_link'] . 'websites/edit?verification_key=' . $settings['verification_key'];
+    ShareaholicUtilities::load_template('header', array(
+      'settings' => $settings
+    ));
+  }
+
+  /**
    * Renders SnapEngage
    */
   public static function include_snapengage() {

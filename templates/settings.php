@@ -1,17 +1,12 @@
+<?php ShareaholicAdmin::show_header(); ?>
 <div class='wrap'>
 <div id="icon-options-general" class="icon32"></div>
-<h2><?php echo sprintf(__('Shareaholic: App Manager', 'shareaholic')); ?></h2>
+<h2><?php echo sprintf(__('App Manager', 'shareaholic')); ?></h2>
 
 <div class='reveal-modal' id='editing_modal'>
   <div id='iframe_container' class='bg-loading-img' allowtransparency='true'></div>
   <a class="close-reveal-modal">&#215;</a>
 </div>
-
-<script>
-window.first_part_of_url = '<?php echo Shareaholic::URL . '/publisher_tools/' . $settings['api_key']?>/';
-window.verification_key = '<?php echo $settings['verification_key'] ?>';
-window.shareaholic_add_location_nonce = '<?php echo wp_create_nonce("shareaholic_add_location"); ?>';
-</script>
 
 <div class='unit size3of5'>
   <form name="settings" method="post" action="<?php echo $action; ?>">
