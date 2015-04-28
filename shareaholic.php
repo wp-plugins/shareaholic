@@ -64,7 +64,7 @@ if (!class_exists('Shareaholic')) {
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const REC_API_URL = 'http://recommendations.shareaholic.com';
 
-    const VERSION = '7.6.1.2';
+    const VERSION = '7.6.1.3';
 
     /**
      * Starts off as false so that ::get_instance() returns
