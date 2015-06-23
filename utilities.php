@@ -77,7 +77,6 @@ class ShareaholicUtilities {
    */
   private static function defaults() {
     return array(
-      'disable_tracking' => 'off',
       'disable_admin_bar_menu' => 'off',
       'disable_debug_info' => 'off',
       'disable_internal_share_counts_api' => 'off',
@@ -327,7 +326,6 @@ class ShareaholicUtilities {
       global $wpdb;
       $results = $wpdb->query( "UPDATE $wpdb->postmeta SET `meta_key` = 'shareaholic_disable_open_graph_tags' WHERE `meta_key` = 'Hide OgTags'" );
       $results = $wpdb->query( "UPDATE $wpdb->postmeta SET `meta_key` = 'shareaholic_disable_share_buttons' WHERE `meta_key` = 'Hide SexyBookmarks'" );
-      self::update_options(array('disable_tracking' => 'off'));
       self::update_options(array('metakey_6to7_upgraded' => 'true'));
     }
     
