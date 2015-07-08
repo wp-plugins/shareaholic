@@ -361,12 +361,23 @@ class ShareaholicUtilities {
    * @return string
    */
   public static function asset_url($asset) {
-    if (preg_match('/spreadaholic/', Shareaholic::URL)) {
+    $env = self::get_env();
+    if ($env === 'development') {
       return "http://spreadaholic.com:8080/" . $asset;
-    } elseif (preg_match('/stageaholic/', Shareaholic::URL)) {
+    } elseif ($env === 'staging') {
       return '//d2062rwknz205x.cloudfront.net/' . $asset;
     } else {
       return '//dsms0mj1bbhn4.cloudfront.net/' . $asset;
+    }
+  }
+
+  public static function get_env() {
+    if (preg_match('/spreadaholic/', Shareaholic::URL)) {
+      return 'development';
+    } elseif (preg_match('/stageaholic/', Shareaholic::URL)) {
+      return 'staging';
+    } else {
+      return 'production';
     }
   }
   
