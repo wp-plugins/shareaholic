@@ -60,10 +60,9 @@ class ShareaholicPublic {
     if (ShareaholicUtilities::has_accepted_terms_of_service() &&
         ShareaholicUtilities::get_or_create_api_key()) {
       ShareaholicUtilities::load_template('script_tag', array(
-        'shareaholic_url' => Shareaholic::URL,
         'api_key' => ShareaholicUtilities::get_option('api_key'),
-        'page_config' => ShareaholicPublicJS::get_page_config(),
-        'base_settings' => ShareaholicPublicJS::get_base_settings()
+        'base_settings' => ShareaholicPublicJS::get_base_settings(),
+        'overrides' => ShareaholicPublicJS::get_overrides()
       ));
     }
   }
