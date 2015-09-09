@@ -483,11 +483,14 @@ class ShareaholicAdmin {
     }
   }
 
-  public static function permalink_notice() {
-    $css_class = 'error';
-    $message = 'WARNING: changing the permalink structure will reset the share counts for your pages.';
-    echo "<div class='$css_class'><p style='font-weight: bold;'>";
-    _e($message, 'Shareaholic');
-    echo '</p></div>';
+  public static function admin_notices() {
+    global $pagenow;
+    if ($pagenow == 'options-permalink.php') {
+      $css_class = 'error';
+      $message = 'WARNING: changing the permalink structure will reset the share counts for your pages.';
+      echo "<div class='$css_class'><p style='font-weight: bold;'>";
+      _e($message, 'Shareaholic');
+      echo '</p></div>';
+    }
   }
 }
