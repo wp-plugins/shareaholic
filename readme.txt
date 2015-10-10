@@ -2,8 +2,8 @@
 Contributors: shareaholic
 Tags: shareaholic, shareholic, sexybookmarks, recommendations, related content, cookie consent, share buttons, email button, social sharing, social bookmarking, share image, image sharing, follow buttons, floated share buttons, floating share buttons, analytics, social media, social plugin, facebook, twitter, google plus, google bookmarks, gmail, linkedin, pinterest, reddit, tumblr, evernote, digg, delicious, stumbleupon, printfriendly, fancy, amazon, xing, vk, yahoo, mister wong, viadeo, odnoklassniki box.net, diigo, yammer, ycombinator, hotmail, instapaper, mixi, arto, whatsapp, hootsuite, inbound.org, plurk, aim, buffer, meneame, pinboard.in, stumpedia, bitly, blogger, yummly, izeby, kaboodle, weibo, instagram, tinyurl,  typepad, weheartit, flipboard, pocket, wanelo, fark, wykop, symphony, kindle, houzz, youtube, sms, onenote
 Requires at least: 3.0
-Tested up to: 4.3
-Stable tag: 7.6.2.1
+Tested up to: 4.3.1
+Stable tag: 7.6.2.3
 
 The easiest, most effective way to grow your website traffic, effectively engage your audience, monetize, and gain insights for free.
 
@@ -13,37 +13,60 @@ Shareaholic is an **all-in-one content amplification and monetization platform**
 
 = Recent Updates =
 
+* Automatic Google Analytics integration ([setup guide](http://support.shareaholic.com/hc/en-us/articles/205181045-)) for sharing analytics
 * [Promoted Content](http://support.shareaholic.com/hc/en-us/articles/202657036)
-* [Affiliate Linking](http://support.shareaholic.com/hc/en-us/articles/202938373-How-does-the-Affiliate-Links-app-work-) - earn revenue from your existing product links with zero additional effort
 * [Post-Share Follow Buttons](https://blog.shareaholic.com/post-share-follow-buttons/)
-* [Floating Share Buttons](https://blog.shareaholic.com/floating-share-buttons/)
-* [Shareable Images](https://blog.shareaholic.com/image-share-buttons/) (Pinterest "pin it" button for images)
-* Bonus: [EU / UK Cookie Compliance Banner App](https://blog.shareaholic.com/cookie-consent-banner-app/)
+* [EU / UK Cookie Compliance Banner App](https://blog.shareaholic.com/cookie-consent-banner-app/)
 * Localized in 15+ languages
-* Related Content support for post keywords specified in the "All in One SEO Pack", "WordPress SEO by Yoast", "Add Meta Tags", etc plugins
 
-= Share Buttons =
+> <strong>Support</strong><br>
+> One on one email support is available. Visit our [Support Center](http://support.shareaholic.com/). Rest easy knowing real people are ready to help you. Everyone on our Customer Care team is an experienced Shareaholic user.
+
+= [Share Buttons](https://shareaholic.com/publishers/sharing/) =
 
 Make it 1-click easy for your visitors to share your content with their friends with Shareaholic's award winning Share Buttons.
 
-* Share Counters for Twitter, Facebook, LinkedIn, Pinterest, Buffer, Google Plus, etc
+* Vector share & follow buttons (SVG icons)
+* Official Share Counters for Twitter, Facebook, LinkedIn, Pinterest, Buffer, Google Plus, and more
 * Official support for Google's URL shortener (goo.gl) and Google Analytics
 * Supported URL Shorteners: Bitly (including custom tracking), J.mp, TinyURL, Goo.gl, Shr.lc
 * Full support for: Facebook, Twitter, Pinterest, Google Plus, Reddit, LinkedIn, Gmail, Delicious, OneNote, Evernote, Stumbleupon, Digg, Tumblr, Hootsuite, Buffer, Fancy, Wanelo, Yummly, WeHeartIt, Flipboard, Printfriendly, Amazon Wishlist, Instapaper, Pocket, Odnoklassniki, Houzz, Hacker News, Inbound.org, Vk, etc
+* Automatic Google Analytics integration ([setup guide](http://support.shareaholic.com/hc/en-us/articles/205181045-))
+* Supports theme features such as HTML5 & XHTML, widgets, infinite scroll, post formats
 
 [Share Buttons](https://shareaholic.com/publishers/sharing/) (demo)
 
-= Related Content =
+= [Share Buttons for Images](https://blog.shareaholic.com/image-share-buttons/) (Pinterest "pin it" button for images) =
 
-Increases pageviews, engagement and time on site by highlighting relevant content that may not otherwise be discovered from across your site. Shareaholic is not just yet another related posts content plugin. It involves a simple installation that's easy to update and tweak. You'll be using well-engineered and optimized code that won't slow or block your pages from loading. You can choose between several themes to match your site's design and customize every pixel if you'd like. Optimized for mobile devices like the iPhone, iPod touch, iPad, Android mobile phones, and more!
+Get more shares and viral traffic by adding smart share buttons to the images on your website and making them easy to share.
 
-= Follow Buttons =
+= [Floating Share Buttons](https://blog.shareaholic.com/floating-share-buttons/) =
 
-Helps you get more followers to grow your social influence on Facebook, Twitter, Pinterest, Instagram and many other social networks.
+Increase sharing engagement by 2x or more by Share Buttons that hover on the side of the page, rather than in the page content.
+
+= [Related Content](https://shareaholic.com/publishers/recommendations) =
+
+Increases pageviews, engagement and time on site by highlighting relevant content that may not otherwise be discovered from across your site. Shareaholic is not just yet another related posts content plugin. It involves a simple installation that's easy to update and tweak. You'll be using well-engineered and optimized code that won't slow or block your pages from loading.
+
+* Choose between several themes to seamlessly match your site's theme, design and personality. and customize every pixel if you'd like
+* Make money by displaying sponsored content, at the bottom of your posts, in the sidebar, or both
+* Easily promote your product or service on thousands of blogs and websites
+* Automatically utilizes post keywords specified in the "All in One SEO Pack", "WordPress SEO by Yoast", "Add Meta Tags", and other plugins
+* Optimized for mobile devices like the iPhone, iPod touch, iPad, Android mobile phones, and more
 
 = Social Analytics =
 
 Provides you with important actionable metrics including insights into popular pages on your website, referral channels, and who are making referrals and spreading your webpages on the internet on your behalf bringing you back more traffic and new visitors.
+
+= [Affiliate Links](http://support.shareaholic.com/hc/en-us/articles/202938373-How-does-the-Affiliate-Links-app-work-) =
+
+Automagically turn your site’s existing links into rewards. Clicks that turn into purchases from our ever-expanding universe of 35,000+ retailers, turn into commissions for you with zero additional effort.
+
+= Follow Buttons =
+
+Will help you get more followers and grow your social influence on Facebook, Twitter, Pinterest, Instagram and many other social networks. 
+
+Supported services include: Facebook, Twitter, Vine, Pinterest, YouTube, Google+, LinkedIn, SlideShare, Instagram, VK, RSS feed, Github, Stackoverflow, Dribbble, Behance, 500px, iTunes, Houzz, Flickr, Foursquare, Yelp, Bloglovin, Etsy, TripAdvisor, About.me, Polyvore, Soundcloud, eBay, Better Business Bureau (BBB), Skype
 
 = Additional features =
 
@@ -51,15 +74,11 @@ Provides you with important actionable metrics including insights into popular p
 * **Mobile Optimized** - Responsive and retina display friendly. Shareaholic will work and look great on all mobile devices and tablets.
 * **Built for Scale** - It doesn't matter if your website generates 1 view or 100 million. Shareaholic scales to any size and will work just as well.
 * **Generate Revenue** - Make money with minimal effort while retaining full control at all times.
-* **Fast & Secure** - We use industry best practices to make our code as fast and unobtrusive as possible, meaning - for example - that the performance impact is comparable to adding Google Analytics to your site. Because all of the processing and collection runs on our servers and not yours, it doesn't cause any additional load on your hosting account. In addition, our JavaScript is hosted on Amazon's CDN to make fetching it as blazing fast and reliable as possible. In fact, it's one of the fastest proven analytics system, hosted or not hosted, that you can use.
+* **[Fast & Secure](http://support.shareaholic.com/hc/en-us/articles/204339849-)** - We use industry best practices to make our code as fast and unobtrusive as possible, meaning - for example - that the performance impact is comparable to adding Google Analytics to your site. Because all of the processing and collection runs on our servers and not yours, it doesn't cause any additional load on your hosting account. In addition, our JavaScript is hosted on Amazon's CDN to make fetching it as blazing fast and reliable as possible. In fact, it's one of the fastest proven analytics system, hosted or not hosted, that you can use.
 
 = You're in Great Company =
 
 Shareaholic is used and trusted by hundreds of thousands of websites like yours and touches over 450 million people each month. Designed and built with all the love in the world in Boston, Massachusetts.
-
-= Support =
-
-Need help? Visit our [Support Center](http://support.shareaholic.com/). Rest easy knowing real people are ready to help you. Everyone on our Customer Care team is an experienced Shareaholic user.
 
 Note: The analytics portion of Shareaholic may use trusted 3rd party services like Google Analytics and AppNexus to enhance its data.
 
@@ -169,6 +188,14 @@ Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
 == Changelog ==
+
+= 7.6.2.3 =
+* Bugfix: limit the summary data attribute to at most 500 characters
+* Enhancement: present a plugin review notice to WP admins
+
+= 7.6.2.2 =
+* Enhancement: updated Shareaholic JavaScript snippet - now a lot simpler!
+* Bugfix: added hooks to prevent conflicts with Shortcode UI plugin
 
 = 7.6.2.1 =
 * Bugfix: use different hook to avoid modifying headers after they are sent
@@ -1224,6 +1251,14 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.6.2.3 =
+* Bugfix: limit the summary data attribute to at most 500 characters
+* Enhancement: present a plugin review notice to WP admins
+
+= 7.6.2.2 =
+* Enhancement: updated Shareaholic JavaScript snippet - now a lot simpler!
+* Bugfix: added hooks to prevent conflicts with Shortcode UI plugin
 
 = 7.6.2.1 =
 * Bugfix: use different hook to avoid modifying headers after they are sent
